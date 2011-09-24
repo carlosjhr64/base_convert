@@ -9,7 +9,7 @@ def ok(a,b)
   raise "bad! /#{a}/ == /#{b}/" unless a == b
 end
 
-# ruby -I ./lib README
+# ruby -I ./lib README.txt
 if RUBY_VERSION =~ /^1.9.2/ then
   require 'base_convert'
 

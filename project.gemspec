@@ -14,7 +14,7 @@ spec = Gem::Specification.new do |s|
   s.version = version
   s.date = Date.today.to_s
 
-  s.homepage = 'https://sites.google.com/site/gtk2applib/home/gtk2applib-applications/gtk2mp3'
+  s.homepage = 'https://github.com/carlosjhr64/base_convert'
 
   readme = File.read('README.txt')
   if readme =~ /^=([^=\n]+)/ then
@@ -22,15 +22,11 @@ spec = Gem::Specification.new do |s|
   else
     raise "No summary??"
   end
-  if readme =~ /\n==\s*DESCRIPTION:([^=]*)\n=/i then
+  if readme =~ /\n#==\s*DESCRIPTION:([^=]*)\n#=/i then
     s.description = $1.strip
   else
     raise "No description?"
   end
-
-  #s.has_rdoc = true
-  #s.rdoc_options = ['--main', 'README.txt']
-  #s.extra_rdoc_files = ['README.txt']
 
   s.authors = ['carlosjhr64@gmail.com']
   s.email = "carlosjhr64@gmail.com"
@@ -43,15 +39,15 @@ spec = Gem::Specification.new do |s|
       files.push(fn)
     end
   }
-  if File.exists?('./pngs') then
-    $stderr.puts "PNGs"
-    Find.find('./pngs'){|fn|
-      if fn=~/\.png$/ then
-        $stderr.puts fn
-        files.push(fn)
-      end
-    }
-  end
+#  if File.exists?('./pngs') then
+#    $stderr.puts "PNGs"
+#    Find.find('./pngs'){|fn|
+#      if fn=~/\.png$/ then
+#        $stderr.puts fn
+#        files.push(fn)
+#      end
+#    }
+#  end
   $stderr.puts "TXTs"
   Find.find('.'){|fn|
     Find.prune if !(fn=='.') && File.directory?(fn)
@@ -63,21 +59,21 @@ spec = Gem::Specification.new do |s|
 
   s.files = files
 
-  if File.exists?('./bin')
-    $stderr.puts "BINs"
-    executables = []
-    Find.find('./bin'){|fn|
-      if File.file?(fn) then
-        $stderr.puts fn
-        executables.push(fn.sub(/^.*\//,''))
-      end
-    }
-    s.executables = executables
-    s.default_executable = project
-  end
+#  if File.exists?('./bin')
+#    $stderr.puts "BINs"
+#    executables = []
+#    Find.find('./bin'){|fn|
+#      if File.file?(fn) then
+#        $stderr.puts fn
+#        executables.push(fn.sub(/^.*\//,''))
+#      end
+#    }
+#    s.executables = executables
+#    s.default_executable = project
+#  end
 
-  s.add_dependency('gtk2applib','~> 15.3')
-  s.requirements << 'mpg123'
+#  s.add_dependency('gtk2applib','~> 15.3')
+#  s.requirements << 'mpg123'
 
   #s.rubyforge_project = project
 end

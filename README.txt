@@ -1,6 +1,9 @@
+#= BaseConvert
+#== DESCRIPTION:
 # Got the code originally from
 #	http://rosettacode.org/wiki/Non-decimal_radices/Convert#Ruby
 # which I then converted to a class.
+#== SINOPSIS:
 
 def ok(a,b)
   raise "bad! /#{a}/ == /#{b}/" unless a == b

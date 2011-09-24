@@ -17,13 +17,15 @@ spec = Gem::Specification.new do |s|
   s.homepage = 'https://github.com/carlosjhr64/base_convert'
 
   readme = File.read('README.txt')
-  if readme =~ /^#=([^=\n]+)/ then
+  if readme =~ /^#\s*(\w[^\n]+)/ then
     s.summary = $1.strip
+    puts s.summary
   else
     raise "No summary??"
   end
-  if readme =~ /\n#==\s*DESCRIPTION:([^=]*)\n#=/i then
-    s.description = $1.strip
+  if readme =~ /\n#\s*DESCRIPTION:([^=]*)\n#\s*SINOPSIS:/i then
+    s.description = $1.strip.sub(/^# */,'').gsub(/\n#+ */,' ').gsub(/\s+/,' ')
+    puts s.description
   else
     raise "No description?"
   end

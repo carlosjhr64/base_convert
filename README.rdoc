@@ -12,6 +12,7 @@ end
 # ruby -I ./lib README.txt
 if RUBY_VERSION =~ /^1.9.2/ then
   require 'base_convert'
+  include BASE_CONVERT
 
   # Verify it works up to base 36 with number.to_s(n)
   2.upto(36) do |n|

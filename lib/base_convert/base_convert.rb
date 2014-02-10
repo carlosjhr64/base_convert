@@ -16,7 +16,7 @@ class BaseConvert
  
   def base2dec(string)
     string = string.upcase if BaseConvert.upcase?(@basefrom, @from_digits) # covenience
-    BaseConivert.validate_string(string, @basefrom, @from_digits)
+    BaseConvert.validate_string(string, @basefrom, @from_digits)
     BaseConvert.to_integer(string, @basefrom, @from_digits)
   end
  
@@ -25,7 +25,7 @@ class BaseConvert
   end
 
   def convert(string)
-    dec2base base2dec string
+    dec2base base2dec string.to_s
   end
 
 end

@@ -2,7 +2,7 @@ require 'test/unit'
 require 'base_convert'
 require 'digest'
 
-class TestBaseConvert < Test::Unit::TestCase
+class TestOriginal < Test::Unit::TestCase
   include BASE_CONVERT
 
   def test_001_to_s_n

@@ -1,7 +1,7 @@
 require 'test/unit'
 require 'base_convert'
 
-class TestBaseConvert < Test::Unit::TestCase
+class TestNumber < Test::Unit::TestCase
   include BASE_CONVERT
   include CONFIG
 

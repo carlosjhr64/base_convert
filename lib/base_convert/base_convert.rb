@@ -14,15 +14,17 @@ class BaseConvert
     BaseConvert.validate(@basefrom, @from_digits)
   end
  
-  def base2dec(string)
+  def base2integer(string)
     string = string.upcase if BaseConvert.upcase?(@basefrom, @from_digits) # covenience
     BaseConvert.validate_string(string, @basefrom, @from_digits)
     BaseConvert.to_integer(string, @basefrom, @from_digits)
   end
+  alias base2dec base2integer 
  
-  def dec2base(integer)
+  def integer2base(integer)
     BaseConvert.to_base(integer, @baseto, @to_digits)
   end
+  alias dec2base integer2base
 
   def convert(string)
     dec2base base2dec string.to_s

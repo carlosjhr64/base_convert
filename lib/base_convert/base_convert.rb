@@ -2,6 +2,7 @@ module BASE_CONVERT
 class BaseConvert
   include CONFIG
   extend FUNCTIONS
+  extend HELPERS
 
   attr_accessor :from_digits, :to_digits
   def initialize(basefrom, baseto=basefrom)

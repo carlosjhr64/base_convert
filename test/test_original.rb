@@ -14,9 +14,9 @@ class TestOriginal < Test::Unit::TestCase
         number = rand(10000)
         string = number.to_s(n)
         # BaseConvert uses caps
-        assert_equal(string.upcase, base.dec2base(number))
+        assert_equal(string.upcase, base.integer2base(number))
         # and it will automatically upcase
-        assert_equal(number, base.base2dec(string))
+        assert_equal(number, base.base2integer(string))
       end
     end
   end
@@ -37,11 +37,11 @@ class TestOriginal < Test::Unit::TestCase
 
   def test_003_hundred_million
     assert_equal '6laZE', BaseConvert.new(10, 62).convert( 100_000_000 )
-    assert_equal ')8]3H', BaseConvert.new(63).dec2base( 100_000_000 )
+    assert_equal ')8]3H', BaseConvert.new(63).integer2base( 100_000_000 )
 
     base = BaseConvert.new(62)
     base.to_digits = BaseConvert::QGRAPH
-    assert_equal ')RGF1', base.dec2base( 100_000_000 )
+    assert_equal ')RGF1', base.integer2base( 100_000_000 )
   end
 
 end

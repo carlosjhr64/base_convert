@@ -32,11 +32,11 @@ class TestBaseConvert < Test::Unit::TestCase
     assert base.from_digits.equal?(QGRAPH)
     assert base.to_digits.equal?(WORD)
 
-    a = base.base2dec('z')
+    a = base.base2integer('z')
     assert_equal(Fixnum, a.class)
     assert_equal(86, a)
 
-    a = base.dec2base(16)
+    a = base.integer2base(16)
     assert_equal(String, a.class)
     assert_equal('G', a)
 

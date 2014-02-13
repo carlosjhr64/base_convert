@@ -28,7 +28,7 @@ class BaseConvert
   alias dec2base integer2base
 
   def convert(string)
-    dec2base base2dec string.to_s
+    integer2base base2integer string.to_s
   end
 
 end

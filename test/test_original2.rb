@@ -54,12 +54,12 @@ class TestOriginal2 < Test::Unit::TestCase
     assert_equal '100000000', hudred_million
     #assert_equal '6laZE', BaseConvert.new(10, 62).convert( 100_000_000 )
     assert_equal '6laZE', hudred_million.to_base(62)
-    #assert_equal ')8]3H', BaseConvert.new(63).dec2base( 100_000_000 )
+    #assert_equal ')8]3H', BaseConvert.new(63).integer2base( 100_000_000 )
     assert_equal ')8]3H', hudred_million.to_base(63)
 
     #base = BaseConvert.new(62)
     #base.to_digits = BaseConvert::QGRAPH
-    #assert_equal ')RGF1', base.dec2base( 100_000_000 )
+    #assert_equal ')RGF1', base.integer2base( 100_000_000 )
     assert_equal ')RGF1', hudred_million.to_base(62, BaseConvert::QGRAPH)
   end
 

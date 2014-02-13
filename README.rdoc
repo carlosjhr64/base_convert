@@ -81,7 +81,7 @@ BaseConvert will upcase the string.
     h2o.convert('FFFF') #=> "177777"
     h2o.convert('ffff') #=> "177777"
 
-BaseConvert also make avalable the  intermediary methods that works with integers,
+BaseConvert also makes available the intermediary methods that works with integers,
 BaseConvert#base2integer and BaseConvert#integer2Base:
 
     h2o.base2integer('FFFF') #=> 65535
@@ -94,7 +94,7 @@ The third way to convert is via the subclass of String, `BASE_CONVERT::Number`:
     # WORD is the default alphabet
     hexadecimal = Number.new('FFFF', 16) #=> "FFFF"
     hexadecimal.to_integer #=> 65535
-    # Base 10 the default
+    # The default base is 10.
     decimal = Number.new('65535') # "65535"
     decimal.to_integer #=> 65535
     decimal.to_base(16) #=> "FFFF"

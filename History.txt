@@ -1,3 +1,5 @@
 0.0.0 September 24, 2011 (5.5 KB) yanked
 0.0.1 September 24, 2011 (5.5 KB) yanked
 0.0.2 February 12, 2014 (6.5 KB)
+=== 1.0.0 / 2014-02-13 07:38:37 -0800
+d9b3e9268b9596909de9a8afe59a7ba5  pkg/base_convert-1.0.0.gem

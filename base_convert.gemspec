@@ -29,7 +29,10 @@ SUMMARY
 
   s.require_paths = ["lib"]
   s.files = %w(
+History.txt
 README.rdoc
+TODO.txt
+base_convert.gemspec
 lib/base_convert.rb
 lib/base_convert/base_convert.rb
 lib/base_convert/config.rb
@@ -37,7 +40,6 @@ lib/base_convert/functions.rb
 lib/base_convert/helpers.rb
 lib/base_convert/number.rb
 lib/base_convert/version.rb
-project.gemspec
 test/test_base_convert.rb
 test/test_functions.rb
 test/test_helpers.rb
@@ -48,5 +50,6 @@ test/test_trivial.rb
   )
 
   s.add_development_dependency 'test-unit', '~> 2.5', '>= 2.5.5'
+  s.requirements << 'ruby: ruby 2.1.0p0 (2013-12-25 revision 44422) [x86_64-linux]'
 
 end

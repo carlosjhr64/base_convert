@@ -4,7 +4,7 @@ require 'base_convert'
 
 class TestNumber < Test::Unit::TestCase
   include BaseConvert
-  include Config
+  include Configuration
 
   def test_001_new
     a = Number.new(100)

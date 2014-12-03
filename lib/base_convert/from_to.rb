@@ -1,6 +1,6 @@
 module BaseConvert
 class FromTo
-  include Config
+  include Configuration
   extend Functions
   extend Helpers
 

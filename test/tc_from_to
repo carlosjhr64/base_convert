@@ -4,7 +4,7 @@ require 'base_convert'
 
 class TestFromTo < Test::Unit::TestCase
   include BaseConvert
-  include Config
+  include Configuration
 
   def test_001_new
     wl = WORD.length

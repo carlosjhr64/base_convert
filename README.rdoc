@@ -57,10 +57,10 @@ For convenience, `base_convert` provides two sets of digits.
 `WORD` are the ASCII word characters except underscore[_].
 `QGRAPH` are the ASCII graph characters except quotes['"].
 
-    Config::WORD #=> "01...AB...ab...yz"
-    Config::QGRAPH #=> "!#...01...AB...ab...}~"
-    to_base(4095, 8, Config::WORD) #=> "7777"
-    to_base(4095, 8, Config::QGRAPH) #=> "****"
+    Configuration::WORD #=> "01...AB...ab...yz"
+    Configuration::QGRAPH #=> "!#...01...AB...ab...}~"
+    to_base(4095, 8, Configuration::WORD) #=> "7777"
+    to_base(4095, 8, Configuration::QGRAPH) #=> "****"
 
 The second way to convert is via a conversion object of `BaseConvert::FromTo`.
 For example, to convert from hexadecimal to octal, and back:
@@ -92,7 +92,7 @@ FromTo#base2integer and FromTo#integer2Base:
 The above replaces #base2dec and #dec2base which are now aliases and are deprecated.
 The third way to convert is via the subclass of String, `BaseConvert::Number`:
 
-    hexadecimal = Number.new('FFFF', 16, Config::WORD) #=> "FFFF"
+    hexadecimal = Number.new('FFFF', 16, Configuration::WORD) #=> "FFFF"
     # WORD is the default alphabet
     hexadecimal = Number.new('FFFF', 16) #=> "FFFF"
     hexadecimal.to_integer #=> 65535

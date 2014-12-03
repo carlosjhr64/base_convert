@@ -1,11 +1,11 @@
 #! ruby
 require 'test/unit'
-require 'base_convert/config'
+require 'base_convert/configuration'
 require 'base_convert/helpers'
 
 class TestHelpers < Test::Unit::TestCase
   include BaseConvert
-  include Config
+  include Configuration
   extend  Helpers
 
   HEX  = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']

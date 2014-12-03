@@ -1,6 +1,6 @@
 module BaseConvert
 class Number < String
-  include Config
+  include Configuration
   extend Functions
   extend Helpers
 

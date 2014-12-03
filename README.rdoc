@@ -1,5 +1,7 @@
 = base_convert
 
+{<img src="https://badge.fury.io/rb/base_convert.svg" alt="Gem Version" />}[http://badge.fury.io/rb/base_convert]
+
 github :: https://www.github.com/carlosjhr64/base_convert
 rubygems :: https://rubygems.org/gems/base_convert
 

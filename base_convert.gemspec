@@ -29,10 +29,7 @@ SUMMARY
 
   s.require_paths = ["lib"]
   s.files = %w(
-History.txt
 README.rdoc
-TODO.txt
-base_convert.gemspec
 lib/base_convert.rb
 lib/base_convert/config.rb
 lib/base_convert/from_to.rb
@@ -40,18 +37,9 @@ lib/base_convert/functions.rb
 lib/base_convert/helpers.rb
 lib/base_convert/number.rb
 lib/base_convert/version.rb
-test/tc_from_to
-test/tc_functions
-test/tc_helpers
-test/tc_number
-test/tc_original
-test/tc_original2
-test/tc_trivial
-test/ts_all
   )
 
   s.requirements << 'ruby: ruby 2.1.3p242 (2014-09-19 revision 47630) [x86_64-linux]'
   s.requirements << 'join: join (GNU coreutils) 8.21'
-  s.requirements << 'system in development: linux/bash'
 
 end

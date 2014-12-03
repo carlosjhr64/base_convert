@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
 
   s.name     = 'base_convert'
-  s.version  = '1.0.0'
+  s.version  = '2.0.0'
 
   s.homepage = 'https://github.com/carlosjhr64/base_convert'
 
-  s.author   = 'CarlosJHR64'
+  s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2014-02-13'
+  s.date     = '2014-12-03'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
@@ -34,22 +34,24 @@ README.rdoc
 TODO.txt
 base_convert.gemspec
 lib/base_convert.rb
-lib/base_convert/base_convert.rb
 lib/base_convert/config.rb
+lib/base_convert/from_to.rb
 lib/base_convert/functions.rb
 lib/base_convert/helpers.rb
 lib/base_convert/number.rb
 lib/base_convert/version.rb
-test/test_base_convert.rb
-test/test_functions.rb
-test/test_helpers.rb
-test/test_number.rb
-test/test_original.rb
-test/test_original2.rb
-test/test_trivial.rb
+test/tc_from_to
+test/tc_functions
+test/tc_helpers
+test/tc_number
+test/tc_original
+test/tc_original2
+test/tc_trivial
+test/ts_all
   )
 
-  s.add_development_dependency 'test-unit', '~> 2.5', '>= 2.5.5'
-  s.requirements << 'ruby: ruby 2.1.0p0 (2013-12-25 revision 44422) [x86_64-linux]'
+  s.requirements << 'ruby: ruby 2.1.3p242 (2014-09-19 revision 47630) [x86_64-linux]'
+  s.requirements << 'join: join (GNU coreutils) 8.21'
+  s.requirements << 'system in development: linux/bash'
 
 end

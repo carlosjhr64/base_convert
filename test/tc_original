@@ -1,3 +1,4 @@
+#! ruby
 require 'test/unit'
 require 'base_convert'
 require 'digest'

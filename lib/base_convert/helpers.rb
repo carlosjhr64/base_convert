@@ -8,14 +8,14 @@ module HELPERS
   end
 
   def validate(base, digits)
-    raise 'base is not an integer' unless base.kind_of?(Integer)
-    raise 'digits not an Array'    unless digits.kind_of?(Array)
+    raise 'base is not an integer'               unless base.kind_of?(Integer)
+    raise 'digits not an String'                 unless digits.kind_of?(String)
     raise 'base not between 2 and digits.length' unless base.between?(2, digits.length)
   end
 
   def validate_string(string, base, digits)
     string.chars.uniq.each do |c|
-      raise 'String has invalid character' unless (i=digits.find_index(c)) and (i<base)
+      raise 'String has invalid character' unless (i=digits.index(c)) and (i<base)
     end
   end
 

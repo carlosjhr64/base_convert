@@ -39,14 +39,14 @@ The conversion functions are `to_integer` and `to_base`.
 For example, the octal number "7777":
 
     extend FUNCTIONS #=> main
-    digits = ['0','1','2','3','4','5','6','7']
+    digits = '01234567'
     base = digits.length #=> 8
     to_integer('7777', base, digits) #=> 4095
     to_base(4095, base, digits) #=> "7777"
 
 You can work with arbitrary digits:
 
-    digits = [')','!','@','#','$','%','^','&']
+    digits = ')!@#$%^&'
     base = digits.length #=> 8
     to_integer('&&&&', base, digits) #=> 4095
     to_base(4095, base, digits) #=> "&&&&"
@@ -55,8 +55,8 @@ For convenience, `base_convert` provides two sets of digits.
 `WORD` are the ASCII word characters except underscore[_].
 `QGRAPH` are the ASCII graph characters except quotes['"].
 
-    CONFIG::WORD #=> ["0","1",... "A","B",... "a","b",... "y","z"]
-    CONFIG::QGRAPH #=> ["!", "#",... "0","1",... "A","B",... "a","b",...  "}", "~"]
+    CONFIG::WORD #=> "01...AB...ab...yz"
+    CONFIG::QGRAPH #=> "!#...01...AB...ab...}~"
     to_base(4095, 8, CONFIG::WORD) #=> "7777"
     to_base(4095, 8, CONFIG::QGRAPH) #=> "****"
 
@@ -100,7 +100,7 @@ The third way to convert is via the subclass of String, `BASE_CONVERT::Number`:
     decimal.to_base(16) #=> "FFFF"
     decimal.to_base(8) #=> "177777"
     # You can also specify the digits to use
-    digits = [')','!','@','#','$','%','^','&']
+    digits = ')!@#$%^&'
     decimal.to_base(8, digits) #=> "!&&&&&"
 
 == INSTALL:

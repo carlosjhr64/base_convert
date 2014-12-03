@@ -1,10 +1,10 @@
 module BASE_CONVERT
 module CONFIG
 
-  QGRAPH = 0.upto(255).map{|i| i.chr}.select{|c| c=~/[[:graph:]]/ && c=~/[^`'"]/}
+  QGRAPH = 0.upto(255).map{|i| i.chr}.select{|c| c=~/[[:graph:]]/ && c=~/[^`'"]/}.join.freeze
 
-  WORD   = 0.upto(255).map{|i| i.chr}.select{|c| c=~/\w/ && c=~/[^_]/} # 0..9 a..z A..Z
-  INDEXa = WORD.find_index('a')
+  WORD   = 0.upto(255).map{|i| i.chr}.select{|c| c=~/\w/ && c=~/[^_]/}.join.freeze # 0..9 a..z A..Z
+  INDEXa = WORD.index('a').freeze
 
   BASE = {
     :word        => WORD.length,

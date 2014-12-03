@@ -1,3 +1,4 @@
+#! ruby
 require 'test/unit'
 require 'base_convert/config'
 require 'base_convert/helpers'
@@ -19,14 +20,18 @@ class TestHelpers < Test::Unit::TestCase
     assert_raises(RuntimeError){ TestHelpers.validate(5.0, WORD) }
     assert_nothing_raised(Exception){ TestHelpers.validate(5, WORD) }
 
-    assert_raises(RuntimeError){ TestHelpers.validate(5, '0123456789abdef') }
-    assert_nothing_raised(Exception){ TestHelpers.validate(5, ['0', '1', '2', '3', '4']) }
+    # We're using strings for the digits dictionary, not arrays.
+    assert_raises(RuntimeError){ TestHelpers.validate(5, ['0', '1', '2', '3', '4']) }
+    assert_nothing_raised(Exception){ TestHelpers.validate(5, '01234') }
 
-    assert_raises(RuntimeError){ TestHelpers.validate(5, ['0', '1', '2', '3']) }
-    assert_nothing_raised(Exception){ TestHelpers.validate(5, ['0', '1', '2', '3', '4', '5', '6']) }
+    # Here we check to ensure there are enough digits for the base.
+    assert_raises(RuntimeError){ TestHelpers.validate(5, '0123') }
+    assert_nothing_raised(Exception){ TestHelpers.validate(5, '0123456') }
 
-    assert_raises(RuntimeError){ TestHelpers.validate(1, ['0', '1']) }
-    assert_nothing_raised(Exception){ TestHelpers.validate(2, ['0', '1']) }
+    # The Hindu-Arabic system which is essentially what we're doing,
+    # requires at least two digits representing one and zero.
+    assert_raises(RuntimeError){ TestHelpers.validate(1, '01') }
+    assert_nothing_raised(Exception){ TestHelpers.validate(2, '01') }
   end
 
   def test_005_validate_string

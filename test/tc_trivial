@@ -1,3 +1,4 @@
+#! ruby
 require 'test/unit'
 require 'base_convert'
 
@@ -12,14 +13,14 @@ class TestTrivial < Test::Unit::TestCase
     assert_equal(91, a.length)
     refute(a.include?('"'))
     refute(a.include?("'"))
-    assert_equal('!', a.first)
+    assert_equal('!', a[0])
   end
 
   def test_003_word
     a = BASE_CONVERT::CONFIG::WORD
     assert_equal(62, a.length)
     refute(a.include?('_'))
-    assert_equal('0', a.first)
+    assert_equal('0', a[0])
     assert_equal(36, BASE_CONVERT::CONFIG::INDEXa)
     assert_equal('a', a[36])
   end

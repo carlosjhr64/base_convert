@@ -3,3 +3,5 @@
 0.0.2 February 12, 2014 (6.5 KB)
 === 1.0.0 / 2014-02-13 07:38:37 -0800
 d9b3e9268b9596909de9a8afe59a7ba5  pkg/base_convert-1.0.0.gem
+=== 2.0.0 / 2014-12-03 13:36:04 -0800
+6b7f0a76317ef6833d92c4bdc7c872de  pkg/base_convert-2.0.0.gem

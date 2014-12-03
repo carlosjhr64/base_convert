@@ -3,7 +3,7 @@ require 'test/unit'
 require 'base_convert'
 
 class TestNumber < Test::Unit::TestCase
-  include BASE_CONVERT
+  include BaseConvert
   include CONFIG
 
   def test_001_new

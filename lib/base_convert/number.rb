@@ -1,4 +1,4 @@
-module BASE_CONVERT
+module BaseConvert
 class Number < String
   include CONFIG
   extend FUNCTIONS

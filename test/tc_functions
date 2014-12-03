@@ -4,7 +4,7 @@ require 'base_convert/config'
 require 'base_convert/functions'
 
 class TestFunctions < Test::Unit::TestCase
-  include BASE_CONVERT
+  include BaseConvert
   include CONFIG
   extend  FUNCTIONS
 

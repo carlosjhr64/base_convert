@@ -4,7 +4,7 @@ require 'base_convert/config'
 require 'base_convert/helpers'
 
 class TestHelpers < Test::Unit::TestCase
-  include BASE_CONVERT
+  include BaseConvert
   include CONFIG
   extend  HELPERS
 

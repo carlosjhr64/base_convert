@@ -17,21 +17,21 @@ See also Non-decimal_radices/Convert[http://rosettacode.org/wiki/Non-decimal_rad
 == SYNOPSIS:
 
     require 'base_convert'
-    include BASE_CONVERT
-    h2o = BaseConvert.new(16, 8)
-    o2h = BaseConvert.new(8, 16)
+    include BaseConvert
+    h2o = FromTo.new(16, 8)
+    o2h = FromTo.new(8, 16)
     puts h2o.convert('FFFF') #=> "177777"
     puts o2h.convert('177777') #=> "FFFF"
 
 == BUT WAIT, THERE'S MORE:
 
 Using `irb` to demonstrate the features.
-The components are scoped under `BASE_CONVERT`:
+The components are scoped under `BaseConvert`:
 
     # irb
     # Welcome to IRB...
     require 'base_convert' #=> true
-    include BASE_CONVERT #=> Object
+    include BaseConvert #=> Object
 
 `base_convert` provides three ways to convert a string representation of a number.
 The first is functional.  One can extend(import) the functions that do the conversions.
@@ -60,35 +60,35 @@ For convenience, `base_convert` provides two sets of digits.
     to_base(4095, 8, CONFIG::WORD) #=> "7777"
     to_base(4095, 8, CONFIG::QGRAPH) #=> "****"
 
-The second way to convert is via a conversion object of `BASE_CONVERT::BaseConvert`.
+The second way to convert is via a conversion object of `BaseConvert::FromTo`.
 For example, to convert from hexadecimal to octal, and back:
 
-    h2o = BaseConvert.new(16, 8)
-    o2h = BaseConvert.new(8, 16)
+    h2o = FromTo.new(16, 8)
+    o2h = FromTo.new(8, 16)
     h2o.convert('FFFF') #=> "177777"
     o2h.convert('177777') #=> "FFFF"
 
 You can access the conversion alphabets via
-the accessors BaseConvert#from_digits and BaseConvert#to_digits.
+the accessors FromTo#from_digits and FromTo#to_digits.
 By default, WORD is used for bases upto 62.
 For bigger bases upto 91, QGRAPH is used.
 You can have bigger bases, but
 you will need to come up with a bigger alphabet, perhaps
 by adding greek letters.
 Note that when there's no ambiguity while using WORD,
-BaseConvert will upcase the string.
+FromTo will upcase the string.
 
     h2o.convert('FFFF') #=> "177777"
     h2o.convert('ffff') #=> "177777"
 
-BaseConvert also makes available the intermediary methods that works with integers,
-BaseConvert#base2integer and BaseConvert#integer2Base:
+FromTo also makes available the intermediary methods that works with integers,
+FromTo#base2integer and FromTo#integer2Base:
 
     h2o.base2integer('FFFF') #=> 65535
     h2o.integer2base(65535) #=> "177777"
 
 The above replaces #base2dec and #dec2base which are now aliases and are deprecated.
-The third way to convert is via the subclass of String, `BASE_CONVERT::Number`:
+The third way to convert is via the subclass of String, `BaseConvert::Number`:
 
     hexadecimal = Number.new('FFFF', 16, CONFIG::WORD) #=> "FFFF"
     # WORD is the default alphabet

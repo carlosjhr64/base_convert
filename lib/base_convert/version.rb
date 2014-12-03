@@ -1,3 +1,3 @@
-module BASE_CONVERT
+module BaseConvert
   VERSION = '2.0.0'
 end

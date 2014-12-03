@@ -1,5 +1,5 @@
 # http://rosettacode.org/wiki/Non-decimal_radices/Convert#Ruby
-module BASE_CONVERT
+module BaseConvert
 module HELPERS
   include CONFIG
 

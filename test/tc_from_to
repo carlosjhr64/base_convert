@@ -2,34 +2,34 @@
 require 'test/unit'
 require 'base_convert'
 
-class TestBaseConvert < Test::Unit::TestCase
-  include BASE_CONVERT
+class TestFromTo < Test::Unit::TestCase
+  include BaseConvert
   include CONFIG
 
   def test_001_new
     wl = WORD.length
 
-    base = BaseConvert.new(10, 16)
+    base = FromTo.new(10, 16)
     assert base.from_digits.equal?(WORD)
     assert base.to_digits.equal?(WORD)
 
-    base = BaseConvert.new(70, 8)
+    base = FromTo.new(70, 8)
     assert base.from_digits.equal?(QGRAPH)
     assert base.to_digits.equal?(WORD)
 
-    base = BaseConvert.new(wl, 90)
+    base = FromTo.new(wl, 90)
     assert base.from_digits.equal?(WORD)
     assert base.to_digits.equal?(QGRAPH)
 
-    base = BaseConvert.new(wl+1, wl+2)
+    base = FromTo.new(wl+1, wl+2)
     assert base.from_digits.equal?(QGRAPH)
     assert base.to_digits.equal?(QGRAPH)
 
-    base = BaseConvert.new(:word, :qgraph)
+    base = FromTo.new(:word, :qgraph)
     assert base.from_digits.equal?(WORD)
     assert base.to_digits.equal?(QGRAPH)
 
-    base = BaseConvert.new(:qgraph, :word)
+    base = FromTo.new(:qgraph, :word)
     assert base.from_digits.equal?(QGRAPH)
     assert base.to_digits.equal?(WORD)
 
@@ -43,15 +43,15 @@ class TestBaseConvert < Test::Unit::TestCase
 
     a = base.convert('z')
     assert_equal(String, a.class)
-    base = BaseConvert.new(:word, :qgraph)
+    base = FromTo.new(:word, :qgraph)
     a = base.convert(a)
     assert_equal('z', a)
 
-    base = BaseConvert.new(:hex, :oct)
+    base = FromTo.new(:hex, :oct)
     assert_equal('7777', base.convert('FFF'))
     assert_equal('7777', base.convert('fff')) # Tests the upcase convenience
 
-    base = BaseConvert.new(:oct, :hex)
+    base = FromTo.new(:oct, :hex)
     assert_equal('FFF', base.convert('7777'))
   end
 end

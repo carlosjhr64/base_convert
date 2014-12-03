@@ -1,4 +1,4 @@
-module BASE_CONVERT
+module BaseConvert
 module CONFIG
 
   QGRAPH = 0.upto(255).map{|i| i.chr}.select{|c| c=~/[[:graph:]]/ && c=~/[^`'"]/}.join.freeze

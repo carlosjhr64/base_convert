@@ -5,11 +5,11 @@ require 'base_convert'
 class TestTrivial < Test::Unit::TestCase
 
   def test_001_version
-    assert_not_nil BASE_CONVERT::VERSION=~/^\d+\.\d+\.\d+$/
+    assert_not_nil BaseConvert::VERSION=~/^\d+\.\d+\.\d+$/
   end
 
   def test_002_qgraph
-    a = BASE_CONVERT::CONFIG::QGRAPH
+    a = BaseConvert::CONFIG::QGRAPH
     assert_equal(91, a.length)
     refute(a.include?('"'))
     refute(a.include?("'"))
@@ -17,16 +17,16 @@ class TestTrivial < Test::Unit::TestCase
   end
 
   def test_003_word
-    a = BASE_CONVERT::CONFIG::WORD
+    a = BaseConvert::CONFIG::WORD
     assert_equal(62, a.length)
     refute(a.include?('_'))
     assert_equal('0', a[0])
-    assert_equal(36, BASE_CONVERT::CONFIG::INDEXa)
+    assert_equal(36, BaseConvert::CONFIG::INDEXa)
     assert_equal('a', a[36])
   end
 
   def test_004_base
-    a = BASE_CONVERT::CONFIG::BASE
+    a = BaseConvert::CONFIG::BASE
     assert_equal(Hash, a.class)
     assert_equal(62, a[:word])
     assert_equal(91, a[:qgraph])
@@ -40,10 +40,10 @@ class TestTrivial < Test::Unit::TestCase
   end
 
   def test_005_digits
-    a = BASE_CONVERT::CONFIG::DIGITS
+    a = BaseConvert::CONFIG::DIGITS
     assert_equal(Hash, a.class)
-    assert(a[:word].equal?(BASE_CONVERT::CONFIG::WORD))
-    assert(a[:qgraph].equal?(BASE_CONVERT::CONFIG::QGRAPH))
+    assert(a[:word].equal?(BaseConvert::CONFIG::WORD))
+    assert(a[:qgraph].equal?(BaseConvert::CONFIG::QGRAPH))
   end
 
 end

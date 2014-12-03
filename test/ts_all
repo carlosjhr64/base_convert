@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+require 'find'
+
+RUBY = 'ruby -I ./lib'
+LOG = './test/errors.log'
+
+def fn(name)
+  "./test/tc_#{name}"
+end
+
+def tc(name)
+  system "#{RUBY} #{fn(name)} > #{LOG}"
+end
+
+Find.find('./test') do |fn|
+  if /\btc_(?<name>\w+)$/=~fn
+    unless tc(name)
+      puts
+      puts "There were errors in #{name}."
+      puts "See #{LOG}."
+      puts
+      exit 1
+    end
+  end
+end
+File.unlink LOG
+puts
+puts 'All tests passed!'
+puts

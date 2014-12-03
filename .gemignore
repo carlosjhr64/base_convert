@@ -1,0 +1,7 @@
+^(
+ (\.)|
+ (test\/)|
+ (TODO\.)|
+ (base_convert.gemspec)|
+ (History\.)
+)

@@ -22,8 +22,8 @@ See also Non-decimal_radices/Convert[http://rosettacode.org/wiki/Non-decimal_rad
     include BaseConvert
     h2o = FromTo.new(16, 8)
     o2h = FromTo.new(8, 16)
-    puts h2o.convert('FFFF') #=> "177777"
-    puts o2h.convert('177777') #=> "FFFF"
+    a = h2o.convert('FFFF') #=> "177777"
+    b = o2h.convert('177777') #=> "FFFF"
 
 == BUT WAIT, THERE'S MORE:
 

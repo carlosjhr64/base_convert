@@ -1,8 +1,8 @@
 module BaseConvert
 class Number < String
-  include CONFIG
-  extend FUNCTIONS
-  extend HELPERS
+  include Config
+  extend Functions
+  extend Helpers
 
   def initialize(counter, base=10, digits=Number.digits(base), validate=true)
     super(counter.to_s)

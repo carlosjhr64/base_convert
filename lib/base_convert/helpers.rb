@@ -1,7 +1,7 @@
 # http://rosettacode.org/wiki/Non-decimal_radices/Convert#Ruby
 module BaseConvert
-module HELPERS
-  include CONFIG
+module Helpers
+  include Config
 
   def upcase?(base, digits)
     base <= INDEXa and digits.equal?(WORD)

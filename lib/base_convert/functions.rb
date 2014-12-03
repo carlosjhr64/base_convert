@@ -1,6 +1,6 @@
 # http://rosettacode.org/wiki/Non-decimal_radices/Convert#Ruby
 module BaseConvert
-module FUNCTIONS
+module Functions
 
   def to_integer(string, base, digits)
     integer = 0

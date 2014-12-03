@@ -1,8 +1,8 @@
 module BaseConvert
 class FromTo
-  include CONFIG
-  extend FUNCTIONS
-  extend HELPERS
+  include Config
+  extend Functions
+  extend Helpers
 
   attr_accessor :from_digits, :to_digits
   def initialize(basefrom, baseto=basefrom)

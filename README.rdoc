@@ -40,7 +40,7 @@ The first is functional.  One can extend(import) the functions that do the conve
 The conversion functions are `to_integer` and `to_base`.
 For example, the octal number "7777":
 
-    extend FUNCTIONS #=> main
+    extend Functions #=> main
     digits = '01234567'
     base = digits.length #=> 8
     to_integer('7777', base, digits) #=> 4095
@@ -57,10 +57,10 @@ For convenience, `base_convert` provides two sets of digits.
 `WORD` are the ASCII word characters except underscore[_].
 `QGRAPH` are the ASCII graph characters except quotes['"].
 
-    CONFIG::WORD #=> "01...AB...ab...yz"
-    CONFIG::QGRAPH #=> "!#...01...AB...ab...}~"
-    to_base(4095, 8, CONFIG::WORD) #=> "7777"
-    to_base(4095, 8, CONFIG::QGRAPH) #=> "****"
+    Config::WORD #=> "01...AB...ab...yz"
+    Config::QGRAPH #=> "!#...01...AB...ab...}~"
+    to_base(4095, 8, Config::WORD) #=> "7777"
+    to_base(4095, 8, Config::QGRAPH) #=> "****"
 
 The second way to convert is via a conversion object of `BaseConvert::FromTo`.
 For example, to convert from hexadecimal to octal, and back:
@@ -92,7 +92,7 @@ FromTo#base2integer and FromTo#integer2Base:
 The above replaces #base2dec and #dec2base which are now aliases and are deprecated.
 The third way to convert is via the subclass of String, `BaseConvert::Number`:
 
-    hexadecimal = Number.new('FFFF', 16, CONFIG::WORD) #=> "FFFF"
+    hexadecimal = Number.new('FFFF', 16, Config::WORD) #=> "FFFF"
     # WORD is the default alphabet
     hexadecimal = Number.new('FFFF', 16) #=> "FFFF"
     hexadecimal.to_integer #=> 65535

@@ -31,7 +31,7 @@ SUMMARY
   s.files = %w(
 README.rdoc
 lib/base_convert.rb
-lib/base_convert/config.rb
+lib/base_convert/configuration.rb
 lib/base_convert/from_to.rb
 lib/base_convert/functions.rb
 lib/base_convert/helpers.rb

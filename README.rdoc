@@ -11,7 +11,7 @@ base_convert - Number base conversion.
 
 Converts positive integers to different bases:
 Binary, octal, hexadecimal, decimal, or any arbitrary base.
-"Out of the box" handling of up to base 91.
+"Out of the box" handling of up to base 94.
 Allows for arbitrary choice of alphabet(digits).
 
 See also Non-decimal_radices/Convert[http://rosettacode.org/wiki/Non-decimal_radices/Convert].
@@ -73,7 +73,7 @@ For example, to convert from hexadecimal to octal, and back:
 You can access the conversion alphabets via
 the accessors FromTo#from_digits and FromTo#to_digits.
 By default, WORD is used for bases upto 62.
-For bigger bases upto 91, QGRAPH is used.
+For bigger bases upto 94, GRAPH is used.
 You can have bigger bases, but
 you will need to come up with a bigger alphabet, perhaps
 by adding greek letters.

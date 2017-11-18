@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2017-11-18'
+  s.date     = '2017-11-17'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
@@ -25,9 +25,9 @@ base_convert - Number base conversion.
 SUMMARY
 
   s.extra_rdoc_files = ['README.rdoc']
-  s.rdoc_options     = ["--main", "README.rdoc"]
+  s.rdoc_options     = ['--main', 'README.rdoc']
 
-  s.require_paths = ["lib"]
+  s.require_paths = ['lib']
   s.files = %w(
 README.rdoc
 lib/base_convert.rb
@@ -38,7 +38,6 @@ lib/base_convert/helpers.rb
 lib/base_convert/number.rb
   )
 
-  s.requirements << 'ruby: ruby 2.1.3p242 (2014-09-19 revision 47630) [x86_64-linux]'
-  s.requirements << 'join: join (GNU coreutils) 8.21'
+  s.requirements << 'ruby: ruby 2.4.2p198 (2017-09-14 revision 59899) [x86_64-linux]'
 
 end

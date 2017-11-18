@@ -34,7 +34,7 @@ class TestFromTo < Test::Unit::TestCase
     assert base.to_digits.equal?(WORD)
 
     a = base.base2integer('z')
-    assert_equal(Fixnum, a.class)
+    assert_equal(Integer, a.class)
     assert_equal(86, a)
 
     a = base.integer2base(16)

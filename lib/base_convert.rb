@@ -1,4 +1,6 @@
-require 'base_convert/version'
+module BaseConvert
+  VERSION = '2.1.0'
+end
 require 'base_convert/configuration'
 require 'base_convert/functions'
 require 'base_convert/helpers'

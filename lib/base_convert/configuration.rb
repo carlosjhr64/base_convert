@@ -1,14 +1,22 @@
 module BaseConvert
 module Configuration
 
-  QGRAPH = 0.upto(255).map{|i| i.chr}.select{|c| c=~/[[:graph:]]/ && c=~/[^`'"]/}.join.freeze
+  GRAPH  = 0.upto(255).map{|i| i.chr}.select{|c| c=~/[[:graph:]]/}.join.freeze
+  QGRAPH = GRAPH.delete(%('"`)).freeze
 
-  WORD   = 0.upto(255).map{|i| i.chr}.select{|c| c=~/\w/ && c=~/[^_]/}.join.freeze # 0..9 a..z A..Z
+  WORD_  = 0.upto(255).map{|i| i.chr}.select{|c| c=~/\w/}.join.freeze
+  WORD   = WORD_.delete('_').freeze
   INDEXa = WORD.index('a').freeze
 
+  AMBIGUOUS   = 'B8G6I1l0OQDS5Z2'.freeze
+  UNAMBIGUOUS = WORD.delete(AMBIGUOUS).freeze
+
   BASE = {
-    :word        => WORD.length,
+    :graph       => GRAPH.length,
     :qgraph      => QGRAPH.length,
+    :word_       => WORD_.length,
+    :word        => WORD.length,
+    :unambiguous => UNAMBIGUOUS.length,
     :hexadecimal => 16,
     :hex         => 16,
     :decimal     => 10,

@@ -1,22 +1,22 @@
-= base_convert
+# BaseConvert
 
-{<img src="https://badge.fury.io/rb/base_convert.svg" alt="Gem Version" />}[http://badge.fury.io/rb/base_convert]
+[![Gem Version]("https://badge.fury.io/rb/base_convert.svg")](http://badge.fury.io/rb/base_convert)
 
-github :: https://www.github.com/carlosjhr64/base_convert
-rubygems :: https://rubygems.org/gems/base_convert
+* [github](https://www.github.com/carlosjhr64/base_convert)
+* [rubygems](https://rubygems.org/gems/base_convert)
 
-== DESCRIPTION:
+## DESCRIPTION:
 
-base_convert - Number base conversion.
+BaseConvert - Number base conversion.
 
 Converts positive integers to different bases:
 Binary, octal, hexadecimal, decimal, or any arbitrary base.
 "Out of the box" handling of up to base 94.
 Allows for arbitrary choice of alphabet(digits).
 
-See also Non-decimal_radices/Convert[http://rosettacode.org/wiki/Non-decimal_radices/Convert].
+See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/wiki/Non-decimal_radices/Convert).
 
-== SYNOPSIS:
+## SYNOPSIS:
 
     require 'base_convert'
     include BaseConvert
@@ -25,7 +25,7 @@ See also Non-decimal_radices/Convert[http://rosettacode.org/wiki/Non-decimal_rad
     a = h2o.convert('FFFF') #=> "177777"
     b = o2h.convert('177777') #=> "FFFF"
 
-== BUT WAIT, THERE'S MORE:
+## BUT WAIT, THERE'S MORE:
 
 Using `irb` to demonstrate the features.
 The components are scoped under `BaseConvert`:
@@ -53,9 +53,12 @@ You can work with arbitrary digits:
     to_integer('&&&&', base, digits) #=> 4095
     to_base(4095, base, digits) #=> "&&&&"
 
-For convenience, `base_convert` provides two sets of digits.
-`WORD` are the ASCII word characters except underscore[_].
-`QGRAPH` are the ASCII graph characters except quotes['"].
+For convenience, `base_convert` provides some predefined sets of digits.
+`GRAPH` are the ASCII graph characters.
+`QGRAPH` are the ASCII graph characters except quotes: double-quote, single-quote, and back-tick.
+`WORD_` are the ASCII word characters including underscore(_).
+`WORD` are the ASCII word characters except underscore(_).
+`UNAMBIGUOUS` are the characters in `WORD` without the `AMBIGUOUS` characters(B8G6I1l0OQDS5Z2).
 
     Configuration::WORD #=> "01...AB...ab...yz"
     Configuration::QGRAPH #=> "!#...01...AB...ab...}~"
@@ -71,9 +74,9 @@ For example, to convert from hexadecimal to octal, and back:
     o2h.convert('177777') #=> "FFFF"
 
 You can access the conversion alphabets via
-the accessors FromTo#from_digits and FromTo#to_digits.
+the accessors `FromTo#from_digits` and `FromTo#to_digits`.
 By default, WORD is used for bases upto 62.
-For bigger bases upto 94, GRAPH is used.
+For bigger bases upto 91, QGRAPH is used.
 You can have bigger bases, but
 you will need to come up with a bigger alphabet, perhaps
 by adding greek letters.
@@ -89,7 +92,6 @@ FromTo#base2integer and FromTo#integer2Base:
     h2o.base2integer('FFFF') #=> 65535
     h2o.integer2base(65535) #=> "177777"
 
-The above replaces #base2dec and #dec2base which are now aliases and are deprecated.
 The third way to convert is via the subclass of String, `BaseConvert::Number`:
 
     hexadecimal = Number.new('FFFF', 16, Configuration::WORD) #=> "FFFF"
@@ -105,11 +107,22 @@ The third way to convert is via the subclass of String, `BaseConvert::Number`:
     digits = ')!@#$%^&'
     decimal.to_base(8, digits) #=> "!&&&&&"
 
-== INSTALL:
+## New in 2.1.0
 
-  $ sudo gem install base_convert
+    # GRAPH.length == 94
+    # !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
 
-== LICENSE:
+    # WORD_.length == 63
+    # 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz
+
+    # UNAMBIGUOUS.length == 47
+    # 3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz
+
+## INSTALL:
+
+    $ sudo gem install base_convert
+
+## LICENSE:
 
 (The MIT License)
 

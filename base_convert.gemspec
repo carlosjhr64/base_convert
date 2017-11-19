@@ -8,11 +8,11 @@ Gem::Specification.new do |s|
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2017-11-17'
+  s.date     = '2017-11-19'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
-base_convert - Number base conversion.
+BaseConvert - Number base conversion.
 
 Converts positive integers to different bases:
 Binary, octal, hexadecimal, decimal, or any arbitrary base.
@@ -21,15 +21,15 @@ Allows for arbitrary choice of alphabet(digits).
 DESCRIPTION
 
   s.summary = <<SUMMARY
-base_convert - Number base conversion.
+BaseConvert - Number base conversion.
 SUMMARY
 
-  s.extra_rdoc_files = ['README.rdoc']
-  s.rdoc_options     = ['--main', 'README.rdoc']
+  #s.extra_rdoc_files = ['README.md']
+  #s.rdoc_options     = ['--main', 'README.md']
 
   s.require_paths = ['lib']
   s.files = %w(
-README.rdoc
+README.md
 lib/base_convert.rb
 lib/base_convert/configuration.rb
 lib/base_convert/from_to.rb

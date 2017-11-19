@@ -1,6 +1,6 @@
 # BaseConvert
 
-[![Gem Version]("https://badge.fury.io/rb/base_convert.svg")](http://badge.fury.io/rb/base_convert)
+[base_convert](http://badge.fury.io/rb/base_convert) ![Gem Version]("https://badge.fury.io/rb/base_convert.svg")
 
 * [github](https://www.github.com/carlosjhr64/base_convert)
 * [rubygems](https://rubygems.org/gems/base_convert)

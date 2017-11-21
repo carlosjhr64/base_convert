@@ -7,3 +7,5 @@ d9b3e9268b9596909de9a8afe59a7ba5  pkg/base_convert-1.0.0.gem
 6b7f0a76317ef6833d92c4bdc7c872de  pkg/base_convert-2.0.0.gem
 === 2.1.0 / 2017-11-19 08:58:23 -0800
 b253759ce1cd4625561c4c787037db4f  pkg/base_convert-2.1.0.gem
+=== 2.2.0 / 2017-11-21 10:09:56 -0800
+c822b7c966d56d387d425bfe9f211445  pkg/base_convert-2.2.0.gem

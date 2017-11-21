@@ -27,8 +27,11 @@ module Configuration
   }
 
   DIGITS = {
-    :word   => WORD,
-    :qgraph => QGRAPH,
+    :graph       => GRAPH,
+    :qgraph      => QGRAPH,
+    :word_       => WORD,
+    :word        => WORD,
+    :unambiguous => UNAMBIGUOUS,
   }
 
 end

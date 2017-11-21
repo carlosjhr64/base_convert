@@ -105,6 +105,37 @@ The third way to convert is via the subclass of String, `BaseConvert::Number`:
     digits = ')!@#$%^&'
     decimal.to_base(8, digits) #=> "!&&&&&"
 
+## Keys (Symbols)
+
+Instead of stating the base number, one can use a mnemonic key:
+
+    graph:       GRAPH
+    qgraph:      QGRAPH
+    word_:       WORD_
+    word:        WORD
+    unambiguous: UNAMBIGUOUS
+    hexadecimal: 16
+    hex:         16
+    decimal:     10
+    dec:         10
+    octal:       8
+    oct:         8
+    binary:      2
+
+The mnemonic key has the advantage of especifying both the base number and the digits to be used.
+Examples:
+
+    > require 'base_convert' # => true
+    > BaseConvert::Number.new('FF',  :hex).to_base(:dec)            #=> "255"
+    > BaseConvert::Number.new('255', :dec).to_base(:qgraph)         #=> "$m"
+    > BaseConvert::Number.new('$m',  :qgraph).to_base(:unambiguous) #=> "CX"
+    > BaseConvert::Number.new('CX',  :unambiguous).to_base(:oct)    #=> "377"
+    > BaseConvert::Number.new('377', :oct).to_base(:hexadecimal)    #=> "FF"
+
+## New in 2.2.0
+
+I forgot to map the new digit sets added in 2.1.0 to a key, as listed above.
+
 ## New in 2.1.0
 
     # GRAPH.length == 94

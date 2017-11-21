@@ -1,5 +1,5 @@
 module BaseConvert
-  VERSION = '2.1.0'
+  VERSION = '2.2.0'
 end
 require 'base_convert/configuration'
 require 'base_convert/functions'

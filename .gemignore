@@ -1,7 +1,9 @@
 ^(
  (\.)|
+ (examples\/)|
  (test\/)|
+ (features\/)|
  (TODO\.)|
- (base_convert.gemspec)|
+ (\w+\.gemspec)|
  (History\.)
 )

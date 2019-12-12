@@ -1,31 +1,39 @@
 module BaseConvert
-class Number < String
+class Number
   include Configuration
-  extend Functions
-  extend Helpers
+  include Helpers
 
-  def initialize(counter, base=10, digits=Number.digits(base), validate=true)
-    super(counter.to_s)
-    @base   = Number.base(base)
-    @digits = digits
-    if validate
-      self.upcase! if Number.upcase?(@base, @digits)
-      Number.validate(@base, @digits)
-      Number.validate_string(self, @base, @digits)
+  def initialize(counter, base: nil, digits: nil, validate: $DEBUG)
+    @base, @digits, @validate = base, digits, validate
+    @string, @integer = nil, nil
+    case counter
+    when String
+      @string = counter
+      _integer!
+    when Integer
+      @integer = counter
+      _string!
+    else
+      raise "Need counter String|Integer"
     end
   end
 
-  def to_integer
-    Number.to_integer(self, @base, @digits)
+  def to_s
+    @string
+  end
+  alias :to_str :to_s
+
+  def to_i
+    @integer
+  end
+  alias :to_int :to_i
+
+  def to_base(base, digits=@digits, validate=@validate)
+    Number.new @integer, base: base, digits: digits, validate: validate
   end
 
-  def to_base(base, digits=Number.digits(base), validate=true)
-    base   = Number.base(base)
-    Number.validate(base, digits) if validate
-    integer = self.to_integer
-    string = Number.to_base(integer, base, digits)
-    Number.new(string, base, digits, false) # no need to validate
+  def to_digits(digits, base=@base, validate=@validate)
+    Number.new @integer, base: base, digits: digits, validate: validate
   end
-
 end
 end

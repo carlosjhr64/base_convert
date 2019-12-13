@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
 
   s.name     = 'base_convert'
-  s.version  = '3.0.191212'
+  s.version  = '3.0.191213'
 
   s.homepage = 'https://github.com/carlosjhr64/base_convert'
 
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2017-11-21'
+  s.date     = '2019-12-13'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
@@ -24,20 +24,15 @@ DESCRIPTION
 BaseConvert - Number base conversion.
 SUMMARY
 
-  #s.extra_rdoc_files = ['README.md']
-  #s.rdoc_options     = ['--main', 'README.md']
-
   s.require_paths = ['lib']
   s.files = %w(
 README.md
 lib/base_convert.rb
 lib/base_convert/configuration.rb
 lib/base_convert/from_to.rb
-lib/base_convert/functions.rb
-lib/base_convert/helpers.rb
 lib/base_convert/number.rb
   )
 
-  s.requirements << 'ruby: ruby 2.4.2p198 (2017-09-14 revision 59899) [x86_64-linux]'
+  s.requirements << 'ruby: ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]'
 
 end

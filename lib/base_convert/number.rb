@@ -1,6 +1,7 @@
 module BaseConvert
 class Number
   include Configuration
+  include BaseConvert
 
   def _infer_digits_from_string
     if @string.chars.all?{|_|WORD.include?_}
@@ -17,7 +18,7 @@ class Number
       @digits = @integer.nil? ? _infer_digits_from_string : WORD
       if @base and @base > @digits.length
         if @base > QGRAPH.length
-          raise "Need digits that can cover base #{base}."
+          raise "Need digits that can cover base #{@base}."
         else
           @digits = QGRAPH
         end
@@ -47,20 +48,20 @@ class Number
         raise "Unrecognized base #{@base}." if base.nil?
         @base = base
       else
-        raise "base must be a Integer greater than 1." unless @base.is_a? Integer and @base > 1
+        raise "base must be an Integer greater than 1." unless @base.is_a?(Integer) and @base > 1
       end
       _digits!
     end
   end
 
   def _validate
-    raise "digits must cover base" if @base > @digits.length
-    raise "digits must not have duplicates" if @digits.length > @digits.chars.uniq.length
+    raise "digits must cover base." if @base > @digits.length
+    raise "digits must not have duplicates." if @digits.length > @digits.chars.uniq.length
     unless @string.nil?
-      "digits must cover string" unless @string.chars.all?{|_|@digits.include?_}
+      raise "digits must cover string." unless @string.chars.all?{|_|@digits.include?_}
     end
     unless @integer.nil?
-      "integer can't be negative" if @integer < 0
+      raise "integer can't be negative." if @integer < 0
     end
   end
 
@@ -77,7 +78,7 @@ class Number
     @string = tob
   end
 
-  def initialize(counter, base: nil, digits: nil, validate: $DEBUG)
+  def initialize(counter, base: nil, digits: nil, validate: true)
     @base, @digits, @validate = base, digits, validate
     @string, @integer = nil, nil
     case counter
@@ -88,19 +89,17 @@ class Number
       @integer = counter
       _string!
     else
-      raise "Need counter String|Integer"
+      raise "Need counter String|Integer."
     end
   end
 
   def to_s
     @string
   end
-  alias :to_str :to_s
 
   def to_i
     @integer
   end
-  alias :to_int :to_i
 
   def to_base(base, digits=@digits, validate=@validate)
     Number.new @integer, base: base, digits: digits, validate: validate

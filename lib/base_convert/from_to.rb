@@ -12,8 +12,15 @@ class FromTo
     @base, @to_base, @digits, @to_digits = base, to_base, digits, to_digits
   end
  
-  def convert(string)
-    tob(toi(string.to_s), @to_base, @to_digits)
+  def convert(counter)
+    case counter
+    when Integer
+      tob(counter, @to_base, @to_digits)
+    when String
+      tob(toi(counter), @to_base, @to_digits)
+    else
+      raise "counter must be String|Integer"
+    end
   end
   alias :[] :convert
 end

@@ -1,0 +1,52 @@
+#! ruby
+require 'test/unit'
+require 'base_convert/configuration'
+
+class TestConfiguration < Test::Unit::TestCase
+  include BaseConvert::Configuration
+
+  def test_configuration
+    assert_equal '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~', GRAPH
+    assert_equal '!#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~', QGRAPH
+    assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz', WORD_
+    assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', WORD
+    assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz', UNAMBIGUOUS
+
+    assert_equal WORD.index('a'), INDEXa
+    assert_equal 36, INDEXa
+
+    assert_equal 94, BASE[:graph]
+    assert_equal 94, BASE[:g]
+    assert_equal 91, BASE[:qgraph]
+    assert_equal 91, BASE[:q]
+    assert_equal 63, BASE[:word_]
+    assert_equal 63, BASE[:w_]
+    assert_equal 62, BASE[:word]
+    assert_equal 62, BASE[:w]
+    assert_equal 47, BASE[:unambiguous]
+    assert_equal 47, BASE[:u]
+    assert_equal 16, BASE[:hexadecimal]
+    assert_equal 16, BASE[:hex]
+    assert_equal 16, BASE[:hex]
+    assert_equal 10, BASE[:decimal]
+    assert_equal 10, BASE[:dec]
+    assert_equal 10, BASE[:d]
+    assert_equal  8, BASE[:octal]
+    assert_equal  8, BASE[:oct]
+    assert_equal  8, BASE[:o]
+    assert_equal  2, BASE[:binary]
+    assert_equal  2, BASE[:bin]
+    assert_equal  2, BASE[:b]
+
+    assert_equal GRAPH,       DIGITS[:graph]
+    assert_equal GRAPH,       DIGITS[:g]
+    assert_equal QGRAPH,      DIGITS[:qgraph]
+    assert_equal QGRAPH,      DIGITS[:q]
+    assert_equal WORD_,       DIGITS[:word_]
+    assert_equal WORD_,       DIGITS[:w_]
+    assert_equal WORD,        DIGITS[:word]
+    assert_equal WORD,        DIGITS[:w]
+    assert_equal UNAMBIGUOUS, DIGITS[:unambiguous]
+    assert_equal UNAMBIGUOUS, DIGITS[:u]
+  end
+end

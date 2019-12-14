@@ -6,10 +6,12 @@ module Configuration
 
   WORD_  = 0.upto(255).map{|i| i.chr}.select{|c| c=~/\w/}.join.freeze
   WORD   = WORD_.delete('_').freeze
-  INDEXa = WORD.index('a').freeze
+  INDEXa = WORD.index('a')
 
   AMBIGUOUS   = 'B8G6I1l0OQDS5Z2'.freeze
   UNAMBIGUOUS = WORD.delete(AMBIGUOUS).freeze
+
+  BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
   BASE = {
     :graph       => GRAPH.length,
@@ -17,6 +19,8 @@ module Configuration
     :word_       => WORD_.length,
     :word        => WORD.length,
     :unambiguous => UNAMBIGUOUS.length,
+    :base64      => 64,
+    :b64         => 64,
     :hexadecimal => 16,
     :hex         => 16,
     :h           => 16,
@@ -31,11 +35,11 @@ module Configuration
     :b           => 2,
   }
 
-  BASE[:g]  = BASE[:graph]
-  BASE[:q]  = BASE[:qgraph]
-  BASE[:w_] = BASE[:word_]
-  BASE[:w]  = BASE[:word]
-  BASE[:u]  = BASE[:unambiguous]
+  BASE[:g]   = BASE[:graph]
+  BASE[:q]   = BASE[:qgraph]
+  BASE[:w_]  = BASE[:word_]
+  BASE[:w]   = BASE[:word]
+  BASE[:u]   = BASE[:unambiguous]
 
   DIGITS = {
     :graph       => GRAPH,
@@ -48,6 +52,8 @@ module Configuration
     :w           => WORD,
     :unambiguous => UNAMBIGUOUS,
     :u           => UNAMBIGUOUS,
+    :base64      => BASE64,
+    :b64         => BASE64,
   }
 
 end

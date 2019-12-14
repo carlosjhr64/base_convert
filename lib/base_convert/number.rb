@@ -4,10 +4,10 @@ class Number
   include BaseConvert
 
   def _infer_digits_from_string
-    if @string.chars.all?{|_|WORD.include?_}
-      WORD
-    elsif @string.chars.all?{|_|QGRAPH.include?_}
-      QGRAPH
+    if @string.chars.all?{|_|WORD_.include?_}
+      @string.include?('_')? WORD_ : WORD
+    elsif @string.chars.all?{|_|GRAPH.include?_}
+      @string.match?(/['"`]/)? GRAPH : QGRAPH
     else
       raise "Need digits."
     end
@@ -44,10 +44,14 @@ class Number
     if @digits.nil?
       @digits = @integer.nil? ? _infer_digits_from_string : WORD
       if @base and @base > @digits.length
-        if @base > QGRAPH.length
-          raise "Need digits that can cover base #{@base}."
-        else
+        if @base == 64
+          @digits = BASE64
+        elsif @base <= QGRAPH.length
           @digits = QGRAPH
+        elsif @base <= GRAPH.length
+          @digits = GRAPH
+        else
+          raise "Need digits that can cover base #{@base}."
         end
       end
     else
@@ -67,7 +71,7 @@ class Number
       if @integer.nil?
         @base = _infer_base_from_string
       else
-        @base = 10
+        @base = @digits.length
       end
     else
       if @base.is_a? Symbol

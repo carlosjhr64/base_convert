@@ -109,6 +109,7 @@ class Number
     @string = tob
   end
 
+  attr_reader :base, :digits
   def initialize(counter, base: nil, digits: nil, validate: true)
     @base, @digits, @validate = base, digits, validate
     @string, @integer = nil, nil

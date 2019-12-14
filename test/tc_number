@@ -88,6 +88,13 @@ class TestNumber < Test::Unit::TestCase
     assert_equal 'Need base for UNAMBIGUOUS.', message
   end
 
+  def test_number_edges
+    x = Number.new 1
+    assert_equal 62, x.base
+    x = Number.new 1, digits: :u
+    assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz', x.digits
+  end
+
   def test_number_raises
     message = '*'
     begin

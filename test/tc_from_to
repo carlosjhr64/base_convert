@@ -4,54 +4,48 @@ require 'base_convert'
 
 class TestFromTo < Test::Unit::TestCase
   include BaseConvert
-  include Configuration
 
-  def test_001_new
-    wl = WORD.length
+  def test_works
+    f = (16..255).map{|i|i.to_s(16).upcase}
+    o = (16..255).map{|i|i.to_s(8).upcase}
 
-    base = FromTo.new(10, 16)
-    assert base.from_digits.equal?(WORD)
-    assert base.to_digits.equal?(WORD)
+    c = FromTo.new to_base: 16
+    t = (16..255).map{|i|c[i]}
+    assert_equal f, t
 
-    base = FromTo.new(70, 8)
-    assert base.from_digits.equal?(QGRAPH)
-    assert base.to_digits.equal?(WORD)
+    c = FromTo.new to_base: 8
+    t = (16..255).map{|i|c[i]}
+    assert_equal o, t
 
-    base = FromTo.new(wl, 90)
-    assert base.from_digits.equal?(WORD)
-    assert base.to_digits.equal?(QGRAPH)
+    c = FromTo.new base: 8, to_base: 16
+    t = o.map{|s|c[s]}
+    assert_equal f, t
 
-    base = FromTo.new(wl+1, wl+2)
-    assert base.from_digits.equal?(QGRAPH)
-    assert base.to_digits.equal?(QGRAPH)
+    c = FromTo.new base: 16, to_base: 8
+    t = f.map{|s|c[s]}
+    assert_equal o, t
 
-    base = FromTo.new(:word, :qgraph)
-    assert base.from_digits.equal?(WORD)
-    assert base.to_digits.equal?(QGRAPH)
+    c = FromTo.new to_digits: 'abcdefghij'
+    s = c[1234567890]
+    assert_equal 'bcdefghija', s
+  end
 
-    base = FromTo.new(:qgraph, :word)
-    assert base.from_digits.equal?(QGRAPH)
-    assert base.to_digits.equal?(WORD)
+  def test_raises
+    message = '*'
+    begin
+      FromTo.new base: 10, digits: '12345'
+    rescue
+      message = $!.message
+    end
+    assert_equal 'base must cover digits.', message
 
-    a = base.base2integer('z')
-    assert_equal(Integer, a.class)
-    assert_equal(86, a)
-
-    a = base.integer2base(16)
-    assert_equal(String, a.class)
-    assert_equal('G', a)
-
-    a = base.convert('z')
-    assert_equal(String, a.class)
-    base = FromTo.new(:word, :qgraph)
-    a = base.convert(a)
-    assert_equal('z', a)
-
-    base = FromTo.new(:hex, :oct)
-    assert_equal('7777', base.convert('FFF'))
-    assert_equal('7777', base.convert('fff')) # Tests the upcase convenience
-
-    base = FromTo.new(:oct, :hex)
-    assert_equal('FFF', base.convert('7777'))
+    c = FromTo.new to_base: 16
+    message = '*'
+    begin
+      c[1.23]
+    rescue
+      message = $!.message
+    end
+    assert_equal 'counter must be String|Integer.', message
   end
 end

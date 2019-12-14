@@ -46,6 +46,48 @@ class TestNumber < Test::Unit::TestCase
     assert_equal 81985529216486895, x.to_i
   end
 
+  def test_number_infers
+    s = '12345670'
+    x = Number.new s
+    assert_equal s.to_i(8), x.to_i
+
+    s = 'A2345670'
+    x = Number.new s
+    assert_equal s.to_i(16), x.to_i
+
+    s = 'G2345670'
+    x = Number.new s
+    assert_equal s.to_i(32), x.to_i
+
+    message = '*'
+    begin
+      x = Number.new '1234567'
+    rescue
+      message = $!.message
+    end
+    assert_equal 'Need base for WORD or WORD_.', message
+
+    assert_nothing_raised do
+      Number.new '~234567' # an obvious QGRAPH
+    end
+
+    message = '*'
+    begin
+      x = Number.new '!A34567'
+    rescue
+      message = $!.message
+    end
+    assert_equal 'Need base for QGRAPH or GRAPH.', message
+
+    message = '*'
+    begin
+      x = Number.new '3479', digits: :u
+    rescue
+      message = $!.message
+    end
+    assert_equal 'Need base for UNAMBIGUOUS.', message
+  end
+
   def test_number_raises
     message = '*'
     begin

@@ -1,6 +1,6 @@
 # http://rosettacode.org/wiki/Non-decimal_radices/Convert#Ruby
 module BaseConvert
-  VERSION = '3.0.191213'
+  VERSION = '3.0.191214'
 
   def toi(string=@string, base=@base, digits=@digits)
     integer = 0

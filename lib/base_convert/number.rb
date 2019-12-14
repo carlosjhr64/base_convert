@@ -13,6 +13,33 @@ class Number
     end
   end
 
+  def _infer_base_from_string
+    min = 1 + @digits.index(@string.chars.max)
+    max = @digits.length
+    return max if max==min
+    case @digits
+    when WORD, WORD_
+      if min <= 32
+        raise "Need base for WORD or WORD_." if @string.length < 8
+        return  8 if min <= 8
+        return 16 if min <= 16
+        return 32
+      end
+    when UNAMBIGUOUS
+      if min <= 22
+        raise "Need base for UNAMBIGUOUS." if @string.length < 8
+        return 22
+      end
+    when QGRAPH, GRAPH
+      n = @digits.index 'a'
+      if min <= n
+        raise "Need base for QGRAPH or GRAPH." if @string.length < 8
+        return n
+      end
+    end
+    return max
+  end
+
   def _digits!
     if @digits.nil?
       @digits = @integer.nil? ? _infer_digits_from_string : WORD
@@ -38,7 +65,7 @@ class Number
     if @base.nil?
       _digits!
       if @integer.nil?
-        @base = @digits.length
+        @base = _infer_base_from_string
       else
         @base = 10
       end

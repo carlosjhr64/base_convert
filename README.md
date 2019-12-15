@@ -128,6 +128,7 @@ Instead of giving the base number or the digits' string,
 one can use a mnemonic key:
 
 | long key       | short key | DIGITS        | BASE NUMBER |
+| -------------- | --------- | ------------- | ----------- |
 | `:graph`       | `:g`      | `GRAPH`       | 94          |
 | `:qgraph`      | `:q`      | `QGRAPH`      | 91          |
 | `:base64`      | `:b64`    | `BASE64`      | 64          |
@@ -136,6 +137,7 @@ one can use a mnemonic key:
 | `:unambiguous` | `:u`      | `UNAMBIGUOUS` | 47          |
 
 | long key       | short keys | BASE NUMBER |
+| -------------- | ---------- | ----------- |
 | `:hexadecimal` | `:hex, :h` | 16          |
 | `:decimal`     | `:dec, :d` | 10          |
 | `:octal`       | `:oct, :o` |  8          |

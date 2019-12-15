@@ -37,6 +37,10 @@ See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/
     n.to_s #=> "D/"
     n.to_i #=> 255
 
+## INSTALL:
+
+    $ gem install base_convert
+
 ## BUT WAIT, THERE'S MORE:
 
 Using `irb` to demonstrate the features.
@@ -90,7 +94,7 @@ For example, to convert from hexadecimal to octal, and back:
     h2o['FFFF'] #=> "177777"
     o2h['177777'] #=> "FFFF"
 
-The third way to work with alternate base is via the `BaseConvert::Number`:
+The third way to work with variant base and digits numbers is via the `BaseConvert::Number`:
 
     hexadecimal = Number.new('FFFF', base: 16, digits: WORD)
     hexadecimal.to_s #=> "FFFF"
@@ -109,7 +113,7 @@ The third way to work with alternate base is via the `BaseConvert::Number`:
     n.to_i #=> 15
     n.to_s #=> "F"
 
-    # One can make of change of digits:
+    # One can make a change of digits:
     n = n.to_digits '0123456789abcdef'
     n.to_s #=> "f"
     n.to_i #=> 15
@@ -144,11 +148,6 @@ one can use a mnemonic key:
 | `:decimal`     | `:dec, :d` | 10          |
 | `:octal`       | `:oct, :o` |  8          |
 | `:binary`      | `:bin, :b` |  2          |
-
-
-## INSTALL:
-
-    $ gem install base_convert
 
 ## LICENSE:
 

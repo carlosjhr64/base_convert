@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2019-12-13'
+  s.date     = '2019-12-15'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION

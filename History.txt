@@ -9,3 +9,5 @@ d9b3e9268b9596909de9a8afe59a7ba5  pkg/base_convert-1.0.0.gem
 b253759ce1cd4625561c4c787037db4f  pkg/base_convert-2.1.0.gem
 === 2.2.0 / 2017-11-21 10:09:56 -0800
 c822b7c966d56d387d425bfe9f211445  pkg/base_convert-2.2.0.gem
+=== 3.0.191214 / 2019-12-15 14:07:30 -0800
+db121046a2fc03ca15286088a761e582  pkg/base_convert-3.0.191214.gem

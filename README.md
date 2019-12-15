@@ -74,6 +74,8 @@ For convenience, `base_convert` provides under `module BaseConvert::Configuratio
 * `WORD` are the ASCII word characters except underscore(`_`).
 * `UNAMBIGUOUS` are the characters in `WORD` without the `AMBIGUOUS` characters(B8G6I1l0OQDS5Z2).
 
+Some examples:
+
     Configuration::UNAMBIGUOUS #=> "3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz"
     # etc...
     tob 255, 16, Configuration::WORD #=> "FF"

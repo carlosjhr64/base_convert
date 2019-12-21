@@ -90,6 +90,7 @@ class Number
     raise "digits must not have duplicates." if @digits.length > @digits.chars.uniq.length
     unless @string.nil?
       raise "digits must cover string." unless @string.chars.all?{|_|@digits.include?_}
+      raise "digits in string must be under base." unless @base > @digits.index(@string.chars.max)
     end
     unless @integer.nil?
       raise "integer can't be negative." if @integer < 0
@@ -98,8 +99,8 @@ class Number
 
   def _integer!
     _base!
-    _validate if @validate
     @string.upcase! if @base <= INDEXa and @digits == WORD
+    _validate if @validate
     @integer = toi
   end
 

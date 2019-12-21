@@ -154,6 +154,14 @@ class TestNumber < Test::Unit::TestCase
 
     message = '*'
     begin
+      x = Number.new('1A0', base: 2)
+    rescue
+      message = $!.message
+    end
+    assert_equal 'digits in string must be under base.', message
+
+    message = '*'
+    begin
       x = Number.new(1, digits: '01234567890')
     rescue
       message = $!.message

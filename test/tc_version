@@ -3,16 +3,16 @@ require 'test/unit'
 
 class TestVersion < Test::Unit::TestCase
   def test_version
-    version = '3.0.191224'
+    version = '3.1.191224'
     assert_equal(version, `egrep -o '[0-9]+\\.[0-9]+\\.[0-9]+' lib/*.rb`.split.first)
     if File.exist?('data/VERSION')
       assert_equal(version, File.read('data/VERSION').strip)
     end
-    if File.exist?('bin/template')
-      assert_equal(version, `template --version`.strip)
+    if executable = `ls bin/*`.split.first
+      assert_equal(version, `#{executable} --version`.strip)
     end
-    if File.exist?('template.gemspec')
-      assert_equal(version, `egrep -o '[0-9]+\\.[0-9]+\\.[0-9]+' *.gemspec`.split.first)
+    if gemspec = `ls *.gemspec`.split.first
+      assert_equal(version, `egrep -o '[0-9]+\\.[0-9]+\\.[0-9]+' #{gemspec}`.split.first)
     end
   end
 end

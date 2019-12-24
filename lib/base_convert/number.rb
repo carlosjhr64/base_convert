@@ -14,6 +14,7 @@ class Number
   end
 
   def _infer_base_from_string
+    raise "Need base." if @string.empty?
     min = 1 + @digits.index(@string.chars.max)
     max = @digits.length
     return max if max==min
@@ -88,7 +89,7 @@ class Number
   def _validate
     raise "digits must cover base." if @base > @digits.length
     raise "digits must not have duplicates." if @digits.length > @digits.chars.uniq.length
-    unless @string.nil?
+    unless @string.nil? or @string.empty?
       raise "digits must cover string." unless @string.chars.all?{|_|@digits.include?_}
       raise "digits in string must be under base." unless @base > @digits.index(@string.chars.max)
     end

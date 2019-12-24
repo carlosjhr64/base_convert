@@ -44,6 +44,11 @@ class TestNumber < Test::Unit::TestCase
 
     x = Number.new '.K;$C>Vo@', base: 94, digits: :graph
     assert_equal 81985529216486895, x.to_i
+
+    # Empty String?!!!
+    x = Number.new('', base: 2)
+    assert_equal '', x.to_s
+    assert_equal 0, x.to_i
   end
 
   def test_number_infers
@@ -103,6 +108,14 @@ class TestNumber < Test::Unit::TestCase
       message = $!.message
     end
     assert_equal 'Need digits.', message
+
+    message = '*'
+    begin
+      x = Number.new('')
+    rescue
+      message = $!.message
+    end
+    assert_equal 'Need base.', message
 
     message = '*'
     begin

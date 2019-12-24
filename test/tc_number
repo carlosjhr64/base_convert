@@ -127,6 +127,9 @@ class TestNumber < Test::Unit::TestCase
       message = $!.message
     end
     assert_equal 'digits must be a String of at least length 2.', message
+    assert_nothing_raised do
+      x = Number.new(1, digits: '01')
+    end
 
     message = '*'
     begin

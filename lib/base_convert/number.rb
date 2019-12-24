@@ -60,7 +60,7 @@ class Number
         raise "Unrecognized digits #{@digits}." if digits.nil?
         @digits = digits
       else
-        raise "digits must be a String of at least length 2." unless @digits.is_a?(String) and @digits.length > 2
+        raise "digits must be a String of at least length 2." unless @digits.is_a?(String) and @digits.length > 1
       end
     end
   end

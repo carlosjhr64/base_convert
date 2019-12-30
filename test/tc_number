@@ -95,7 +95,7 @@ class TestNumber < Test::Unit::TestCase
 
   def test_number_edges
     x = Number.new 1
-    assert_equal 62, x.base
+    assert_equal 10, x.base
     x = Number.new 1, digits: :u
     assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz', x.digits
   end

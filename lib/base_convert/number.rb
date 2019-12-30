@@ -106,7 +106,12 @@ class Number
   end
 
   def _string!
-    _base!
+    if @base.nil? and @digits.nil?
+      # We were just given an simple decimal integer...
+      @base, @digits = 10, WORD
+    else
+      _base!
+    end
     _validate if @validate
     @string = tob
   end

@@ -34,6 +34,6 @@ lib/base_convert/from_to.rb
 lib/base_convert/number.rb
   )
 
-  s.requirements << 'ruby: ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]'
+  s.requirements << 'ruby: ruby 2.7.0p0 (2019-12-25 revision 647ee6f091) [x86_64-linux]'
 
 end

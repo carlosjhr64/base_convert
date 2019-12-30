@@ -1,24 +1,22 @@
 module BaseConvert
-module Configuration
-
-  GRAPH  = 0.upto(255).map{|i| i.chr}.select{|c| c=~/[[:graph:]]/}.join.freeze
-  QGRAPH = GRAPH.delete(%('"`)).freeze
-
-  WORD_  = 0.upto(255).map{|i| i.chr}.select{|c| c=~/\w/}.join.freeze
-  WORD   = WORD_.delete('_').freeze
-  INDEXa = WORD.index('a')
-
+  GRAPH       = 0.upto(255).map{|i| i.chr}.select{|c| c=~/[[:graph:]]/}.join.freeze
+  QGRAPH      = GRAPH.delete(%('"`)).freeze
+  WORD_       = QGRAPH.chars.select{|c| c=~/\w/}.join.freeze
+  WORD        = WORD_.delete('_').freeze
   AMBIGUOUS   = 'B8G6I1l0OQDS5Z2'.freeze
   UNAMBIGUOUS = WORD.delete(AMBIGUOUS).freeze
+  G94         = (WORD + QGRAPH.delete(WORD_) + '"\'`_').freeze
+  BASE64      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.freeze
 
-  BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+  INDEXa = WORD.index('a')
 
   BASE = {
-    :graph       => GRAPH.length,
-    :qgraph      => QGRAPH.length,
-    :word_       => WORD_.length,
-    :word        => WORD.length,
-    :unambiguous => UNAMBIGUOUS.length,
+    :g94         => G94.length,          # 94
+    :graph       => GRAPH.length,        # 94
+    :qgraph      => QGRAPH.length,       # 91
+    :word_       => WORD_.length,        # 63
+    :word        => WORD.length,         # 62
+    :unambiguous => UNAMBIGUOUS.length,  # 47
     :base64      => 64,
     :b64         => 64,
     :hexadecimal => 16,
@@ -35,13 +33,14 @@ module Configuration
     :b           => 2,
   }
 
-  BASE[:g]   = BASE[:graph]
-  BASE[:q]   = BASE[:qgraph]
-  BASE[:w_]  = BASE[:word_]
-  BASE[:w]   = BASE[:word]
-  BASE[:u]   = BASE[:unambiguous]
+  BASE[:g]  = BASE[:graph]
+  BASE[:q]  = BASE[:qgraph]
+  BASE[:w_] = BASE[:word_]
+  BASE[:w]  = BASE[:word]
+  BASE[:u]  = BASE[:unambiguous]
 
   DIGITS = {
+    :g94         => G94,
     :graph       => GRAPH,
     :g           => GRAPH,
     :qgraph      => QGRAPH,
@@ -55,6 +54,4 @@ module Configuration
     :base64      => BASE64,
     :b64         => BASE64,
   }
-
-end
 end

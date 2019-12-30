@@ -1,135 +1,83 @@
 module BaseConvert
 class Number
-  include Configuration
   include BaseConvert
 
-  def _infer_digits_from_string
-    if @string.chars.all?{|_|WORD_.include?_}
-      @string.include?('_')? WORD_ : WORD
-    elsif @string.chars.all?{|_|GRAPH.include?_}
-      @string.match?(/['"`]/)? GRAPH : QGRAPH
-    else
-      raise "Need digits."
+  def self.infer(string)
+    return 2, G94 if string.empty?
+    max = G94.index(string.chars.max)
+    return 2,  G94  if max < 2
+    return 4,  G94  if max < 4
+    return 8,  G94  if max < 8
+    return 10, G94  if max < 10
+    return 16, G94  if max < 16
+    return 32, G94  if max < 32
+    [UNAMBIGUOUS, BASE64, WORD].each do |digits|
+      return digits.length, digits  if string.chars.all?{|_|digits.include?_}
     end
-  end
-
-  def _infer_base_from_string
-    raise "Need base." if @string.empty?
-    min = 1 + @digits.index(@string.chars.max)
-    max = @digits.length
-    return max if max==min
-    case @digits
-    when WORD, WORD_
-      if min <= 32
-        raise "Need base for WORD or WORD_." if @string.length < 8
-        return  8 if min <= 8
-        return 16 if min <= 16
-        return 32
-      end
-    when UNAMBIGUOUS
-      if min <= 22
-        raise "Need base for UNAMBIGUOUS." if @string.length < 8
-        return 22
-      end
-    when QGRAPH, GRAPH
-      n = @digits.index 'a'
-      if min <= n
-        raise "Need base for QGRAPH or GRAPH." if @string.length < 8
-        return n
-      end
-    end
-    return max
-  end
-
-  def _digits!
-    if @digits.nil?
-      @digits = @integer.nil? ? _infer_digits_from_string : WORD
-      if @base and @base > @digits.length
-        if @base == 64
-          @digits = BASE64
-        elsif @base <= QGRAPH.length
-          @digits = QGRAPH
-        elsif @base <= GRAPH.length
-          @digits = GRAPH
-        else
-          raise "Need digits that can cover base #{@base}."
-        end
-      end
-    else
-      if @digits.is_a? Symbol
-        digits = DIGITS[@digits]
-        raise "Unrecognized digits #{@digits}." if digits.nil?
-        @digits = digits
-      else
-        raise "digits must be a String of at least length 2." unless @digits.is_a?(String) and @digits.length > 1
-      end
-    end
-  end
-
-  def _base!
-    if @base.nil?
-      _digits!
-      if @integer.nil?
-        @base = _infer_base_from_string
-      else
-        @base = @digits.length
-      end
-    else
-      if @base.is_a? Symbol
-        base = BASE[@base]
-        raise "Unrecognized base #{@base}." if base.nil?
-        @base = base
-      else
-        raise "base must be an Integer greater than 1." unless @base.is_a?(Integer) and @base > 1
-      end
-      _digits!
-    end
-  end
-
-  def _validate
-    raise "digits must cover base." if @base > @digits.length
-    raise "digits must not have duplicates." if @digits.length > @digits.chars.uniq.length
-    unless @string.nil? or @string.empty?
-      raise "digits must cover string." unless @string.chars.all?{|_|@digits.include?_}
-      raise "digits in string must be under base." unless @base > @digits.index(@string.chars.max)
-    end
-    unless @integer.nil?
-      raise "integer can't be negative." if @integer < 0
-    end
-  end
-
-  def _integer!
-    _base!
-    @string.upcase! if @base <= INDEXa and @digits == WORD
-    _validate if @validate
-    @integer = toi
-  end
-
-  def _string!
-    if @base.nil? and @digits.nil?
-      # We were just given an simple decimal integer...
-      @base, @digits = 10, WORD
-    else
-      _base!
-    end
-    _validate if @validate
-    @string = tob
+    return 64, G94  if max < 64
+    return G94.length, G94  if max < 64
   end
 
   attr_reader :base, :digits
   def initialize(counter, base: nil, digits: nil, validate: true)
-    @base, @digits, @validate = base, digits, validate
-    @string, @integer = nil, nil
+    # validate
+    case validate
+    when true, false
+      @validate = validate
+    else
+      raise "validate must be either true of false."
+    end
+
+    # counter
     case counter
     when String
       @string = counter
-      _integer!
+      base, digits = Number.infer(counter)  if base.nil? and digits.nil?
     when Integer
       @integer = counter
-      _string!
+      base, digits = 10, G94  if base.nil? and digits.nil?
     else
       raise "Need counter String|Integer."
     end
+
+    # digits
+    if digits.is_a? Symbol
+      digits = DIGITS[digits]
+      raise "Unrecognized digits #{@digits}." if digits.nil?
+    end
+    digits = DIGITS[@base] if digits.nil?
+    digits = G94 if digits.nil?
+    raise "digits must be a String." unless digits.is_a? String
+    @digits = digits
+
+    # base
+    if base.is_a? Symbol
+      base = BASE[base]
+      raise "Unrecognized base #{@base}." if base.nil?
+    end
+    base = @digits.length if base.nil?
+    raise "base must be an Integer." unless base.is_a? Integer
+    @base = base
+
+    # validate
+    if @validate
+      raise "digits must cover base." if @base > @digits.length
+      raise "digits must not have duplicates." if @digits.length > @digits.chars.uniq.length
+      unless @string.nil? or @string.empty?
+        raise "digits must cover string." unless @string.chars.all?{|_|@digits.include?_}
+        raise "digits in string must be under base." unless @base > @digits.index(@string.chars.max)
+      end
+      unless @integer.nil?
+        raise "integer can't be negative." if @integer < 0
+      end
+    end
+
+    @integer = toi if @integer.nil?
+    @string  = tob if @string.nil?
+  end
+
+  def validate?
+    @validate
   end
 
   def to_s

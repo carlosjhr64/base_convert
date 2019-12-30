@@ -1,9 +1,8 @@
 module BaseConvert
 class FromTo
-  include Configuration
   include BaseConvert
 
-  def initialize(base: 10, to_base: base, digits: WORD, to_digits: digits)
+  def initialize(base: 10, to_base: base, digits: G94, to_digits: digits)
     base      = BASE[base]         if base.is_a?      Symbol
     to_base   = BASE[to_base]      if to_base.is_a?   Symbol
     digits    = DIGITS[digits]     if digits.is_a?    Symbol

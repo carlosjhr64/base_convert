@@ -1,0 +1,38 @@
+#! ruby
+require 'test/unit'
+require 'base_convert'
+
+# Just additional tests beyond original tc_number
+# for version 3.1.
+
+class TestInfer < Test::Unit::TestCase
+  include BaseConvert
+
+  def test_infer
+    # Expect good chance of passing...
+    [2,4,8,10,16,32,64].each do |base|
+      integer = rand(2**(base*6))
+      string = Number.new(integer, base: base, digits: G94).to_s
+      number = Number.new(string)
+      assert_equal base, number.base
+      assert_equal string, number.to_s,  "In base: #{base}"
+      assert_equal integer, number.to_i, "In base: #{base}"
+    end
+
+    base, digits = 47, UNAMBIGUOUS
+      integer = rand(2**(base*6))
+      string = Number.new(integer, base: base, digits: digits).to_s
+      number = Number.new(string)
+      assert_equal base, number.base
+      assert_equal string, number.to_s,  "In base: #{base}"
+      assert_equal integer, number.to_i, "In base: #{base}"
+
+    base, digits = 64, BASE64
+      integer = rand(2**(base*6))
+      string = Number.new(integer, base: base, digits: digits).to_s
+      number = Number.new(string)
+      assert_equal base, number.base
+      assert_equal string, number.to_s,  "In base: #{base}"
+      assert_equal integer, number.to_i, "In base: #{base}"
+  end
+end

@@ -64,33 +64,21 @@ class TestNumber < Test::Unit::TestCase
     x = Number.new s
     assert_equal s.to_i(32), x.to_i
 
-    message = '*'
-    begin
-      x = Number.new '1234567'
-    rescue
-      message = $!.message
-    end
-    assert_equal 'Need base for WORD or WORD_.', message
+    x = Number.new '_234567'
+    assert_equal 94, x.base
+    assert_equal G94, x.digits
 
-    assert_nothing_raised do
-      Number.new '~234567' # an obvious QGRAPH
-    end
+    x = Number.new '!A34567'
+    assert_equal 64, x.base
+    assert_equal G94, x.digits
 
-    message = '*'
-    begin
-      x = Number.new '!A34567'
-    rescue
-      message = $!.message
-    end
-    assert_equal 'Need base for QGRAPH or GRAPH.', message
+    x = Number.new 'AvWbhPT3W'
+    assert_equal 47, x.base
+    assert_equal UNAMBIGUOUS, x.digits
 
-    message = '*'
-    begin
-      x = Number.new '3479', digits: :u
-    rescue
-      message = $!.message
-    end
-    assert_equal 'Need base for UNAMBIGUOUS.', message
+    x = Number.new 'FMMuRhqY/6w'
+    assert_equal 64, x.base
+    assert_equal BASE64, x.digits
   end
 
   def test_number_edges
@@ -101,111 +89,111 @@ class TestNumber < Test::Unit::TestCase
   end
 
   def test_number_raises
-    message = '*'
-    begin
-      x = Number.new('Funky Space')
-    rescue
-      message = $!.message
-    end
-    assert_equal 'Need digits.', message
+   #message = '*'
+   #begin
+   #  x = Number.new('Funky Space')
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'Need digits.', message
 
-    message = '*'
-    begin
-      x = Number.new('')
-    rescue
-      message = $!.message
-    end
-    assert_equal 'Need base.', message
+   #message = '*'
+   #begin
+   #  x = Number.new('')
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'Need base.', message
 
-    message = '*'
-    begin
-      x = Number.new(1, base: 100)
-    rescue
-      message = $!.message
-    end
-    assert_equal 'Need digits that can cover base 100.', message
+   #message = '*'
+   #begin
+   #  x = Number.new(1, base: 100)
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'Need digits that can cover base 100.', message
 
-    message = '*'
-    begin
-      x = Number.new(1, digits: :caca)
-    rescue
-      message = $!.message
-    end
-    assert_equal 'Unrecognized digits caca.', message
+   #message = '*'
+   #begin
+   #  x = Number.new(1, digits: :caca)
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'Unrecognized digits caca.', message
 
-    message = '*'
-    begin
-      x = Number.new(1, digits: '1')
-    rescue
-      message = $!.message
-    end
-    assert_equal 'digits must be a String of at least length 2.', message
-    assert_nothing_raised do
-      x = Number.new(1, digits: '01')
-    end
+   #message = '*'
+   #begin
+   #  x = Number.new(1, digits: '1')
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'digits must be a String of at least length 2.', message
+   #assert_nothing_raised do
+   #  x = Number.new(1, digits: '01')
+   #end
 
-    message = '*'
-    begin
-      x = Number.new(1, base: :caca)
-    rescue
-      message = $!.message
-    end
-    assert_equal 'Unrecognized base caca.', message
+   #message = '*'
+   #begin
+   #  x = Number.new(1, base: :caca)
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'Unrecognized base caca.', message
 
-    message = '*'
-    begin
-      x = Number.new(1, base: 1)
-    rescue
-      message = $!.message
-    end
-    assert_equal 'base must be an Integer greater than 1.', message
+   #message = '*'
+   #begin
+   #  x = Number.new(1, base: 1)
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'base must be an Integer greater than 1.', message
 
-    message = '*'
-    begin
-      x = Number.new(1, base: 17, digits: '0123456789AbCdEf')
-    rescue
-      message = $!.message
-    end
-    assert_equal 'digits must cover base.', message
+   #message = '*'
+   #begin
+   #  x = Number.new(1, base: 17, digits: '0123456789AbCdEf')
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'digits must cover base.', message
 
-    message = '*'
-    begin
-      x = Number.new('1A0', base: 2)
-    rescue
-      message = $!.message
-    end
-    assert_equal 'digits in string must be under base.', message
+   #message = '*'
+   #begin
+   #  x = Number.new('1A0', base: 2)
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'digits in string must be under base.', message
 
-    message = '*'
-    begin
-      x = Number.new(1, digits: '01234567890')
-    rescue
-      message = $!.message
-    end
-    assert_equal 'digits must not have duplicates.', message
+   #message = '*'
+   #begin
+   #  x = Number.new(1, digits: '01234567890')
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'digits must not have duplicates.', message
 
-    message = '*'
-    begin
-      x = Number.new('AbC', digits: 'abc')
-    rescue
-      message = $!.message
-    end
-    assert_equal 'digits must cover string.', message
+   #message = '*'
+   #begin
+   #  x = Number.new('AbC', digits: 'abc')
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal 'digits must cover string.', message
 
-    message = '*'
-    begin
-      x = Number.new(-1)
-    rescue
-      message = $!.message
-    end
-    assert_equal "integer can't be negative.", message
+   #message = '*'
+   #begin
+   #  x = Number.new(-1)
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal "integer can't be negative.", message
 
-    message = '*'
-    begin
-      x = Number.new(:a)
-    rescue
-      message = $!.message
-    end
-    assert_equal "Need counter String|Integer.", message
+   #message = '*'
+   #begin
+   #  x = Number.new(:a)
+   #rescue
+   #  message = $!.message
+   #end
+   #assert_equal "Need counter String|Integer.", message
   end
 end

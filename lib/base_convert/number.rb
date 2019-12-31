@@ -4,7 +4,7 @@ class Number
 
   def self.infer(string)
     return 2, G94 if string.empty?
-    max = G94.index(string.chars.max)
+    max = string.chars.map{|_|G94.index(_)}.max
     return 2,  G94  if max < 2
     return 4,  G94  if max < 4
     return 8,  G94  if max < 8
@@ -64,8 +64,9 @@ class Number
       raise "digits must cover base." if @base > @digits.length
       raise "digits must not have duplicates." if @digits.length > @digits.chars.uniq.length
       unless @string.nil? or @string.empty?
+        @string.upcase! if @base <= INDEXa and @digits.equal? G94
         raise "digits must cover string." unless @string.chars.all?{|_|@digits.include?_}
-        raise "digits in string must be under base." unless @base > @digits.index(@string.chars.max)
+        raise "digits in string must be under base." unless @base > @string.chars.map{|_|@digits.index(_)}.max
       end
       unless @integer.nil?
         raise "integer can't be negative." if @integer < 0

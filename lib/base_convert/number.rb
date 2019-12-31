@@ -21,7 +21,7 @@ class Number
   end
 
   attr_reader :base, :digits
-  def initialize(counter, base: nil, digits: nil, validate: true)
+  def initialize(counter=0, base: nil, digits: nil, validate: true)
     # validate
     case validate
     when true, false
@@ -47,7 +47,7 @@ class Number
       digits = DIGITS[digits]
       raise "Unrecognized digits." if digits.nil?
     end
-    digits = DIGITS[@base] if digits.nil?
+    digits = DIGITS[base] if digits.nil?
     digits = G94 if digits.nil?
     raise "digits must be a String of at least length 2." unless digits.is_a?(String) and digits.length > 1
     @digits = digits

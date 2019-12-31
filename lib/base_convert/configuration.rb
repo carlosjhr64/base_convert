@@ -1,14 +1,18 @@
 module BaseConvert
-  GRAPH       = 0.upto(255).map{|i| i.chr}.select{|c| c=~/[[:graph:]]/}.join.freeze
-  QGRAPH      = GRAPH.delete(%('"`)).freeze
-  WORD_       = QGRAPH.chars.select{|c| c=~/\w/}.join.freeze
-  WORD        = WORD_.delete('_').freeze
+  QUOTES      = %("'`).freeze
+  UNDERSCORE  = '_'.freeze
   AMBIGUOUS   = 'B8G6I1l0OQDS5Z2'.freeze
+
+  GRAPH       = 0.upto(255).map{|i| i.chr}.select{|c| c=~/[[:graph:]]/}.join.freeze
+  QGRAPH      = GRAPH.delete(QUOTES).freeze
+  WORD_       = QGRAPH.chars.select{|c| c=~/\w/}.join.freeze
+  WORD        = WORD_.delete(UNDERSCORE).freeze
   UNAMBIGUOUS = WORD.delete(AMBIGUOUS).freeze
-  G94         = (WORD + QGRAPH.delete(WORD_) + '"\'`_').freeze
+  G94         = (WORD + QGRAPH.delete(WORD_) + QUOTES + UNDERSCORE).freeze
+
   BASE64      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.freeze
 
-  INDEXa = WORD.index('a')
+  INDEXa = G94.index('a')
 
   BASE = {
     :g94         => G94.length,          # 94

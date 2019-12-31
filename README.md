@@ -69,21 +69,42 @@ You can work with arbitrary digits:
     toi('&&&&', base, digits) #=> 4095
     tob(4095, base, digits) #=> "&&&&"
 
-For convenience, `base_convert` provides under `module BaseConvert::Configuration` some predefined sets of digits.
+Note that one can always explicitly specify the ordered digits to be used.
+But for convenience, `base_convert` provides some predefined sets of digits:
 
-* `GRAPH` are the ASCII graph characters.
-* `QGRAPH` are the ASCII graph characters except quotes: double-quote, single-quote, and back-tick.
-* `BASE64` is the standard base 64 digits from people with no sense of order.
-* `WORD_` are the ASCII word characters including underscore(`_`).
-* `WORD` are the ASCII word characters except underscore(`_`).
-* `UNAMBIGUOUS` are the characters in `WORD` without the `AMBIGUOUS` characters(B8G6I1l0OQDS5Z2).
+* `GRAPH :graph :g`,  the ASCII graph characters:
+
+    !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+
+* `QGRAPH :qgraph :q`,  the ASCII graph characters except `QUOTES`:
+
+    !#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_abcdefghijklmnopqrstuvwxyz{|}~
+
+* `BASE64 :base64 :b64`, the standard base 64 digits from people with no sense of order:
+
+    ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
+
+* `WORD_ :word_ :w_`, the ASCII word characters including `UNDERSCORE`:
+
+    0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz
+
+* `WORD :word :w`, the ASCII word characters except `UNDERSCORE`:
+
+    0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+
+* `UNAMBIGUOUS :unambigous :u`, the characters in `WORD` without the `AMBIGUOUS` characters(B8G6I1l0OQDS5Z2):
+
+    3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz
+
+* `G94 :g94` is the library's default defined as `WORD+QGRAPH.delete(WORD_)+QUOTES+UNDERSCORE`
+
+    0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+,-./:;<=>?@[\]^{|}~"'`_
 
 Some examples:
 
-    Configuration::UNAMBIGUOUS #=> "3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz"
+    UNAMBIGUOUS #=> "3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz"
     # etc...
-    tob 255, 16, Configuration::WORD #=> "FF"
-    include Configuration
+    tob 255, 16, WORD #=> "FF"
     tob 255, 64, BASE64 #=> "D/"
 
 The second way to convert is via a conversion object of `BaseConvert::FromTo`.
@@ -101,11 +122,7 @@ The third way to work with variant base and digits numbers is via the `BaseConve
     hexadecimal.to_i #=> 65535
 
     # Number will infer your most likely meaning:
-    Number.new('FF', 16).to_i #=> 255
-
-    # And given a string of at least length 8,
-    # it'll go ahead and guess at your meaning:
-    Number.new('FFFFFFFF').to_i #=> 4294967295
+    Number.new('FF').to_i #=> 255
 
     # But best practice is to fully specify,
     # which is easy to do with keys:
@@ -135,6 +152,7 @@ one can use a mnemonic key:
 
 | long key       | short key | DIGITS        | BASE NUMBER |
 | -------------- | --------- | ------------- | ----------- |
+| `:g94`         |           | `G94`         | 94          |
 | `:graph`       | `:g`      | `GRAPH`       | 94          |
 | `:qgraph`      | `:q`      | `QGRAPH`      | 91          |
 | `:base64`      | `:b64`    | `BASE64`      | 64          |
@@ -148,6 +166,13 @@ one can use a mnemonic key:
 | `:decimal`     | `:dec, :d` | 10          |
 | `:octal`       | `:oct, :o` |  8          |
 | `:binary`      | `:bin, :b` |  2          |
+
+Example:
+
+    # For some pseudo-random string of unambigous characters
+    # of very likely length 16:
+    p = BaseConvert::Number.new(rand(47**16), digits: :u)
+    p.to_s   #=> "CxesjJqHcvpnp7bp"
 
 ## LICENSE:
 

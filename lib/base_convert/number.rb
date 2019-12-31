@@ -4,7 +4,9 @@ class Number
 
   def self.infer(string)
     return 2, G94 if string.empty?
-    max = string.chars.map{|_|G94.index(_)}.max
+    chars = string.chars
+    raise 'Need digits.' unless chars.all?{|_|G94.include?_}
+    max = chars.map{|_|G94.index(_)}.max
     return 2,  G94  if max < 2
     return 4,  G94  if max < 4
     return 8,  G94  if max < 8
@@ -12,7 +14,7 @@ class Number
     return 16, G94  if max < 16
     return 32, G94  if max < 32
     [UNAMBIGUOUS, BASE64, WORD].each do |digits|
-      return digits.length, digits  if string.chars.all?{|_|digits.include?_}
+      return digits.length, digits  if chars.all?{|_|digits.include?_}
     end
     return 64, G94  if max < 64
     return G94.length, G94  if max < 64
@@ -43,20 +45,20 @@ class Number
     # digits
     if digits.is_a? Symbol
       digits = DIGITS[digits]
-      raise "Unrecognized digits #{@digits}." if digits.nil?
+      raise "Unrecognized digits." if digits.nil?
     end
     digits = DIGITS[@base] if digits.nil?
     digits = G94 if digits.nil?
-    raise "digits must be a String." unless digits.is_a? String
+    raise "digits must be a String of at least length 2." unless digits.is_a?(String) and digits.length > 1
     @digits = digits
 
     # base
     if base.is_a? Symbol
       base = BASE[base]
-      raise "Unrecognized base #{@base}." if base.nil?
+      raise "Unrecognized base." if base.nil?
     end
     base = @digits.length if base.nil?
-    raise "base must be an Integer." unless base.is_a? Integer
+    raise "base must be an Integer greater than 1." unless base.is_a?(Integer) and base > 1
     @base = base
 
     # validate

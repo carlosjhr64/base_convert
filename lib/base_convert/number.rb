@@ -13,7 +13,7 @@ class Number
     return 10, G94  if max < 10
     return 16, G94  if max < 16
     return 32, G94  if max < 32
-    [UNAMBIGUOUS, BASE64, WORD].each do |digits|
+    [UNAMBIGUOUS, BASE64].each do |digits|
       return digits.length, digits  if chars.all?{|_|digits.include?_}
     end
     return 64, G94  if max < 64

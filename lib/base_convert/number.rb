@@ -31,9 +31,10 @@ class Number
     end
 
     # counter
+    string = nil
     case counter
     when String
-      @string = counter
+      string = counter
       base, digits = Number.infer(counter)  if base.nil? and digits.nil?
     when Integer
       @integer = counter
@@ -65,27 +66,24 @@ class Number
     if @validate
       raise "digits must cover base." if @base > @digits.length
       raise "digits must not have duplicates." if @digits.length > @digits.chars.uniq.length
-      unless @string.nil? or @string.empty?
-        @string.upcase! if @base <= INDEXa and @digits.equal? G94
-        raise "digits must cover string." unless @string.chars.all?{|_|@digits.include?_}
-        raise "digits in string must be under base." unless @base > @string.chars.map{|_|@digits.index(_)}.max
+      unless string.nil? or string.empty?
+        string = string.upcase if @base <= INDEXa and @digits.equal? G94
+        raise "digits must cover string." unless string.chars.all?{|_|@digits.include?_}
+        raise "digits in string must be under base." unless @base > string.chars.map{|_|@digits.index(_)}.max
       end
       unless @integer.nil?
         raise "integer can't be negative." if @integer < 0
       end
     end
 
-    @integer = toi if @integer.nil?
-    @string  = tob if @string.nil?
+    @integer = toi(string) if @integer.nil?
   end
 
   def validate?
     @validate
   end
 
-  def to_s
-    @string
-  end
+  alias to_s tob
 
   def to_i
     @integer

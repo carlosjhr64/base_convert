@@ -48,7 +48,7 @@ class TestNumber < Test::Unit::TestCase
     # Empty String?!!!
     x = Number.new('', base: 2)
     assert_equal '', x.to_s
-    assert_equal 0, x.to_i
+    assert_equal nil, x.to_i
   end
 
   def test_number_infers

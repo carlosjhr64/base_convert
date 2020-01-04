@@ -1,6 +1,7 @@
 # http://rosettacode.org/wiki/Non-decimal_radices/Convert#Ruby
 module BaseConvert
-  def toi(string=@string, base=@base, digits=@digits)
+  def toi(string=to_s, base=@base, digits=@digits)
+    return nil if string.empty?
     integer = 0
     string.each_char do |c|
       index = digits.index(c)
@@ -10,6 +11,7 @@ module BaseConvert
   end
 
   def tob(integer=@integer, base=@base, digits=@digits)
+    return '' if integer.nil?
     return digits[0] if integer == 0
     string = ''
     while integer > 0

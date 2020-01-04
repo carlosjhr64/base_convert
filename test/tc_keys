@@ -38,7 +38,7 @@ class TestKeys < Test::Unit::TestCase
       assert_equal digits, n.digits
 
       e = Number.new '', base: key
-      assert_equal 0, e.to_i
+      assert_equal nil, e.to_i
       assert_equal '', e.to_s
       assert_equal base, e.base
       assert_equal digits, e.digits
@@ -55,7 +55,7 @@ class TestKeys < Test::Unit::TestCase
       assert_equal digits, n.digits
 
       e = Number.new '', digits: key
-      assert_equal 0, e.to_i
+      assert_equal nil, e.to_i
       assert_equal '', e.to_s
       assert_equal base, e.base
       assert_equal digits, e.digits

@@ -27,15 +27,18 @@ See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/
     # FromTo
     c = BaseConvert::FromTo.new base: 16, digits: '0123456789ABCDEF', to_base: 7, to_digits: 'abcdefg'
     c['FFF'] #=> "begea"
+    c.inspect   #=> "16:g94,7:ag"
 
     # Number
     n = BaseConvert::Number.new 'FF', base: 16, digits: '0123456789ABCDEF'
     n.to_i #=> 255
     n.to_s #=> "FF"
+    n #=> FF 16:g94
     #
     n = n.to_base 64, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
     n.to_s #=> "D/"
     n.to_i #=> 255
+    n #=> D/ 64:b64
 
 ## INSTALL:
 
@@ -84,7 +87,7 @@ But for convenience, `base_convert` provides some predefined sets of digits:
 
     ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
 
-* `WORD_ :word_ :w_`, the ASCII word characters including `UNDERSCORE`:
+* `WORD_ :word_ :_`, the ASCII word characters including `UNDERSCORE`:
 
     0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz
 
@@ -111,13 +114,16 @@ The second way to convert is via a conversion object of `BaseConvert::FromTo`.
 For example, to convert from hexadecimal to octal, and back:
 
     h2o = FromTo.new base: 16, to_base: 8
+    h2o #=> 16:g94,8:g94
     o2h = FromTo.new base: 8, to_base: 16
+    o2h #=> 8:g94,16:g94
     h2o['FFFF'] #=> "177777"
     o2h['177777'] #=> "FFFF"
 
 The third way to work with variant base and digits numbers is via the `BaseConvert::Number`:
 
-    hexadecimal = Number.new('FFFF', base: 16, digits: WORD)
+    hexadecimal = Number.new('FFFF', base: 16)
+    hexadecimal #=> FFFF 16:g94
     hexadecimal.to_s #=> "FFFF"
     hexadecimal.to_i #=> 65535
 
@@ -126,23 +132,28 @@ The third way to work with variant base and digits numbers is via the `BaseConve
 
     # But best practice is to fully specify,
     # which is easy to do with keys:
-    n = Number.new 'F', base: :hex, digits: :word
+    n = Number.new 'F', base: :hex, digits: :g94
+    n #=> F 16:g94
     n.to_i #=> 15
     n.to_s #=> "F"
 
     # One can make a change of digits:
     n = n.to_digits '0123456789abcdef'
+    n #=> f 16:0f
     n.to_s #=> "f"
     n.to_i #=> 15
 
     # One can make of change of base:
     n = n.to_base 8
+    n #=> 17 8:0f
     n.to_s #=> "17"
 
     # One can make of change of base and digits:
     n = n.to_base 32, :base64
+    n #=> P 32:b64
     # or vice-versa
     n = n.to_digits :base64, 32
+    n #=> P 32:b64
     n.to_s #=> "P"
 
 ## Keys (Symbols)
@@ -156,7 +167,7 @@ one can use a mnemonic key:
 | `:graph`       | `:g`      | `GRAPH`       | 94          |
 | `:qgraph`      | `:q`      | `QGRAPH`      | 91          |
 | `:base64`      | `:b64`    | `BASE64`      | 64          |
-| `:word_`       | `:w_`     | `WORD_`       | 63          |
+| `:word_`       | `:_`      | `WORD_`       | 63          |
 | `:word`        | `:w`      | `WORD`        | 62          |
 | `:unambiguous` | `:u`      | `UNAMBIGUOUS` | 47          |
 
@@ -172,7 +183,8 @@ Example:
     # For some pseudo-random string of unambigous characters
     # of very likely length 16:
     p = BaseConvert::Number.new(rand(47**16), digits: :u)
-    p.to_s   #=> "CxesjJqHcvpnp7bp"
+    p #=> sdvaEkeLawUVLpuA 47:u
+    p.to_s   #=> "sdvaEkeLawUVLpuA"
 
 ## LICENSE:
 

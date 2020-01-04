@@ -39,7 +39,7 @@ module BaseConvert
 
   BASE[:g]  = BASE[:graph]
   BASE[:q]  = BASE[:qgraph]
-  BASE[:w_] = BASE[:word_]
+  BASE[:_] = BASE[:word_]
   BASE[:w]  = BASE[:word]
   BASE[:u]  = BASE[:unambiguous]
 
@@ -50,7 +50,7 @@ module BaseConvert
     :qgraph      => QGRAPH,
     :q           => QGRAPH,
     :word_       => WORD_,
-    :w_          => WORD_,
+    :_           => WORD_,
     :word        => WORD,
     :w           => WORD,
     :unambiguous => UNAMBIGUOUS,
@@ -60,5 +60,5 @@ module BaseConvert
   }
 
   # For inspect method
-  DIGITS_KEYS = [:g94, :w_, :b64, :q, :g, :u]
+  DIGITS_KEYS = [:g94, :_, :b64, :q, :g, :u]
 end

@@ -86,6 +86,12 @@ class Number
     @integer = toi(string) if @integer.nil?
   end
 
+  def inspect
+    d = DIGITS_KEYS.detect{|_|DIGITS[_].start_with? @digits}
+    d = @digits[0] + @digits[-1] if d.nil?
+    "#{to_s} #{@base}:#{d}"
+  end
+
   def validate?
     @validate
   end

@@ -58,4 +58,7 @@ module BaseConvert
     :base64      => BASE64,
     :b64         => BASE64,
   }
+
+  # For inspect method
+  DIGITS_KEYS = [:g94, :w_, :b64, :q, :g, :u]
 end

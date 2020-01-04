@@ -10,6 +10,14 @@ class FromTo
     raise "base must cover digits." if base > digits.length or to_base > to_digits.length
     @base, @to_base, @digits, @to_digits = base, to_base, digits, to_digits
   end
+
+  def inspect
+    d0 = DIGITS_KEYS.detect{|_|DIGITS[_].start_with? @digits}
+    d0 = @digits[0] + @digits[@base-1] if d0.nil?
+    d1 = DIGITS_KEYS.detect{|_|DIGITS[_].start_with? @to_digits}
+    d1 = @to_digits[0] + @to_digits[@to_base-1] if d1.nil?
+    "#{@base}:#{d0},#{@to_base}:#{d1}"
+  end
  
   def convert(counter)
     case counter

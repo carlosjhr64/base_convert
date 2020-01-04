@@ -67,9 +67,16 @@ class Number
       raise "digits must cover base." if @base > @digits.length
       raise "digits must not have duplicates." if @digits.length > @digits.chars.uniq.length
       unless string.nil? or string.empty?
-        string = string.upcase if @base <= INDEXa and @digits.equal? G94
-        raise "digits must cover string." unless string.chars.all?{|_|@digits.include?_}
-        raise "digits in string must be under base." unless @base > string.chars.map{|_|@digits.index(_)}.max
+        indeces = string.chars.map{|_|@digits.index(_)}
+        if missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
+          if @base <= INDEXa and G94.start_with?(@digits)
+            string = string.upcase
+            indeces = string.chars.map{|_|@digits.index(_)}
+            missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
+          end
+          raise "digits must cover string." if missing
+          raise "digits in string must be under base." if exceeding
+        end
       end
       unless @integer.nil?
         raise "integer can't be negative." if @integer < 0

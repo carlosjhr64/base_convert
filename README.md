@@ -27,7 +27,7 @@ See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/
     # FromTo
     c = BaseConvert::FromTo.new base: 16, digits: '0123456789ABCDEF', to_base: 7, to_digits: 'abcdefg'
     c['FFF'] #=> "begea"
-    c.inspect   #=> "16:g94,7:ag"
+    c.inspect   #=> "16:g94,7:abg"
 
     # Number
     n = BaseConvert::Number.new 'FF', base: 16, digits: '0123456789ABCDEF'
@@ -139,13 +139,13 @@ The third way to work with variant base and digits numbers is via the `BaseConve
 
     # One can make a change of digits:
     n = n.to_digits '0123456789abcdef'
-    n #=> f 16:0f
+    n #=> f 16:01f
     n.to_s #=> "f"
     n.to_i #=> 15
 
     # One can make of change of base:
     n = n.to_base 8
-    n #=> 17 8:0f
+    n #=> 17 8:01f
     n.to_s #=> "17"
 
     # One can make of change of base and digits:

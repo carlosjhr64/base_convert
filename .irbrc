@@ -1,5 +1,6 @@
 require 'base_convert'
 include BaseConvert
+extend BaseConvert
 
 # IRB Tools
 require 'irbtools/configure'

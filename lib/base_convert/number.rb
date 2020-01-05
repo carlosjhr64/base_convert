@@ -44,10 +44,10 @@ class Number
     end
 
     # digits
-    base = digits if base.nil? and digits.is_a? Symbol
     @digits = DIGITS[digits || base]
 
     # base
+    base = digits if base.nil? and digits.is_a? Symbol
     @base = BASE[base || @digits.length]
 
     # validate

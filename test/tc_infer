@@ -10,29 +10,38 @@ class TestInfer < Test::Unit::TestCase
 
   def test_infer
     # Expect good chance of passing...
-    [2,4,8,10,16,32,64].each do |base|
-      integer = rand(2**(base*6))
-      string = Number.new(integer, base: base, digits: G94).to_s
-      number = Number.new(string)
-      assert_equal base, number.base
-      assert_equal string, number.to_s,  "In base: #{base}"
-      assert_equal integer, number.to_i, "In base: #{base}"
+    [2,4,8,10,16,32,64,94].each do |base|
+      integer = rand(base**64)
+      n0 = Number.new(integer, base: base, digits: G94)
+      n1 = Number.new n0.to_s
+      # check
+      assert_equal n0.inspect, n1.inspect
+      # reality checks
+      assert_equal base, n1.base
+      assert_equal n0.to_s, n1.to_s
+      assert_equal n0.to_i, n1.to_i
     end
 
     base, digits = 47, UNAMBIGUOUS
-      integer = rand(2**(base*6))
-      string = Number.new(integer, base: base, digits: digits).to_s
-      number = Number.new(string)
-      assert_equal base, number.base
-      assert_equal string, number.to_s,  "In base: #{base}"
-      assert_equal integer, number.to_i, "In base: #{base}"
+      integer = rand(base**64)
+      n0 = Number.new(integer, base: base, digits: digits)
+      n1 = Number.new n0.to_s
+      # check
+      assert_equal n0.inspect, n1.inspect
+      # reality checks
+      assert_equal base, n1.base
+      assert_equal n0.to_s, n1.to_s
+      assert_equal n0.to_i, n1.to_i
 
     base, digits = 64, BASE64
-      integer = rand(2**(base*6))
-      string = Number.new(integer, base: base, digits: digits).to_s
-      number = Number.new(string)
-      assert_equal base, number.base
-      assert_equal string, number.to_s,  "In base: #{base}"
-      assert_equal integer, number.to_i, "In base: #{base}"
+      integer = rand(base**94)
+      n0 = Number.new(integer, base: base, digits: digits)
+      n1 = Number.new n0.to_s
+      # check
+      assert_equal n0.inspect, n1.inspect
+      # reality checks
+      assert_equal base, n1.base
+      assert_equal n0.to_s, n1.to_s
+      assert_equal n0.to_i, n1.to_i
   end
 end

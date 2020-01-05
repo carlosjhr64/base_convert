@@ -7,17 +7,16 @@ class Number
     chars = string.chars
     raise 'need digits to cover string' unless chars.all?{|_|G94.include?_}
     max = chars.map{|_|G94.index(_)}.max
-    return 2,  G94  if max < 2
-    return 4,  G94  if max < 4
-    return 8,  G94  if max < 8
-    return 10, G94  if max < 10
-    return 16, G94  if max < 16
-    return 32, G94  if max < 32
-    [UNAMBIGUOUS, BASE64].each do |digits|
-      return digits.length, digits  if chars.all?{|_|digits.include?_}
-    end
-    return 64, G94  if max < 64
-    return G94.length, G94  if max < 64
+    return 2,  G94         if max < 2
+    return 4,  G94         if max < 4
+    return 8,  G94         if max < 8
+    return 10, G94         if max < 10
+    return 16, G94         if max < 16
+    return 32, G94         if max < 32
+    return 47, UNAMBIGUOUS if chars.all?{|_|UNAMBIGUOUS.include?_}
+    return 64, G94         if max < 64
+    return 64, BASE64      if chars.all?{|_|BASE64.include?_}
+    return 94, G94
   end
 
   attr_reader :base, :digits

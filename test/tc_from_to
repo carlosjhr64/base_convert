@@ -37,7 +37,7 @@ class TestFromTo < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'base must cover digits.', message
+    assert_equal 'base must cover digits', message
 
     c = FromTo.new to_base: 16
     message = '*'
@@ -46,6 +46,6 @@ class TestFromTo < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'counter must be String|Integer.', message
+    assert_equal 'counter must be String|Integer', message
   end
 end

@@ -5,7 +5,7 @@ class Number
   def self.infer(string)
     return 2, G94 if string.empty?
     chars = string.chars
-    raise 'Need digits.' unless chars.all?{|_|G94.include?_}
+    raise 'need digits to cover string' unless chars.all?{|_|G94.include?_}
     max = chars.map{|_|G94.index(_)}.max
     return 2,  G94  if max < 2
     return 4,  G94  if max < 4
@@ -27,7 +27,7 @@ class Number
     when true, false
       @validate = validate
     else
-      raise "validate must be either true of false."
+      raise 'validate must be either true or false'
     end
 
     # counter
@@ -40,7 +40,7 @@ class Number
       @integer = counter
       base, digits = 10, G94  if base.nil? and digits.nil?
     else
-      raise "Need counter String|Integer."
+      raise 'need counter String|Integer'
     end
 
     # digits
@@ -52,7 +52,7 @@ class Number
 
     # validate
     if @validate
-      raise "digits must cover base." if @base > @digits.length
+      raise 'digits must cover base' if @base > @digits.length
       unless string.nil? or string.empty?
         indeces = string.chars.map{|_|@digits.index(_)}
         if missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
@@ -61,12 +61,12 @@ class Number
             indeces = string.chars.map{|_|@digits.index(_)}
             missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
           end
-          raise "digits must cover string." if missing
-          raise "digits in string must be under base." if exceeding
+          raise 'digits must cover string' if missing
+          raise 'digits in string must be under base' if exceeding
         end
       end
       unless @integer.nil?
-        raise "integer can't be negative." if @integer < 0
+        raise 'integer can not be negative' if @integer < 0
       end
     end
 

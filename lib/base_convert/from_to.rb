@@ -7,7 +7,7 @@ class FromTo
     to_base   = BASE[to_base]
     digits    = DIGITS[digits]
     to_digits = DIGITS[to_digits]
-    raise "base must cover digits." if base > digits.length or to_base > to_digits.length
+    raise 'base must cover digits' if base > digits.length or to_base > to_digits.length
     @base, @to_base, @digits, @to_digits = base, to_base, digits, to_digits
   end
 
@@ -24,7 +24,7 @@ class FromTo
     when String
       tob(toi(counter), @to_base, @to_digits)
     else
-      raise "counter must be String|Integer."
+      raise 'counter must be String|Integer'
     end
   end
   alias :[] :convert

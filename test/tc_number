@@ -95,7 +95,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'Need digits.', message
+    assert_equal 'need digits to cover string', message
 
     message = '*'
     begin
@@ -103,7 +103,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'need digits', message
+    assert_equal 'need digits to cover base', message
 
     message = '*'
     begin
@@ -147,7 +147,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'digits must cover base.', message
+    assert_equal 'digits must cover base', message
 
     message = '*'
     begin
@@ -155,7 +155,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'digits in string must be under base.', message
+    assert_equal 'digits in string must be under base', message
 
     message = '*'
     begin
@@ -163,7 +163,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'digits must not have duplicates.', message
+    assert_equal 'digits must not have duplicates', message
 
     message = '*'
     begin
@@ -171,7 +171,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'digits must cover string.', message
+    assert_equal 'digits must cover string', message
 
     message = '*'
     begin
@@ -179,7 +179,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal "integer can't be negative.", message
+    assert_equal 'integer can not be negative', message
 
     message = '*'
     begin
@@ -187,6 +187,6 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal "Need counter String|Integer.", message
+    assert_equal 'need counter String|Integer', message
   end
 end

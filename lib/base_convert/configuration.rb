@@ -17,7 +17,7 @@ module BaseConvert
   BASE = lambda do |base|
     case base
     when Integer
-      raise "base must be greater than 1" unless base > 1
+      raise 'base must be greater than 1' unless base > 1
       base
     when :g94,:graph,:g       then 94
     when :qgraph,:q           then 91
@@ -30,9 +30,9 @@ module BaseConvert
     when :octal,:oct,:o       then 8
     when :binary,:bin,:b      then 2
     when Symbol
-      raise "unrecognized base key"
+      raise 'unrecognized base key'
     else
-      raise "base must be Integer|Symbol"
+      raise 'base must be Integer|Symbol'
     end
   end
 
@@ -55,17 +55,17 @@ module BaseConvert
       if d = [G94,WORD_,BASE64,QGRAPH,GRAPH,UNAMBIGUOUS].detect{|_|_.start_with? digits}
         digits = d
       else
-        raise "need at least 2 digits" unless digits.length > 1
-        raise "digits must not have duplicates." if digits.length > digits.chars.uniq.length
+        raise 'need at least 2 digits' unless digits.length > 1
+        raise 'digits must not have duplicates' if digits.length > digits.chars.uniq.length
       end
       digits
     when Integer
-      raise "need digits" if digits > 94
+      raise 'need digits to cover base' if digits > 94
       G94
     when Symbol
-      raise "unrecognized digits key"
+      raise 'unrecognized digits key'
     else
-      raise "digits must be String|Symbol|Integer"
+      raise 'digits must be String|Symbol|Integer'
     end
   end
 

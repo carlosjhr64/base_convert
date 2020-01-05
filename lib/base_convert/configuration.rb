@@ -14,43 +14,51 @@ module BaseConvert
 
   INDEXa = G94.index('a')
 
-  BASE = lambda do |base|
+  BASE = {
+    g94:         94,
+    graph:       94,  g:   94,
+    qgraph:      91,  q:   91,
+    base64:      64,  b64: 64,
+    word_:       63,  _:   63,
+    word:        62,  w:   62,
+    unambiguous: 47,  u:   47,
+    hexadecimal: 16,  hex: 16,  h: 16,
+    decimal:     10,  dec: 10,  d: 10,
+    octal:        8,  oct:  8,  o:  8,
+    binary:       2,  bin:  2,  b:  2,
+  }
+
+  def BASE.[](base)
     case base
+    when Symbol
+      super or raise 'unrecognized base key'
     when Integer
       raise 'base must be greater than 1' unless base > 1
       base
-    when :g94,:graph,:g       then 94
-    when :qgraph,:q           then 91
-    when :word_,:_            then 63
-    when :word,:w             then 62
-    when :unambiguous,:u      then 47
-    when :base64,:b64         then 64
-    when :hexadecimal,:hex,:h then 16
-    when :decimal,:dec,:d     then 10
-    when :octal,:oct,:o       then 8
-    when :binary,:bin,:b      then 2
-    when Symbol
-      raise 'unrecognized base key'
     else
       raise 'base must be Integer|Symbol'
     end
   end
 
-  DIGITS = lambda do |digits|
+  DIGITS = {
+    g94:         G94,
+    word:        G94,         w:   G94,
+    hexadecimal: G94,         hex: G94,  h: G94,
+    decimal:     G94,         dec: G94,  d: G94,
+    octal:       G94,         oct: G94,  o: G94,
+    binary:      G94,         bin: G94,  b: G94,
+    graph:       GRAPH,       g:   GRAPH,
+    qgraph:      QGRAPH,      q:   QGRAPH,
+    base64:      BASE64,      b64: BASE64,
+    word_:       WORD_,       _:   WORD_,
+    unambiguous: UNAMBIGUOUS, u:   UNAMBIGUOUS,
+  }
+
+  def DIGITS.[](digits)
     case digits
-    when nil             then G94
-    when :base64,:b64    then BASE64
-    when :graph,:g       then GRAPH
-    when :qgraph,:q      then QGRAPH
-    when :unambiguous,:u then UNAMBIGUOUS
-    when :word_,:_       then WORD_
-    when :g94,
-         :word,:w,
-         :hexadecimal,:hex,:h,
-         :hexadecimal,:hex,:h,
-         :decimal,:dec,:d,
-         :octal,:oct,:o,
-         :binary,:bin,:b then G94
+    when nil then G94
+    when Symbol
+      super or raise 'unrecognized digits key'
     when String
       if d = [G94,WORD_,BASE64,QGRAPH,GRAPH,UNAMBIGUOUS].detect{|_|_.start_with? digits}
         digits = d
@@ -62,8 +70,6 @@ module BaseConvert
     when Integer
       raise 'need digits to cover base' if digits > 94
       G94
-    when Symbol
-      raise 'unrecognized digits key'
     else
       raise 'digits must be String|Symbol|Integer'
     end
@@ -81,18 +87,4 @@ module BaseConvert
       (digits[0]+digits[1]+digits[-1]).to_sym
     end
   end
-
-  BASE_KEYS = [
-    :g94,
-    :graph,:g,
-    :qgraph,:q,
-    :word_,:_,
-    :word,:w,
-    :unambiguous,:u,
-    :base64,:b64,
-    :hexadecimal,:hex,:h,
-    :decimal,:dec,:d,
-    :octal,:oct,:o,
-    :binary,:bin,:b,
-  ]
 end

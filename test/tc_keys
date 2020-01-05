@@ -8,6 +8,10 @@ require 'base_convert'
 class TestKeys < Test::Unit::TestCase
   include BaseConvert
 
+  def test_keys_completeness
+    assert_equal BASE.keys.sort, DIGITS.keys.sort
+  end
+
   def test_keys_base64
     [BASE64, :base64, :b64].each do |digits|
       n = Number.new 63, digits: digits
@@ -27,7 +31,7 @@ class TestKeys < Test::Unit::TestCase
   end
 
   def test_keys_all
-    BASE_KEYS.each do |key|
+    BASE.keys.each do |key|
       base   = BASE[key]
       digits = DIGITS[key]
 
@@ -44,7 +48,7 @@ class TestKeys < Test::Unit::TestCase
       assert_equal digits, e.digits
     end
 
-    BASE_KEYS.each do |key|
+    BASE.keys.each do |key|
       digits = DIGITS[key]
       base   = BASE[key]
 

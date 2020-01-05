@@ -103,7 +103,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'digits must cover base.', message
+    assert_equal 'need digits', message
 
     message = '*'
     begin
@@ -111,7 +111,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'Unrecognized digits.', message
+    assert_equal 'unrecognized digits key', message
 
     message = '*'
     begin
@@ -119,7 +119,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'digits must be a String of at least length 2.', message
+    assert_equal 'need at least 2 digits', message
 
     assert_nothing_raised do
       x = Number.new(1, digits: '01')
@@ -131,7 +131,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'Unrecognized base.', message
+    assert_equal 'unrecognized digits key', message
 
     message = '*'
     begin
@@ -139,7 +139,7 @@ class TestNumber < Test::Unit::TestCase
     rescue
       message = $!.message
     end
-    assert_equal 'base must be an Integer greater than 1.', message
+    assert_equal 'base must be greater than 1', message
 
     message = '*'
     begin

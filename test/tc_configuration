@@ -13,6 +13,7 @@ class TestConfiguration < Test::Unit::TestCase
     assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', WORD
     assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz', UNAMBIGUOUS
 
+    assert_equal G94.index('a'),  INDEXa
     assert_equal WORD.index('a'), INDEXa
     assert_equal 36, INDEXa
 
@@ -51,9 +52,11 @@ class TestConfiguration < Test::Unit::TestCase
     assert_equal BASE64,      DIGITS[:b64]
     assert_equal WORD_,       DIGITS[:word_]
     assert_equal WORD_,       DIGITS[:_]
-    assert_equal WORD,        DIGITS[:word]
-    assert_equal WORD,        DIGITS[:w]
     assert_equal UNAMBIGUOUS, DIGITS[:unambiguous]
     assert_equal UNAMBIGUOUS, DIGITS[:u]
+
+    # For version 4, :word digits request give G94.
+    assert_equal G94,        DIGITS[:word]
+    assert_equal G94,        DIGITS[:w]
   end
 end

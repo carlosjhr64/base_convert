@@ -27,9 +27,9 @@ class TestKeys < Test::Unit::TestCase
   end
 
   def test_keys_all
-    (DIGITS.keys + BASE.keys).uniq.each do |key|
-      digits = DIGITS[key] || G94
+    BASE_KEYS.each do |key|
       base   = BASE[key]
+      digits = DIGITS[key]
 
       n = Number.new base: key
       assert_equal 0, n.to_i
@@ -44,14 +44,14 @@ class TestKeys < Test::Unit::TestCase
       assert_equal digits, e.digits
     end
 
-    DIGITS.keys.each do |key|
+    BASE_KEYS.each do |key|
       digits = DIGITS[key]
       base   = BASE[key]
 
       n = Number.new digits: key
       assert_equal 0, n.to_i
       assert_equal digits[0], n.to_s
-      assert_equal base, n.base
+      assert_equal base, n.base, "base key: #{key}"
       assert_equal digits, n.digits
 
       e = Number.new '', digits: key

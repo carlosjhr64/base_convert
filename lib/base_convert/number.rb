@@ -44,28 +44,15 @@ class Number
     end
 
     # digits
-    if digits.is_a? Symbol
-      digits = DIGITS[digits]
-      raise "Unrecognized digits." if digits.nil?
-    end
-    digits = DIGITS[base] if digits.nil?
-    digits = G94 if digits.nil?
-    raise "digits must be a String of at least length 2." unless digits.is_a?(String) and digits.length > 1
-    @digits = digits
+    base = digits if base.nil? and digits.is_a? Symbol
+    @digits = DIGITS[digits || base]
 
     # base
-    if base.is_a? Symbol
-      base = BASE[base]
-      raise "Unrecognized base." if base.nil?
-    end
-    base = @digits.length if base.nil?
-    raise "base must be an Integer greater than 1." unless base.is_a?(Integer) and base > 1
-    @base = base
+    @base = BASE[base || @digits.length]
 
     # validate
     if @validate
       raise "digits must cover base." if @base > @digits.length
-      raise "digits must not have duplicates." if @digits.length > @digits.chars.uniq.length
       unless string.nil? or string.empty?
         indeces = string.chars.map{|_|@digits.index(_)}
         if missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
@@ -87,8 +74,7 @@ class Number
   end
 
   def inspect
-    d = DIGITS_KEYS.detect{|_|DIGITS[_].start_with? @digits}
-    d = @digits[0] + @digits[@base-1] if d.nil?
+    d = DIGITS_KEY[@digits]
     "#{to_s} #{@base}:#{d}"
   end
 

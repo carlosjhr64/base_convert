@@ -10,7 +10,7 @@ module BaseConvert
     integer
   end
 
-  def tob(integer=@integer, base=@base, digits=@digits)
+  def tob(integer=to_i, base=@base, digits=@digits)
     return '' if integer.nil?
     return digits[0] if integer == 0
     string = ''
@@ -22,7 +22,7 @@ module BaseConvert
   end
 
   def ascii_ordered?(digits=@digits)
-    digits == digits.chars.sort.join
+    (1..(digits.length-1)).all?{|i|digits[i-1]<digits[i]}
   end
 
   extend self

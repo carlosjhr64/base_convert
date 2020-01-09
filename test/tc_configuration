@@ -253,4 +253,71 @@ class TestConfiguration < Test::Unit::TestCase
     assert_equal  2, BASE[:bin]
     assert_equal  2, BASE[:b]
   end
+
+  def test_configuration_raises
+    chars = Chars.new
+
+    error = assert_raises(RuntimeError) do
+      chars.set 'caca'
+    end
+    assert_equal 'expected /^([ij]\d+)|([vw]\h+)$/', error.message
+
+    error = assert_raises(RuntimeError) do
+      # Good idea!  But not implemented.
+      chars.chars_in(97..122) #  :(
+    end
+    assert_equal 'expected Regexp|Symbol|String|Integer, got Range', error.message
+
+    error = assert_raises(RuntimeError) do
+      DIGITS[:X25]
+    end
+    assert_equal 'no X<n> digits defined', error.message
+    error = assert_raises(RuntimeError) do
+      DIGITS[:B65]
+    end
+    assert_equal 'out of range of B64', error.message
+    error = assert_raises(RuntimeError) do
+      DIGITS[:'1']
+    end
+    assert_equal 'unrecognized digits key: 1', error.message
+    error = assert_raises(RuntimeError) do
+      DIGITS['|']
+    end
+    assert_equal 'need at least 2 digits', error.message
+    error = assert_raises(RuntimeError) do
+      DIGITS['||']
+    end
+    assert_equal 'digits must not have duplicates', error.message
+    error = assert_raises(RuntimeError) do
+      DIGITS[96]
+    end
+    assert_equal 'need digits to cover base', error.message
+    error = assert_raises(RuntimeError) do
+      DIGITS[64.0]
+    end
+    assert_equal 'digits must be String|Symbol|Integer', error.message
+
+    error = assert_raises(RuntimeError) do
+      BASE[:caca]
+    end
+    assert_equal 'unrecognized base key', error.message
+    error = assert_raises(RuntimeError) do
+      BASE[1]
+    end
+    assert_equal 'base must be greater than 1', error.message
+
+    # This one is there to catch bugs or bad DIGITS data,
+    # not expected to occur in normal use.
+    DIGITS[:wut] = 5.0
+    error = assert_raises(RuntimeError) do
+      DIGITS.memoize!(:wut)
+    end
+    assert_equal 'expected Symbol', error.message
+    error = assert_raises(RuntimeError) do
+      DIGITS.forget!(:wut)
+    end
+    assert_equal 'expected Symbol', error.message
+    # Clean-up
+    DIGITS.delete(:wut)
+  end
 end

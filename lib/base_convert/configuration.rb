@@ -17,7 +17,7 @@ module BaseConvert
       when 'j','w'
         @stop = n.to_i((t=='w')? 16 : 10)
       else
-        raise 'expected /^[ivjw]\d+$/'
+        raise 'expected /^([ij]\d+)|([vw]\h+)$/'
       end
     end
 
@@ -35,7 +35,7 @@ module BaseConvert
       when Integer
         yield x.chr(Encoding::UTF_8)
       else
-        raise "expected [Regexp|String], got #{x.class}"
+        raise "expected Regexp|Symbol|String|Integer, got #{x.class}"
       end
     end
 

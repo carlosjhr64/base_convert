@@ -147,9 +147,31 @@ class TestConfiguration < Test::Unit::TestCase
     # ...while :GROUPER remains a link to :PsPe.
     assert_equal :PsPe, DIGITS.get(:GROUPERS)
 
-    # Clean-up
-    DIGITS.delete(:GROUPER)
-    DIGITS.delete(:PsPe)
+    # Clean-up and quict forget! test
+    DIGITS.forget!(:GROUPERS)
+    refute DIGITS.has_key? :PsPe
+    DIGITS.delete(:GROUPERS)
+
+    # DIGITS.memoize!
+    refute DIGITS.has_key?(:'alnum-ambiguous')
+    assert_equal :'alnum-ambiguous', DIGITS.get(:u)
+    assert_nil DIGITS.get(:'alnum-ambiguous')
+    # never-the-less...
+    assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz', DIGITS[:u]
+    # ...etc
+    refute DIGITS.has_key?(:w)
+    DIGITS.memoize!
+    assert DIGITS.has_key?(:'alnum-ambiguous')
+    assert_equal :'alnum-ambiguous', DIGITS.get(:u)
+    assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz', DIGITS.get(:'alnum-ambiguous')
+    # still...
+    assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz', DIGITS[:u]
+    # ...etc
+    assert DIGITS.has_key?(:w)
+
+    # Clean-up and just a quick forget! test
+    DIGITS.forget!
+    refute DIGITS.has_key?(:w)
   end
 
   def test_configuration_aliases

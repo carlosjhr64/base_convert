@@ -181,6 +181,17 @@ module BaseConvert
     end
   end
 
+  def DIGITS.forget!(keys=registry)
+    [*keys].each do |k|
+      while s = get(k)
+        break if s.is_a? String # links to a constructed String
+        raise 'expected Symbol' unless s.is_a? Symbol
+        k = s
+      end
+      self.delete(k) if s.is_a? String
+    end
+  end
+
   BASE = {
     graph:       94,  g:   94,
     qgraph:      91,  q:   91,

@@ -1,31 +1,38 @@
 #! ruby
 require 'test/unit'
-require 'base_convert'
+require 'base_convert/base_convert'
+require 'base_convert/configuration'
+require 'base_convert/from_to'
 
 class TestFromTo < Test::Unit::TestCase
   include BaseConvert
 
-  def test_works
+  def test_from_to_works
     f = (16..255).map{|i|i.to_s(16).upcase}
     o = (16..255).map{|i|i.to_s(8).upcase}
 
     c = FromTo.new to_base: 16
+    assert_equal '10:P95,16:P95', c.inspect
     t = (16..255).map{|i|c[i]}
     assert_equal f, t
 
     c = FromTo.new to_base: 8
+    assert_equal '10:P95,8:P95', c.inspect
     t = (16..255).map{|i|c[i]}
     assert_equal o, t
 
     c = FromTo.new base: 8, to_base: 16
+    assert_equal '8:P95,16:P95', c.inspect
     t = o.map{|s|c[s]}
     assert_equal f, t
 
     c = FromTo.new base: 16, to_base: 8
+    assert_equal '16:P95,8:P95', c.inspect
     t = f.map{|s|c[s]}
     assert_equal o, t
 
     c = FromTo.new to_digits: 'abcdefghij'
+    assert_equal '10:P95,10:abij', c.inspect
     s = c[1234567890]
     assert_equal 'bcdefghija', s
   end

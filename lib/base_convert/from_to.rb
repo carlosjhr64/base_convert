@@ -2,7 +2,7 @@ module BaseConvert
 class FromTo
   include BaseConvert
 
-  def initialize(base: 10, to_base: base, digits: G94, to_digits: digits)
+  def initialize(base: 10, to_base: base, digits: :P95, to_digits: digits)
     base      = BASE[base]
     to_base   = BASE[to_base]
     digits    = DIGITS[digits]
@@ -12,17 +12,17 @@ class FromTo
   end
 
   def inspect
-    d0 = DIGITS_KEY[@digits]
-    d1 = DIGITS_KEY[@to_digits]
+    d0 = DIGITS.label(@digits)
+    d1 = DIGITS.label(@to_digits)
     "#{@base}:#{d0},#{@to_base}:#{d1}"
   end
  
   def convert(counter)
     case counter
     when Integer
-      tob(counter, @to_base, @to_digits)
+      tos(counter, @to_base, @to_digits)
     when String
-      tob(toi(counter), @to_base, @to_digits)
+      tos(toi(counter), @to_base, @to_digits)
     else
       raise 'counter must be String|Integer'
     end

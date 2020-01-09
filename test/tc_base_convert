@@ -26,10 +26,10 @@ class TestBaseConvert < Test::Unit::TestCase
     assert_equal 18, BaseConvert.toi('1__1_', 2, '_123')
   end
 
-  def test_tob
-    assert_equal '', BaseConvert.tob(nil, 16, '0123456789abcdef')
-    assert_equal 'X', BaseConvert.tob(0, 16, 'X123456789abcdef')
-    assert_equal '...', BaseConvert.tob(4095, 16, '0123456789abcde.')
+  def test_tos
+    assert_equal '', BaseConvert.tos(nil, 16, '0123456789abcdef')
+    assert_equal 'X', BaseConvert.tos(0, 16, 'X123456789abcdef')
+    assert_equal '...', BaseConvert.tos(4095, 16, '0123456789abcde.')
   end
 
   def test_ascii_ordered
@@ -42,12 +42,12 @@ class TestBaseConvert < Test::Unit::TestCase
   def test_base_convert_mixin
     a = A.new(123, '321', 10, '0123456789')
     assert_equal 321, a.toi
-    assert_equal '123', a.tob
+    assert_equal '123', a.tos
     assert a.ascii_ordered?
 
     a = A.new(255, 'AA', 16, '0123456789ABCDEFzyx')
     assert_equal 170, a.toi
-    assert_equal 'FF', a.tob
+    assert_equal 'FF', a.tos
     refute a.ascii_ordered? # ordered would be '0123456789ABCDEFxyz'
   end
 end

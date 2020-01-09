@@ -10,7 +10,7 @@ module BaseConvert
     integer
   end
 
-  def tob(integer=to_i, base=@base, digits=@digits)
+  def tos(integer=to_i, base=@base, digits=@digits)
     return '' if integer.nil?
     return digits[0] if integer == 0
     string = ''

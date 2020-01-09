@@ -21,5 +21,9 @@ module BaseConvert
     string
   end
 
+  def ascii_ordered?(digits=@digits)
+    digits == digits.chars.sort.join
+  end
+
   extend self
 end

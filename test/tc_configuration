@@ -5,58 +5,230 @@ require 'base_convert/configuration'
 class TestConfiguration < Test::Unit::TestCase
   include BaseConvert
 
-  def test_configuration
-    assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+,-./:;<=>?@[\\]^{|}~"\'`_', G94
-    assert_equal '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~', GRAPH
-    assert_equal '!#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~', QGRAPH
-    assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz', WORD_
-    assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', WORD
-    assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz', UNAMBIGUOUS
+  def test_configuration_chars
+    chars = Chars.new
+    assert_equal 32, chars.start
+    assert_equal 126, chars.stop
 
-    assert_equal G94.index('a'),  INDEXa
-    assert_equal WORD.index('a'), INDEXa
+    chars.set 'v1a'
+    assert_equal 26, chars.start
+    chars.set 'wab'
+    assert_equal 171, chars.stop
+
+    chars.set 'i32'
+    assert_equal 32, chars.start
+    chars.set 'j126'
+    assert_equal 126, chars.stop
+
+    # Indirectly testing Chars#chars_in
+    assert_equal [], chars
+    chars.add /\d/
+    assert_equal ['0','1','2','3','4','5','6','7','8','9'], chars
+    chars.clear
+    chars.add :u61
+    chars.add :k98
+    assert_equal ['a','b'], chars
+    chars.clear
+    chars.add 'zyx'
+    assert_equal ['z','y','x'], chars
+    chars.clear
+    chars.add 33
+    assert_equal ['!'], chars
+    chars.clear
+
+    # Testing add,top,remove
+    chars.add 'x'
+    chars.add 'qp'
+    assert_equal ['x','q','p'], chars
+    chars.top 'xp'
+    assert_equal ['q','x','p'], chars
+    chars.remove 'pq'
+    assert_equal ['x'], chars
+    chars.remove /\p{L}/
+    assert chars.empty?
+  end
+
+  def test_configuration_digits
+    # get
+    assert_equal :alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers, DIGITS.get(:P95)
+
+    # DIGITS[ Symbol ] => String
+    assert_equal '!?', DIGITS[:bangs]
+
+    # DIGITS[ Symbol ] => Symbol => Stirng
+    refute DIGITS.has_key? :BANGS
+    DIGITS[:BANGS] = :bangs
+    assert_equal '!?', DIGITS[:BANGS]
+    DIGITS.delete :BANGS
+
+    assert_equal '!?$&@', DIGITS[:bangs_typers]
+    assert_equal 'a', DIGITS[:k97]
+    assert_equal 'b', DIGITS[:u62]
+    assert_equal 'ba', DIGITS[:u62k97]
+    assert_equal 'abcdefg', DIGITS[:i97j103_Any]
+    assert_equal 'xyz', DIGITS[:v78w7a_Any]
+    assert_equal '0123456789ABCDEFabcdef', DIGITS[:xdigit]
+    assert_equal '0123456789', DIGITS[:d]
+    assert_equal '([{)]}', DIGITS[:PsPe]
+    assert_equal '!"#%&\'*,-./:;?@\_', DIGITS[:'P-PsPe']
+    assert_equal '1234567890', DIGITS[:'N+k48']
+    assert_equal '01', DIGITS[:P2]
+    assert_equal 'AB', DIGITS[:B2]
+
+    assert DIGITS[:Any].frozen?
+
+    assert_equal DIGITS[:P95], DIGITS['012']
+    assert_equal DIGITS[:G94], DIGITS['!"#']
+    assert_equal DIGITS[:Q91], DIGITS['!#$']
+    assert_equal DIGITS[:B64], DIGITS['ABC']
+    assert_equal DIGITS[:W63], DIGITS['0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_']
+    assert_equal DIGITS[:U47], DIGITS['347']
+
+    assert_equal '_123456789', DIGITS['_123456789']
+
+    assert_equal DIGITS[:P95], DIGITS[95]
+    assert_equal DIGITS[:P95], DIGITS[2]
+  end
+
+  def test_configuration_registered
+    assert_equal [:P95, :G94, :Q91, :B64, :W63, :U47], DIGITS.registry
+
+    assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?$&@*+-/<=>^~,.:;|#\\()[]{}%"\'`_ ', DIGITS[:P95]
+    assert_equal '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~',  DIGITS[:G94]
+    assert_equal '!#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~',      DIGITS[:Q91]
+    assert_equal 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',                                  DIGITS[:B64]
+    assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz',                                   DIGITS[:W63]
+    assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz',                                                   DIGITS[:U47]
+
+    assert_equal '0123456789',                            DIGITS[:P10]
+    assert_equal '!"#$%&\'()*+,-./',                      DIGITS[:G15]
+    assert_equal '!#$%&()*+,-./',                         DIGITS[:Q13]
+    assert_equal 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',            DIGITS[:B26]
+    assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_', DIGITS[:W37]
+    assert_equal '3479ACEFHJKLMNPRTUVWXY',                DIGITS[:U22]
+  end
+
+  def test_conguration_label
+    assert_equal :P95, DIGITS.label('0123')
+    assert_equal :G94, DIGITS.label('!"#$')
+    assert_equal :Q91, DIGITS.label('!#$%')
+    assert_equal :B64, DIGITS.label('ABCD')
+
+    assert_equal :P95, DIGITS.label('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    assert_equal :W63, DIGITS.label('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_')
+    assert_equal :P95, DIGITS.label('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZa')
+
+    assert_equal :U47, DIGITS.label('3479')
+
+    # When nothing matches... d[0]+d[1]+d[-2]d[-1]
+    assert_equal :WutD, DIGITS.label('WutD')
+    assert_equal :OMod, DIGITS.label('OMyGod')
+  end
+
+  def test_configuration_memoize
+    # :PsPe not in DIGITS...
+    refute DIGITS.has_key? :PsPe
+    # ...but is interpreted to construct a string.
+    assert_equal '([{)]}', DIGITS[:PsPe]
+    # :GROUPERS not in DIGITS...
+    refute DIGITS.has_key? :GROUPERS
+    # ...but now is set to :PsPe
+    DIGITS[:GROUPERS] = :PsPe
+    # :GROUPER links to :PsPe which then constructs a String
+    assert_equal '([{)]}', DIGITS[:GROUPERS]
+    # But :GROUPER itself is set to :PsPe
+    assert_equal :PsPe, DIGITS.get(:GROUPERS)
+    # Again, :PsPe is nil.
+    assert_nil  DIGITS.get(:PsPe)
+    # We tell DIGITS memorize the result of construnction :GROUPERS....
+    DIGITS.memoize!(:GROUPERS)
+    # Now :PsPe is no longer nil, but is now set to the constructed String...
+    assert_equal '([{)]}', DIGITS.get(:PsPe)
+    # ...while :GROUPER remains a link to :PsPe.
+    assert_equal :PsPe, DIGITS.get(:GROUPERS)
+
+    # Clean-up
+    DIGITS.delete(:GROUPER)
+    DIGITS.delete(:PsPe)
+  end
+
+  def test_configuration_aliases
+    d = DIGITS[:P16]
+    assert_equal d, DIGITS[:hexadecimal]
+    assert_equal d, DIGITS[:hex]
+    assert_equal d, DIGITS[:h]
+
+    d = DIGITS[:P8]
+    assert_equal d, DIGITS[:octal]
+    assert_equal d, DIGITS[:oct]
+    assert_equal d, DIGITS[:o]
+
+    d = DIGITS[:P2]
+    assert_equal d, DIGITS[:binary]
+    assert_equal d, DIGITS[:bin]
+    assert_equal d, DIGITS[:b]
+
+    d = DIGITS[:graph]
+    assert_equal d, DIGITS[:g]
+    assert_equal d, DIGITS[:G94]
+
+    d = DIGITS[:'graph-quotes']
+    assert_equal d, DIGITS[:q]
+    assert_equal d, DIGITS[:Q91]
+
+    d = DIGITS[:LN_k43k47]
+    assert_equal d, DIGITS[:B64]
+    assert_equal d, DIGITS[:base64]
+
+    d = DIGITS[:w]
+    assert_equal d, DIGITS[:W63]
+    assert_equal d, DIGITS[:word]
+
+    d = DIGITS[:'alnum-ambiguous']
+    assert_equal d, DIGITS[:u]
+    assert_equal d, DIGITS[:U47]
+    assert_equal d, DIGITS[:unambiguous]
+  end
+
+  def test_configuration_index_a
     assert_equal 36, INDEXa
+    assert_equal DIGITS[:P95].index('a'),  INDEXa
+  end
 
-    assert_equal 94, BASE[:g94]
-    assert_equal 94, BASE[:graph]
-    assert_equal 94, BASE[:g]
-    assert_equal 91, BASE[:qgraph]
-    assert_equal 91, BASE[:q]
+  def test_configuration_base
     assert_equal 64, BASE[:base64]
     assert_equal 64, BASE[:b64]
-    assert_equal 63, BASE[:word_]
-    assert_equal 63, BASE[:_]
-    assert_equal 62, BASE[:word]
-    assert_equal 62, BASE[:w]
+    assert_equal 69, BASE[:Wut69] # test inference
+
+    assert_equal 94, BASE[:graph]
+    assert_equal 94, BASE[:g]
+
+    assert_equal 91, BASE[:qgraph]
+    assert_equal 91, BASE[:q]
+
+    assert_equal 63, BASE[:word]
+    assert_equal 63, BASE[:w]
+
+    assert_equal 62, BASE[:letters]
+    assert_equal 62, BASE[:l]
+
     assert_equal 47, BASE[:unambiguous]
     assert_equal 47, BASE[:u]
+
     assert_equal 16, BASE[:hexadecimal]
     assert_equal 16, BASE[:hex]
-    assert_equal 16, BASE[:hex]
+    assert_equal 16, BASE[:h]
+
     assert_equal 10, BASE[:decimal]
     assert_equal 10, BASE[:dec]
     assert_equal 10, BASE[:d]
+
     assert_equal  8, BASE[:octal]
     assert_equal  8, BASE[:oct]
     assert_equal  8, BASE[:o]
+
     assert_equal  2, BASE[:binary]
     assert_equal  2, BASE[:bin]
     assert_equal  2, BASE[:b]
-
-    assert_equal G94,         DIGITS[:g94]
-    assert_equal GRAPH,       DIGITS[:graph]
-    assert_equal GRAPH,       DIGITS[:g]
-    assert_equal QGRAPH,      DIGITS[:qgraph]
-    assert_equal QGRAPH,      DIGITS[:q]
-    assert_equal BASE64,      DIGITS[:base64]
-    assert_equal BASE64,      DIGITS[:b64]
-    assert_equal WORD_,       DIGITS[:word_]
-    assert_equal WORD_,       DIGITS[:_]
-    assert_equal UNAMBIGUOUS, DIGITS[:unambiguous]
-    assert_equal UNAMBIGUOUS, DIGITS[:u]
-
-    # For version 4, :word digits request give G94.
-    assert_equal G94,        DIGITS[:word]
-    assert_equal G94,        DIGITS[:w]
   end
 end

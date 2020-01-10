@@ -1,6 +1,8 @@
 #! ruby
 require 'test/unit'
-require 'base_convert'
+require 'base_convert/base_convert'
+require 'base_convert/configuration'
+require 'base_convert/number'
 
 class TestNumber < Test::Unit::TestCase
   include BaseConvert
@@ -52,6 +54,18 @@ class TestNumber < Test::Unit::TestCase
   end
 
   def test_number_infers
+    p95 = DIGITS[:P95]
+    b64 = DIGITS[:B64]
+    u47 = DIGITS[:U47]
+
+    s = '101'
+    x = Number.new s
+    assert_equal s.to_i(2), x.to_i
+
+    s = '123'
+    x = Number.new s
+    assert_equal s.to_i(4), x.to_i
+
     s = '12345670'
     x = Number.new s
     assert_equal s.to_i(8), x.to_i
@@ -64,21 +78,25 @@ class TestNumber < Test::Unit::TestCase
     x = Number.new s
     assert_equal s.to_i(32), x.to_i
 
-    x = Number.new '_234567'
-    assert_equal 94, x.base
-    assert_equal G94, x.digits
+    x = Number.new 'AvWbhPT3W'
+    assert_equal 47, x.base
+    assert_equal u47, x.digits
 
     x = Number.new '!A34567'
     assert_equal 64, x.base
-    assert_equal G94, x.digits
-
-    x = Number.new 'AvWbhPT3W'
-    assert_equal 47, x.base
-    assert_equal UNAMBIGUOUS, x.digits
+    assert_equal p95, x.digits
 
     x = Number.new 'FMMuRhqY/6w'
     assert_equal 64, x.base
-    assert_equal BASE64, x.digits
+    assert_equal b64, x.digits
+
+    x = Number.new '_234567'
+    assert_equal 94, x.base
+    assert_equal p95, x.digits
+
+    x = Number.new '123 567'
+    assert_equal 95, x.base
+    assert_equal p95, x.digits
   end
 
   def test_number_edges
@@ -88,15 +106,14 @@ class TestNumber < Test::Unit::TestCase
     assert_equal '3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz', x.digits
   end
 
-  def test_number_raises
-    message = '*'
-    begin
-      x = Number.new('Funky Space')
-    rescue
-      message = $!.message
-    end
-    assert_equal 'need digits to cover string', message
+  def test_number_changes
+    # 'Funky Space' now works!
+    x = Number.new('Funky Space')
+    assert_equal 'Funky Space 95:P95', x.inspect
+    assert_equal 95, x.base
+  end
 
+  def test_number_raises
     message = '*'
     begin
       x = Number.new(1, base: 100)
@@ -105,13 +122,7 @@ class TestNumber < Test::Unit::TestCase
     end
     assert_equal 'need digits to cover base', message
 
-    message = '*'
-    begin
-      x = Number.new(1, digits: :caca)
-    rescue
-      message = $!.message
-    end
-    assert_equal 'unrecognized digits key', message
+    assert_raises(RegexpError){ Number.new 1, digits: :caca}
 
     message = '*'
     begin
@@ -125,13 +136,7 @@ class TestNumber < Test::Unit::TestCase
       x = Number.new(1, digits: '01')
     end
 
-    message = '*'
-    begin
-      x = Number.new(1, base: :caca)
-    rescue
-      message = $!.message
-    end
-    assert_equal 'unrecognized digits key', message
+    assert_raises(RegexpError){ Number.new 1, base: :caca}
 
     message = '*'
     begin

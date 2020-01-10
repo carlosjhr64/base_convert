@@ -38,21 +38,15 @@ class TestFromTo < Test::Unit::TestCase
   end
 
   def test_raises
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       FromTo.new base: 10, digits: '12345'
-    rescue
-      message = $!.message
     end
-    assert_equal 'base must cover digits', message
+    assert_equal 'base must cover digits', error.message
 
-    c = FromTo.new to_base: 16
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
+      c = FromTo.new to_base: 16
       c[1.23]
-    rescue
-      message = $!.message
     end
-    assert_equal 'counter must be String|Integer', message
+    assert_equal 'counter must be String|Integer', error.message
   end
 end

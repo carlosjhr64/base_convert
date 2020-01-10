@@ -120,23 +120,17 @@ class TestNumber < Test::Unit::TestCase
     error = assert_raises(RuntimeError){ Number.new 'ā'}
     assert_equal 'need digits to cover string', error.message
 
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       x = Number.new(1, base: 100)
-    rescue
-      message = $!.message
     end
-    assert_equal 'need digits to cover base', message
+    assert_equal 'need digits to cover base', error.message
 
     assert_raises(RegexpError){ Number.new 1, digits: :caca}
 
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       x = Number.new(1, digits: '1')
-    rescue
-      message = $!.message
     end
-    assert_equal 'need at least 2 digits', message
+    assert_equal 'need at least 2 digits', error.message
 
     assert_nothing_raised do
       x = Number.new(1, digits: '01')
@@ -144,60 +138,39 @@ class TestNumber < Test::Unit::TestCase
 
     assert_raises(RegexpError){ Number.new 1, base: :caca}
 
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       x = Number.new(1, base: 1)
-    rescue
-      message = $!.message
     end
-    assert_equal 'base must be greater than 1', message
+    assert_equal 'base must be greater than 1', error.message
 
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       x = Number.new(1, base: 17, digits: '0123456789AbCdEf')
-    rescue
-      message = $!.message
     end
-    assert_equal 'digits must cover base', message
+    assert_equal 'digits must cover base', error.message
 
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       x = Number.new('1A0', base: 2)
-    rescue
-      message = $!.message
     end
-    assert_equal 'digits in string must be under base', message
+    assert_equal 'digits in string must be under base', error.message
 
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       x = Number.new(1, digits: '01234567890')
-    rescue
-      message = $!.message
     end
-    assert_equal 'digits must not have duplicates', message
+    assert_equal 'digits must not have duplicates', error.message
 
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       x = Number.new('AbC', digits: 'abc')
-    rescue
-      message = $!.message
     end
-    assert_equal 'digits must cover string', message
+    assert_equal 'digits must cover string', error.message
 
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       x = Number.new(-1)
-    rescue
-      message = $!.message
     end
-    assert_equal 'integer can not be negative', message
+    assert_equal 'integer can not be negative', error.message
 
-    message = '*'
-    begin
+    error = assert_raises(RuntimeError) do
       x = Number.new(:a)
-    rescue
-      message = $!.message
     end
-    assert_equal 'need counter String|Integer', message
+    assert_equal 'need counter String|Integer', error.message
   end
 end

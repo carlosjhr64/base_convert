@@ -91,7 +91,7 @@ class TestConfiguration < Test::Unit::TestCase
   end
 
   def test_configuration_registered
-    assert_equal [:P95, :G94, :Q91, :B64, :W63, :U47], DIGITS.registry
+    assert_equal [:P95, :B64, :U47, :G94, :Q91, :W63], DIGITS.registry
 
     assert_equal '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?$&@*+-/<=>^~,.:;|#\\()[]{}%"\'`_ ', DIGITS[:P95]
     assert_equal '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~',  DIGITS[:G94]

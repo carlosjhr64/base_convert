@@ -1,22 +1,29 @@
 module BaseConvert
 class Number
   include BaseConvert
+  DIGITS.memoize!(:P95)
+  DIGITS.memoize!(:B64)
+  DIGITS.memoize!(:U47)
 
   def self.infer(string)
-    return 2, G94 if string.empty?
+    p95 = DIGITS[:P95]
+    return 2, p95  if string.empty?
     chars = string.chars
-    raise 'need digits to cover string' unless chars.all?{|_|G94.include?_}
-    max = chars.map{|_|G94.index(_)}.max
-    return 2,  G94         if max < 2
-    return 4,  G94         if max < 4
-    return 8,  G94         if max < 8
-    return 10, G94         if max < 10
-    return 16, G94         if max < 16
-    return 32, G94         if max < 32
-    return 47, UNAMBIGUOUS if chars.all?{|_|UNAMBIGUOUS.include?_}
-    return 64, G94         if max < 64
-    return 64, BASE64      if chars.all?{|_|BASE64.include?_}
-    return 94, G94
+    raise 'need digits to cover string'  unless chars.all?{|_|p95.include?_}
+    max = chars.map{|_|p95.index(_)}.max
+    return 95, p95  if max == 94 # string has a space digit.
+    return 2,  p95  if max < 2
+    return 4,  p95  if max < 4
+    return 8,  p95  if max < 8
+    return 10, p95  if max < 10
+    return 16, p95  if max < 16
+    return 32, p95  if max < 32
+    u47 = DIGITS[:U47]
+    return 47, u47  if chars.all?{|_|u47.include?_}
+    return 64, p95  if max < 64
+    b64 = DIGITS[:B64]
+    return 64, b64  if chars.all?{|_|b64.include?_}
+    return 94, p95
   end
 
   attr_reader :base, :digits
@@ -37,7 +44,7 @@ class Number
       base, digits = Number.infer(counter)  if base.nil? and digits.nil?
     when Integer
       @integer = counter
-      base, digits = 10, G94  if base.nil? and digits.nil?
+      base, digits = 10, DIGITS[:P95]  if base.nil? and digits.nil?
     else
       raise 'need counter String|Integer'
     end
@@ -55,7 +62,7 @@ class Number
       unless string.nil? or string.empty?
         indeces = string.chars.map{|_|@digits.index(_)}
         if missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
-          if @base <= INDEXa and G94.start_with?(@digits)
+          if @base <= INDEXa and DIGITS[:P95].start_with?(@digits)
             string = string.upcase
             indeces = string.chars.map{|_|@digits.index(_)}
             missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
@@ -73,7 +80,7 @@ class Number
   end
 
   def inspect
-    d = DIGITS_KEY[@digits]
+    d = DIGITS.label(@digits)
     "#{to_s} #{@base}:#{d}"
   end
 
@@ -81,7 +88,7 @@ class Number
     @validate
   end
 
-  alias to_s tob
+  alias to_s tos
 
   def to_i
     @integer

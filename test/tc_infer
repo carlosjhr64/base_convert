@@ -12,7 +12,7 @@ class TestInfer < Test::Unit::TestCase
     # Expect good chance of passing...
     [2,4,8,10,16,32,64,94].each do |base|
       integer = rand(base**64)
-      n0 = Number.new(integer, base: base, digits: G94)
+      n0 = Number.new(integer, base: base, digits: :P95)
       n1 = Number.new n0.to_s
       # check
       assert_equal n0.inspect, n1.inspect
@@ -22,7 +22,7 @@ class TestInfer < Test::Unit::TestCase
       assert_equal n0.to_i, n1.to_i
     end
 
-    base, digits = 47, UNAMBIGUOUS
+    base, digits = 47, :U47
       integer = rand(base**64)
       n0 = Number.new(integer, base: base, digits: digits)
       n1 = Number.new n0.to_s
@@ -33,7 +33,7 @@ class TestInfer < Test::Unit::TestCase
       assert_equal n0.to_s, n1.to_s
       assert_equal n0.to_i, n1.to_i
 
-    base, digits = 64, BASE64
+    base, digits = 64, :B64
       integer = rand(base**94)
       n0 = Number.new(integer, base: base, digits: digits)
       n1 = Number.new n0.to_s
@@ -43,5 +43,10 @@ class TestInfer < Test::Unit::TestCase
       assert_equal base, n1.base
       assert_equal n0.to_s, n1.to_s
       assert_equal n0.to_i, n1.to_i
+
+    n = Number.new(' ')
+    assert_equal '  95:P95', n.inspect
+    assert_equal 94, n.to_i
+    assert_equal 95, n.base
   end
 end

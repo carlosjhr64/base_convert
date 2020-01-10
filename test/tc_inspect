@@ -6,30 +6,30 @@ include BaseConvert
 class TestInspect < Test::Unit::TestCase
   def test_inspect
     n = Number.new '123', base: 10, digits: '0123456789'
-    assert_equal '123 10:g94', n.inspect
+    assert_equal '123 10:P95', n.inspect
 
     n = Number.new '123', base: 10, digits: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_'
-    assert_equal '123 10:_', n.inspect
+    assert_equal '123 10:W63', n.inspect
 
     n = Number.new 'ABC', base: 7, digits: 'ABCDEFG'
-    assert_equal 'BC 7:b64', n.inspect
+    assert_equal 'BC 7:B64', n.inspect
 
     n = Number.new 3, base: 2, digits: '!#'
-    assert_equal '## 2:q', n.inspect
+    assert_equal '## 2:Q91', n.inspect
 
     n = Number.new 3, base: 3, digits: '!"#'
-    assert_equal '"! 3:g', n.inspect
+    assert_equal '"! 3:G94', n.inspect
 
     n = Number.new 3, base: 3, digits: '347'
-    assert_equal '43 3:u', n.inspect
+    assert_equal '43 3:U47', n.inspect
 
     n = Number.new 3, base: 7, digits: 'WUTEVeRxyz'
-    assert_equal 'E 7:WUz', n.inspect
+    assert_equal 'E 7:WUyz', n.inspect
 
     c = FromTo.new base: 7, digits: 'WUTEVeRxyz', to_base: 8, to_digits: 'WUTEVeRxyz'
-    assert_equal '7:WUz,8:WUz', c.inspect
+    assert_equal '7:WUyz,8:WUyz', c.inspect
 
     c = FromTo.new base: 10, digits: '0123456789', to_base: 7, to_digits: 'ABCDEFG'
-    assert_equal '10:g94,7:b64', c.inspect
+    assert_equal '10:P95,7:B64', c.inspect
   end
 end

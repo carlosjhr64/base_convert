@@ -201,6 +201,11 @@ class TestConfiguration < Test::Unit::TestCase
     d = DIGITS[:LN_k43k47]
     assert_equal d, DIGITS[:B64]
     assert_equal d, DIGITS[:base64]
+    # letters
+    assert_equal d[0..51], DIGITS[:B52]
+    assert_equal d[0..51], DIGITS[:l]
+    assert_equal d[0..51], DIGITS[:letters]
+
 
     d = DIGITS[:w]
     assert_equal d, DIGITS[:W63]
@@ -225,14 +230,16 @@ class TestConfiguration < Test::Unit::TestCase
     assert_equal 94, BASE[:graph]
     assert_equal 94, BASE[:g]
 
+    assert_equal 91, DIGITS[:qgraph].length
     assert_equal 91, BASE[:qgraph]
     assert_equal 91, BASE[:q]
 
     assert_equal 63, BASE[:word]
     assert_equal 63, BASE[:w]
 
-    assert_equal 62, BASE[:letters]
-    assert_equal 62, BASE[:l]
+    assert_equal 52, DIGITS[:letters].length
+    assert_equal 52, BASE[:letters]
+    assert_equal 52, BASE[:l]
 
     assert_equal 47, BASE[:unambiguous]
     assert_equal 47, BASE[:u]

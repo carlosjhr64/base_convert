@@ -149,11 +149,11 @@ module BaseConvert
   DIGITS[:G94] = DIGITS[:g] = :graph
 
   # !#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_abcdefghijklmnopqrstuvwxyz{|}~
-  DIGITS[:Q91] = DIGITS[:q] = :'graph-quotes'
+  DIGITS[:Q91] = DIGITS[:qgraph] = DIGITS[:q] = :'graph-quotes'
 
   # ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
   DIGITS[:base64] = DIGITS[:B64] = :LN_k43k47
-  DIGITS[:letters] = :B52 # subset of B64
+  DIGITS[:letters] = DIGITS[:l] = :B52 # subset of B64
 
   # 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz
   DIGITS[:word] = DIGITS[:W63] = :w
@@ -196,7 +196,7 @@ module BaseConvert
     graph:       94,  g:   94,
     qgraph:      91,  q:   91,
     word:        63,  w:   63,
-    letters:     62,  l:   62,
+    letters:     52,  l:   52,
     unambiguous: 47,  u:   47,
     hexadecimal: 16,  hex: 16,  h: 16,
     decimal:     10,  dec: 10,  d: 10,

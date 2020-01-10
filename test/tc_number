@@ -114,6 +114,12 @@ class TestNumber < Test::Unit::TestCase
   end
 
   def test_number_raises
+    error = assert_raises(RuntimeError){ Number.new 123, validate: :maybe}
+    assert_equal 'validate must be either true or false', error.message
+
+    error = assert_raises(RuntimeError){ Number.new 'ā'}
+    assert_equal 'need digits to cover string', error.message
+
     message = '*'
     begin
       x = Number.new(1, base: 100)

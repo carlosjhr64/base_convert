@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2020-01-09'
+  s.date     = '2020-01-10'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
@@ -28,8 +28,11 @@ SUMMARY
   s.files = %w(
 README.md
 lib/base_convert.rb
+lib/base_convert/base.rb
 lib/base_convert/base_convert.rb
+lib/base_convert/chars.rb
 lib/base_convert/configuration.rb
+lib/base_convert/digits.rb
 lib/base_convert/from_to.rb
 lib/base_convert/number.rb
   )

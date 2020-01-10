@@ -1,124 +1,5 @@
 module BaseConvert
-  class Chars < Array
-    attr_accessor :start,:stop
-    def initialize(start=32, stop=126)
-      @start,@stop = start,stop
-    end
-
-    # i<n>: @start=n.to_i
-    # v<n>: @start=n.to_i(16)
-    # j<n>: @stop=n.to_i
-    # w<n>: @stop=n.to_i(16)
-    def set(s)
-      t,n = s[0],s[1..-1]
-      case t
-      when 'i','v'
-        @start = n.to_i((t=='v')? 16 : 10)
-      when 'j','w'
-        @stop = n.to_i((t=='w')? 16 : 10)
-      else
-        raise 'expected /^([ij]\d+)|([vw]\h+)$/'
-      end
-    end
-
-    def chars_in(x)
-      case x
-      when Regexp
-        @start.upto(@stop).each do |l|
-          c = l.chr(Encoding::UTF_8)
-          yield c if x.match? c
-        end
-      when Symbol
-        yield x[1..-1].to_i((x[0]=='u')? 16: 10).chr(Encoding::UTF_8)
-      when String
-        x.chars.each{|c| yield c}
-      when Integer
-        yield x.chr(Encoding::UTF_8)
-      else
-        raise "expected Regexp|Symbol|String|Integer, got #{x.class}"
-      end
-    end
-
-    def add(x)
-      chars_in(x) do |c|
-        self.push(c) unless self.include?(c)
-      end
-    end
-
-    def top(x)
-      chars_in(x) do |c|
-        self.delete(c)
-        self.push(c)
-      end
-    end
-
-    def remove(x)
-      chars_in(x){|c| self.delete(c)}
-    end
-  end
-
-  DIGITS = {}
-  def DIGITS.get(key)
-    Hash.instance_method(:[]).bind(self).call(key)
-  end
-  def DIGITS.[](key)
-    if self.has_key?(key)
-      d = super(key)
-      return d.is_a?(Symbol)? self[d]: d
-    end
-    case key
-    when Symbol
-      chars = Chars.new
-      key.to_s.scan(/[+-]?[[:alnum:]]+/).each do |type|
-        if self.has_key?(_=type.to_sym)
-          chars.add super(_)
-          next
-        end
-        case type
-        when /^((u\h+)|(k\d+))+$/
-          type.scan(/[uk]\h+/).each{|s| chars.top s.to_sym}
-        when /^(([ij]\d+)|([vw]\h+))+$/
-          type.scan(/[ijvw]\h+/).each{|s| chars.set s}
-        when /^[a-z][a-z]+$/
-          chars.add Regexp.new "[[:#{type}:]]"
-        when /^[a-z]$/
-          chars.add Regexp.new "\\#{type}"
-        when /^[A-Z]+$/i
-          type.scan(/[A-Z][a-z]*/).each{|property| chars.add /\p{#{property}}/}
-        when /^([+-])(\w+)/
-          d = self[$2.to_sym]
-          case $1
-          when '+'
-            chars.top d
-          when '-'
-            chars.remove d
-          end
-        when /^(\p{L}+)(\d+)$/
-          l,m = $1,$2.to_i-1
-          n = DIGITS.keys.select{|_|_=~/^#{l}\d+$/}.map{|_|_.to_s.sub(l,'').to_i}.max
-          raise "no #{l}<n> digits defined" if n.nil?
-          raise "out of range of #{l}#{n}" unless m<n
-          chars.add self[:"#{l}#{n}"][0..m]
-        else
-          raise "unrecognized digits key: #{type}"
-        end
-      end
-      return chars.uniq.join.freeze
-    when String
-      digits = nil # set as a side effect...
-      unless registry.detect{|_|(digits=self[_]).start_with? key}
-        # ...here -------------->^^^^^
-        raise 'need at least 2 digits' unless key.length > 1
-        raise 'digits must not have duplicates' if key.length > key.chars.uniq.length
-        return key
-      end
-      return digits
-    when Integer
-      raise 'need digits to cover base' if key > 95
-      return self[:P95] # Defined below
-    end
-    raise 'digits must be String|Symbol|Integer'
-  end
+  DIGITS = Digits.new
 
   # Naming these letter sequences is inpired by
   # (but not the same as)
@@ -163,40 +44,7 @@ module BaseConvert
   # 3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz
   DIGITS[:unambiguous] = DIGITS[:U47] = DIGITS[:u] = :'alnum-ambiguous'
 
-  def DIGITS.registry(d=nil)
-    # BaseConvert::Number memoizes and uses specifically :P95, :B64, and :U47;
-    # giving these precedence above the rest.
-    @registry ||= [:P95, :B64, :U47, :G94, :Q91, :W63]
-    d ? @registry.detect{|_|self[_].start_with? d}: @registry
-  end
-
-  def DIGITS.label(d)
-    registry(d) or (d[0]+d[1]+d[-2]+d[-1]).to_sym
-  end
-
-  def DIGITS.memoize!(keys=registry)
-    [*keys].each do |k|
-      while s = get(k)
-        break if s.is_a? String # links to a constructed String
-        raise 'expected Symbol' unless s.is_a? Symbol
-        k = s
-      end
-      self[k]=self[k] if s.nil? # if not memoized, memoize!
-    end
-  end
-
-  def DIGITS.forget!(keys=registry)
-    [*keys].each do |k|
-      while s = get(k)
-        break if s.is_a? String # links to a constructed String
-        raise 'expected Symbol' unless s.is_a? Symbol
-        k = s
-      end
-      self.delete(k) if s.is_a? String
-    end
-  end
-
-  BASE = {
+  BASE = Base[
     # 95
     P95: 95,
     print: 95,
@@ -236,21 +84,5 @@ module BaseConvert
     bangs: 2,
     scapes: 2,
     spacers: 2,
-  }
-
-  def BASE.[](key)
-    base = super and return base
-    case key
-    when String
-      base = key.length
-    when Integer
-      base = key
-    when /^\D+(\d+)$/
-      base = $1.to_i
-    else
-      raise 'unrecognized base key'
-    end
-    raise 'base must be greater than 1' unless base > 1
-    base
-  end
+  ]
 end

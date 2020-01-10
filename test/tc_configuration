@@ -1,5 +1,8 @@
 #! ruby
 require 'test/unit'
+require 'base_convert/chars'
+require 'base_convert/digits'
+require 'base_convert/base'
 require 'base_convert/configuration'
 
 class TestConfiguration < Test::Unit::TestCase

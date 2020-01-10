@@ -5,6 +5,20 @@ require 'base_convert/configuration'
 class TestConfiguration < Test::Unit::TestCase
   include BaseConvert
 
+  def test_keys_completeness
+    # Note that only configuration.rb is loaded and
+    # DIGITS has not been memoized.
+    assert BASE.keys.all?{|k|k.is_a? Symbol}
+    assert BASE.values.all?{|v|v.is_a?(Integer) and v>1}
+
+    assert DIGITS.keys.all?{|_|_.is_a? Symbol}
+    assert DIGITS.keys.all?{|k|BASE.has_key?(k) and BASE[k]>1}
+
+    DIGITS.keys.each do |k|
+      assert_equal BASE[k], DIGITS[k].length, k
+    end
+  end
+
   def test_configuration_chars
     chars = Chars.new
     assert_equal 32, chars.start

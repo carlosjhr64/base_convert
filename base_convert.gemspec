@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
 
   s.name     = 'base_convert'
-  s.version  = '4.0.200109'
+  s.version  = '4.0.200110'
 
   s.homepage = 'https://github.com/carlosjhr64/base_convert'
 

@@ -1,9 +1,7 @@
 module BaseConvert
 class Number
   include BaseConvert
-  DIGITS.memoize!(:P95)
-  DIGITS.memoize!(:B64)
-  DIGITS.memoize!(:U47)
+  DIGITS.memoize!
 
   def self.infer(string)
     p95 = DIGITS[:P95]

@@ -10,7 +10,7 @@ BaseConvert - Number base conversion.
 
 Converts positive integers to different bases:
 Binary, octal, hexadecimal, decimal, or any arbitrary base.
-"Out of the box" handling of up to base 94.
+"Out of the box" handling of up to base 95(:print: characters).
 Allows for arbitrary choice of alphabet(digits).
 
 See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/wiki/Non-decimal_radices/Convert).
@@ -22,24 +22,24 @@ See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/
     #toi string, base, digits #=> integer
     BaseConvert.toi 'FF', 16, '0123456789ABCDEF' #=> 255
 
-    #tob integer, base, digits #=> string
-    BaseConvert.tob 255, 16, '0123456789ABCDEF' #=> "FF"
+    #tos integer, base, digits #=> string
+    BaseConvert.tos 255, 16, '0123456789ABCDEF' #=> "FF"
 
     # FromTo
     c = BaseConvert::FromTo.new base: 16, digits: '0123456789ABCDEF', to_base: 7, to_digits: 'abcdefg'
     c['FFF'] #=> "begea"
-    c.inspect   #=> "16:g94,7:abg"
+    c.inspect   #=> "16:P95,7:abfg"
 
     # Number
     n = BaseConvert::Number.new 'FF', base: 16, digits: '0123456789ABCDEF'
     n.to_i #=> 255
     n.to_s #=> "FF"
-    n #=> FF 16:g94
+    n.inspect #=> FF 16:P95
     #
     n = n.to_base 64, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
     n.to_s #=> "D/"
     n.to_i #=> 255
-    n #=> D/ 64:b64
+    n.inspect #=> D/ 64:B64
 
 ## INSTALL:
 
@@ -47,145 +47,146 @@ See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/
 
 ## BUT WAIT, THERE'S MORE:
 
-Using `irb` to demonstrate the features.
-The components are scoped under `BaseConvert`:
+### module BaseConvert
 
-    > irb
-    Welcome to IRB...
-    >> require 'base_convert' #=> true
-    >> include BaseConvert #=> Object
+* `#toi(string=to_s String, base=@base Integer, digits=@digits String)` #=> Integer
+* `#tos(integer=to_i Integer, base=@base Integer, digits=@digits String)` #=> String
+* `#ascii_ordered?(digits=@digits String)` #=> TrueClass|FalseClass
 
-`base_convert` provides three ways to convert a string representation of a number.
-The first is functional.  One can extend(import) the functions that do the conversions.
-The conversion functions are `toi` and `tob`.
-For example, the octal number "7777":
 
-    extend BaseConvert #=> main
-    digits = '01234567'
-    base = digits.length #=> 8
-    toi('7777', base, digits) #=> 4095
-    tob(4095, base, digits) #=> "7777"
+    class MyClass
+      include BaseConvert
+      attr_accessor :to_s, :to_i, :base, :digits
+    end
 
-You can work with arbitrary digits:
+    obj = MyClass.new
+    obj.digits = '!@#$%^&*()'
+    obj.base = 10
 
-    digits = ')!@#$%^&'
-    base = digits.length #=> 8
-    toi('&&&&', base, digits) #=> 4095
-    tob(4095, base, digits) #=> "&&&&"
+    obj.to_s = '@'
+    obj.toi #=> 1
 
-Note that one can always explicitly specify the ordered digits to be used.
-But for convenience, `base_convert` provides some predefined sets of digits:
+    obj.to_i = 3
+    obj.tos #=> "$"
 
-* `GRAPH :graph :g`,  the ASCII graph characters:
+    obj.ascii_ordered? #=> false
+    obj.digits = 'ABCDEFGHIJKLMNOP'
+    obj.ascii_ordered? #=> true
 
-    !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+### Hash DIGITS
 
-* `QGRAPH :qgraph :q`,  the ASCII graph characters except `QUOTES`:
+`BaseConvert::DIGITS` will take a `Symbol` representation of `Regexp` patterns.
+See [Ruby-Doc's Regexp](https://ruby-doc.org/core-2.7.0/Regexp.html) documentation
+for a full list of keys.  The following provides an exemplar survey:
 
-    !#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_abcdefghijklmnopqrstuvwxyz{|}~
+    require 'base_convert'
+    include BaseConvert
 
-* `BASE64 :base64 :b64`, the standard base 64 digits from people with no sense of order:
+    # Character Classes
+    # Selected from ASCII 32..126
+    DIGITS[:w] #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
+    DIGITS[:d] #=> "0123456789"
+    DIGITS[:h] #=> "0123456789ABCDEF" # Note this was overridden, see :xdigit.
+    DIGITS[:alpha] #=> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    DIGITS[:graph]
+    #=> "!\"\#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+    DIGITS[:lower] #=> "abcdefghijklmnopqrstuvwxyz"
+    DIGITS[:punct] #=> "!\"\#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+    DIGITS[:upper] #=> "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    DIGITS[:xdigit] #=> "0123456789ABCDEFabcdef"
 
-    ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
+    # Character Properties
+    # Selected from ASCII 32..126
+    DIGITS[:Alnum] #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    DIGITS[:Any]
+    #=> " !\"\#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
-* `WORD_ :word_ :_`, the ASCII word characters including `UNDERSCORE`:
+    # General Category
+    # Selected from ASCII 32..126
+    DIGITS[:Ps] #=> "([{"
+    DIGITS[:Pe] #=> ")]}"
+    DIGITS[:S] #=> "$+<=>^`|~"
 
-    0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz
+    # Ranged Selections
+    # v<hex>w<hex>_<filter>
+    DIGITS[:v1d7d8w1d7e1_Any] #=> "𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡"
+    # i<dec>j<dec>_<filter>
+    DIGITS[:i120488j120513_Any] #=> "𝚨𝚩𝚪𝚫𝚬𝚭𝚮𝚯𝚰𝚱𝚲𝚳𝚴𝚵𝚶𝚷𝚸𝚹𝚺𝚻𝚼𝚽𝚾𝚿𝛀𝛁"
 
-* `WORD :word :w`, the ASCII word characters except `UNDERSCORE`:
+    # Specified Characters
+    # u<hex>
+    DIGITS[:u61u62] #=> "ab"
+    # k<dec>
+    DIGITS[:k97k98] #=> "ab"
 
-    0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+    # BaseConvert's Custom Sets
+    DIGITS[:bangs] #=> "!?"
+    DIGITS[:typers] #=> "$&@"
+    DIGITS[:operators] #=> "*+-/<=>^~"
+    DIGITS[:separators] #=> ",.:;|"
+    DIGITS[:scapes] #=> "#\\"
+    DIGITS[:groupers] #=> "()[]{}"
+    DIGITS[:quotes] #=> "\"'`"
+    DIGITS[:quoters] #=> "%\"'`"
+    DIGITS[:spacers] #=> "_ "
+    DIGITS[:ambiguous] #=> "012568BDGIOQSZl"
 
-* `UNAMBIGUOUS :unambigous :u`, the characters in `WORD` without the `AMBIGUOUS` characters(B8G6I1l0OQDS5Z2):
+    # Composition, add merge:
+    DIGITS[:d_ambiguous] #=> "0123456789BDGIOQSZl"
+    # Composition, add top:
+    DIGITS[:'d+ambiguous'] #=> "3479012568BDGIOQSZl"
+    # Composition, subtract:
+    DIGITS[:'d-ambiguous'] #=> "3479"
 
-    3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz
+    # Compositions used in BaseConvert
+    # :P95 is:
+    DIGITS[:alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers]
+    #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?$&@*+-/<=>^~,.:;|#\\()[]{}%\"'`_ "
+    # :B64 is:
+    DIGITS[:LN_k43k47] #=> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    # :U47 is
+    DIGITS[:'alnum-ambiguous'] #=> "3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz"
 
-* `G94 :g94` is the library's default defined as `WORD+QGRAPH.delete(WORD_)+QUOTES+UNDERSCORE`
+### class FromTo
 
-    0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&()*+,-./:;<=>?@[\]^{|}~"'`_
+* `new(base: 10 Integer|Symbol|String, to_base: base, digits: :P95 String|Symbol|Integer, to_digits: digits) #=> FromTo` 
+* `#inspect #=> String`
+* `#convert(counter String|Integer) #=> String`
 
-Some examples:
 
-    UNAMBIGUOUS #=> "3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz"
-    # etc...
-    tob 255, 16, WORD #=> "FF"
-    tob 255, 64, BASE64 #=> "D/"
+    # Example
+    require 'base_convert'
+    h2b = BaseConvert::FromTo.new(base: 16, digits: :P95, to_base: 64, to_digits: :B64)
+    h2b #=> 16:P95,64:B64
+    h2b['FFF'] #=> "//"
+    b2h = BaseConvert::FromTo.new(base: 64, digits: :B64, to_base: 16, to_digits: :P95)
+    b2h #=> 64:B64,16:P95
+    b2h['//'] #=> "FFF"
 
-The second way to convert is via a conversion object of `BaseConvert::FromTo`.
-For example, to convert from hexadecimal to octal, and back:
+### class Number
 
-    h2o = FromTo.new base: 16, to_base: 8
-    h2o #=> 16:g94,8:g94
-    o2h = FromTo.new base: 8, to_base: 16
-    o2h #=> 8:g94,16:g94
-    h2o['FFFF'] #=> "177777"
-    o2h['177777'] #=> "FFFF"
+* `new(counter= 0 Integer|String, base: nil Integer|Symbol|String, digits: nil String|Symbol|Integer, validate: true TrueClass|FalseClass) #=> Number`
+* `#base #=> Integer`
+* `#digits #=> String`
+* `#inspect #=> String`
+* `#to_s #=> String`
+* `#to_i #=> Integer`
+* `#to_base(base Integer|Symbol|String, digits=@digits String|Symbol|Integer, validate=@validate TrueClass|FalseClass) #=> Number`
+* `#to_digits(digits String|Symbol|Integer, base=@base Integer|Symbol|String, validate=@validate TrueClass|FalseClass) #=> Number`
 
-The third way to work with variant base and digits numbers is via the `BaseConvert::Number`:
 
-    hexadecimal = Number.new('FFFF', base: 16)
-    hexadecimal #=> FFFF 16:g94
-    hexadecimal.to_s #=> "FFFF"
-    hexadecimal.to_i #=> 65535
+    # Example
+    require 'base_convert'
+    a = BaseConvert::Number.new('FFF', base: 16, digits: :P95)
+    a #=> FFF 16:P95
+    a.to_i #=> 4095
+    b = a.to_digits(:U47)
+    b #=> RRR 16:U47
+    b.to_i #=> 4095
+    c = b.to_base(64, :B64)
+    c #=> // 64:B64
+    c.to_i #=> 4095
 
-    # Number will infer your most likely meaning:
-    Number.new('FF').to_i #=> 255
-
-    # But best practice is to fully specify,
-    # which is easy to do with keys:
-    n = Number.new 'F', base: :hex, digits: :g94
-    n #=> F 16:g94
-    n.to_i #=> 15
-    n.to_s #=> "F"
-
-    # One can make a change of digits:
-    n = n.to_digits '0123456789abcdef'
-    n #=> f 16:01f
-    n.to_s #=> "f"
-    n.to_i #=> 15
-
-    # One can make of change of base:
-    n = n.to_base 8
-    n #=> 17 8:01f
-    n.to_s #=> "17"
-
-    # One can make of change of base and digits:
-    n = n.to_base 32, :base64
-    n #=> P 32:b64
-    # or vice-versa
-    n = n.to_digits :base64, 32
-    n #=> P 32:b64
-    n.to_s #=> "P"
-
-## Keys (Symbols)
-
-Instead of giving the base number or the digits' string,
-one can use a mnemonic key:
-
-| long key       | short key | DIGITS        | BASE NUMBER |
-| -------------- | --------- | ------------- | ----------- |
-| `:g94`         |           | `G94`         | 94          |
-| `:graph`       | `:g`      | `GRAPH`       | 94          |
-| `:qgraph`      | `:q`      | `QGRAPH`      | 91          |
-| `:base64`      | `:b64`    | `BASE64`      | 64          |
-| `:word_`       | `:_`      | `WORD_`       | 63          |
-| `:word`        | `:w`      | `WORD`        | 62          |
-| `:unambiguous` | `:u`      | `UNAMBIGUOUS` | 47          |
-
-| long key       | short keys | BASE NUMBER |
-| -------------- | ---------- | ----------- |
-| `:hexadecimal` | `:hex, :h` | 16          |
-| `:decimal`     | `:dec, :d` | 10          |
-| `:octal`       | `:oct, :o` |  8          |
-| `:binary`      | `:bin, :b` |  2          |
-
-Example:
-
-    # For some pseudo-random string of unambigous characters
-    # of very likely length 16:
-    p = BaseConvert::Number.new(rand(47**16), digits: :u)
-    p #=> sdvaEkeLawUVLpuA 47:u
-    p.to_s   #=> "sdvaEkeLawUVLpuA"
 
 ## LICENSE:
 

@@ -49,9 +49,9 @@ See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/
 
 ### module BaseConvert
 
-* `#toi(string=to_s String, base=@base Integer, digits=@digits String)` #=> Integer
-* `#tos(integer=to_i Integer, base=@base Integer, digits=@digits String)` #=> String
-* `#ascii_ordered?(digits=@digits String)` #=> TrueClass|FalseClass
+* `#toi(string=to_s String, base=@base Integer, digits=@digits String) #=> Integer`
+* `#tos(integer=to_i Integer, base=@base Integer, digits=@digits String) #=> String`
+* `#ascii_ordered?(digits=@digits String) #=> TrueClass|FalseClass`
 
 
     class MyClass
@@ -186,7 +186,6 @@ for a full list of keys.  The following provides an exemplar survey:
     c = b.to_base(64, :B64)
     c #=> // 64:B64
     c.to_i #=> 4095
-
 
 ## LICENSE:
 

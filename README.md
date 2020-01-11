@@ -145,7 +145,7 @@ for a full list of keys.  The following provides an exemplar survey:
     #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?$&@*+-/<=>^~,.:;|#\\()[]{}%\"'`_ "
     # :B64 is:
     DIGITS[:LN_k43k47] #=> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-    # :U47 is
+    # :U47 is:
     DIGITS[:'alnum-ambiguous'] #=> "3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz"
 
 ### class FromTo

@@ -276,6 +276,10 @@ class TestConfiguration < Test::Unit::TestCase
     assert_equal  2, BASE[:binary]
     assert_equal  2, BASE[:bin]
     assert_equal  2, BASE[:b]
+
+    # :LN not in BASE or DIGITS, and thus
+    #  needs to be evaluated...
+    assert_equal 62, BASE[:LN]
   end
 
   def test_configuration_raises

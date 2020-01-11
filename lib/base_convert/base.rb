@@ -11,7 +11,11 @@ class Base < Hash
     when /^\D+(\d+)$/
       base = $1.to_i
     else
-      raise 'unrecognized base key'
+      begin
+        base = DIGITS[key].length
+      rescue
+        raise 'unrecognized base key'
+      end
     end
     raise 'base must be greater than 1' unless base > 1
     base

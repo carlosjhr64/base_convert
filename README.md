@@ -87,6 +87,7 @@ Exemplar:
 
 Exemplar:
 
+    include BaseConvert
     DIGITS.get(:P95) #=> :alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers
     DIGITS[:P95]
     #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?$&@*+-/<=>^~,.:;|#\\()[]{}%\"'`_ "
@@ -111,14 +112,12 @@ Exemplar:
 See [Ruby-Doc's Regexp](https://ruby-doc.org/core-2.7.0/Regexp.html) documentation
 for a full list of keys.  The following provides an exemplar survey:
 
-    require 'base_convert'
-    include BaseConvert
-
     # Character Classes
     # Selected from ASCII 32..126
     DIGITS[:w] #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
     DIGITS[:d] #=> "0123456789"
-    DIGITS[:h] #=> "0123456789ABCDEF" # Note this was overridden, see :xdigit.
+    # Note: :h was overridden, see :xdigit.
+    DIGITS[:h] #=> "0123456789ABCDEF"
     DIGITS[:alpha] #=> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     DIGITS[:graph]
     #=> "!\"\#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
@@ -187,7 +186,6 @@ for a full list of keys.  The following provides an exemplar survey:
 
 Example:
 
-    require 'base_convert'
     h2b = BaseConvert::FromTo.new(base: 16, digits: :P95, to_base: 64, to_digits: :B64)
     h2b #=> 16:P95,64:B64
     h2b['FFF'] #=> "//"
@@ -208,7 +206,6 @@ Example:
 
 Example:
 
-    require 'base_convert'
     a = BaseConvert::Number.new('FFF', base: 16, digits: :P95)
     a #=> FFF 16:P95
     a.to_i #=> 4095

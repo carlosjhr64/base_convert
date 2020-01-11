@@ -153,8 +153,8 @@ for a full list of keys.  The following provides an exemplar survey:
 * `#inspect #=> String`
 * `#convert(counter String|Integer) #=> String`
 
+Example:
 
-    # Example
     require 'base_convert'
     h2b = BaseConvert::FromTo.new(base: 16, digits: :P95, to_base: 64, to_digits: :B64)
     h2b #=> 16:P95,64:B64
@@ -174,8 +174,8 @@ for a full list of keys.  The following provides an exemplar survey:
 * `#to_base(base Integer|Symbol|String, digits=@digits String|Symbol|Integer, validate=@validate TrueClass|FalseClass) #=> Number`
 * `#to_digits(digits String|Symbol|Integer, base=@base Integer|Symbol|String, validate=@validate TrueClass|FalseClass) #=> Number`
 
+Example:
 
-    # Example
     require 'base_convert'
     a = BaseConvert::Number.new('FFF', base: 16, digits: :P95)
     a #=> FFF 16:P95

@@ -16,7 +16,7 @@ BaseConvert - Number base conversion.
 
 Converts positive integers to different bases:
 Binary, octal, hexadecimal, decimal, or any arbitrary base.
-"Out of the box" handling of up to base 94.
+"Out of the box" handling of up to base 95(:print: characters).
 Allows for arbitrary choice of alphabet(digits).
 DESCRIPTION
 

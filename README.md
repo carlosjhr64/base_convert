@@ -53,6 +53,7 @@ See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/
 * `#tos(integer=to_i Integer, base=@base Integer, digits=@digits String) #=> String`
 * `#ascii_ordered?(digits=@digits String) #=> TrueClass|FalseClass`
 
+Exemplar:
 
     class MyClass
       include BaseConvert

@@ -76,6 +76,37 @@ Exemplar:
 
 ### Hash DIGITS
 
+#### DIGITS methods
+
+* `DIGITS.get(key Symbol) #=> String|Symbol|NilClass`
+* `DIGITS.registry(digits=nil NilClass|String) #=> Array(Symbol)|Symbol`
+* `DIGITS.label(digits String) #=> String`
+* `DIGITS.memoize!(key=registry Symbol|Array(Symbol))`
+* `DIGITS.forget!(key=registry Symbol|Array(Symbol))`
+
+
+Exemplar:
+
+    DIGITS.get(:P95) #=> :alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers
+    DIGITS[:P95]
+    #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?$&@*+-/<=>^~,.:;|#\\()[]{}%\"'`_ "
+    DIGITS.registry #=> [:P95, :B64, :U47, :G94, :Q91, :W63]
+    DIGITS.registry('347') #=> :U47
+    DIGITS.registry('0') #=> :P95
+    DIGITS.registry('AB') #=> :B64
+    DIGITS.registry('Cukoe') #=> nil
+    DIGITS.label('Cukoe') #=> :Cuoe
+    DIGITS.label('AaBbCcXxYyZz') #=> :AaZz
+    DIGITS[:N] #=> "0123456789"
+    DIGITS.get(:N) #=> nil
+    DIGITS.memoize!(:N)
+    DIGITS.get(:N) #=> "0123456789"
+    DIGITS.forget!(:N)
+    DIGITS.get(:N) #=> nil
+
+
+#### DIGITS constructions
+
 `BaseConvert::DIGITS` will take a `Symbol` representation of `Regexp` patterns.
 See [Ruby-Doc's Regexp](https://ruby-doc.org/core-2.7.0/Regexp.html) documentation
 for a full list of keys.  The following provides an exemplar survey:

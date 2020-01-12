@@ -1,0 +1,38 @@
+#!/usr/bin/ruby
+ROCKET  = ' #=> '
+README  = 'README.md'
+BINDING = binding
+require 'test/unit'
+
+def yield_script
+  script, line_number = '', 0
+  File.open(README, 'r') do |fh|
+    while line = fh.gets
+      line_number += 1
+      case line
+      when /^    +[^$#]/
+        script << line
+        if line.include? ROCKET
+          expected, actual = line.split(ROCKET, 2).last.chomp, nil
+          begin
+            actual = BINDING.eval(script)
+          rescue
+            actual = $!.message
+          end
+          script = ''
+          actual = [actual.inspect, actual.to_s].detect{|_|_==expected} || actual
+          yield line_number, line.lstrip.chomp, expected, actual
+        end
+      end
+    end
+  end
+end
+
+class TestReadmeRocketTest < Test::Unit::TestCase
+  def test_readme_rocket_test
+    return unless File.exist? README
+    yield_script do |line_number, line, expected, actual|
+      assert_equal expected, actual, "#{line_number}: #{line}"
+    end
+  end
+end

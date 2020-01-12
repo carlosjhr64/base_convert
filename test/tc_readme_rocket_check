@@ -10,7 +10,7 @@ def yield_script
     while line = fh.gets
       line_number += 1
       case line
-      when /^    +[^$#]/
+      when /^    +[^$#]/, /^   #{ROCKET}/
         script << line
         if line.include? ROCKET
           expected, actual = line.split(ROCKET, 2).last.chomp, nil

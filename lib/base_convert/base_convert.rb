@@ -16,7 +16,7 @@ module BaseConvert
     string = ''
     while integer > 0
       integer, index = integer.divmod(base)
-      string = string.insert(0, digits[index])
+      string = string.prepend digits[index]
     end
     string
   end

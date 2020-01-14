@@ -56,7 +56,7 @@ class Number
 
     # validate
     if @validate
-      raise 'digits must cover base' if @base > @digits.length
+      raise 'digits must cover base'  if @base > @digits.length
       unless string.nil? or string.empty?
         indeces = string.chars.map{|_|@digits.index(_)}
         if missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
@@ -66,15 +66,15 @@ class Number
             missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
           end
           raise 'digits must cover string' if missing
-          raise 'digits in string must be under base' if exceeding
+          raise 'digits in string must be under base'  if exceeding
         end
       end
       unless @integer.nil?
-        raise 'integer can not be negative' if @integer < 0
+        raise 'integer can not be negative'  if @integer < 0
       end
     end
 
-    @integer = toi(string) if @integer.nil?
+    @integer = toi(string)  if @integer.nil?
   end
 
   def inspect

@@ -55,14 +55,14 @@ class Digits < Hash
       return digits
     when Integer
       raise 'need digits to cover base' if key > 95
-      return self[:P95] # Defined below
+      return self[:P95] # Defined in configuration.rb
     end
     raise 'digits must be String|Symbol|Integer'
   end
 
   def registry(d=nil)
     # BaseConvert::Number memoizes and uses specifically :P95, :B64, and :U47;
-    # giving these precedence above the rest.
+    # giving these precedence above the rest.  Defined in configuration.rb.
     @registry ||= [:P95, :B64, :U47, :G94, :Q91, :W63]
     d ? @registry.detect{|_|self[_].start_with? d}: @registry
   end

@@ -1,0 +1,15 @@
+#!/usr/bin/ruby
+require 'test/unit'
+require 'rubbish'
+
+DICTIONARY = '.dictionary'
+README     = 'README.md'
+
+class TestReadmeSpell < Test::Unit::TestCase
+  def test_readme_rocket_test
+    return unless File.exist? README
+    system "touch #{DICTIONARY}" unless File.exist? DICTIONARY
+    diff = Rubbish.bash "colordiff #{DICTIONARY} <(egrep '^[[:graph:]]' README.md | spell | sort -u)"
+    flunk "Needed dictionary change:\n"+diff  unless diff.empty?
+  end
+end

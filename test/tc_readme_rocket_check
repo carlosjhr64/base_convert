@@ -1,5 +1,6 @@
 #!/usr/bin/ruby
 ROCKET  = ' #=> '
+MATCH   = ' #~> '
 README  = 'README.md'
 BINDING = binding
 require 'test/unit'
@@ -10,17 +11,30 @@ def yield_script
     while line = fh.gets
       line_number += 1
       case line
-      when /^    +[^$#]/, /^   #{ROCKET}/
-        script << line
-        if line.include? ROCKET
-          expected, actual = line.split(ROCKET, 2).last.chomp, nil
+      when "    #!> TODO\n"
+        break
+      when /^    +[^$#]/, /^   +#{ROCKET}/, /^   +#{MATCH}/
+        script << line  unless line.match? /^\s*#/
+        case line
+        when /#{ROCKET}/, /#{MATCH}/
+          actual = nil
           begin
             actual = BINDING.eval(script)
           rescue
             actual = $!.message
           end
           script = ''
-          actual = [actual.inspect, actual.to_s].detect{|_|_==expected} || actual
+          string = actual.to_s
+          expected = nil
+          case line
+          when /#{ROCKET}/
+            expected = line.split(ROCKET, 2).last.chomp
+            actual = (expected == string)? string : actual.inspect
+          when /#{MATCH}/
+            expected = line.split(MATCH, 2).last.chomp
+            expected = Regexp.new expected
+            actual = (expected.match? string)? string : actual.inspect
+          end
           yield line_number, line.lstrip.chomp, expected, actual
         end
       end
@@ -32,7 +46,12 @@ class TestReadmeRocketTest < Test::Unit::TestCase
   def test_readme_rocket_test
     return unless File.exist? README
     yield_script do |line_number, line, expected, actual|
-      assert_equal expected, actual, "#{line_number}: #{line}"
+      case expected
+      when String
+        assert_equal expected, actual, "#{line_number}: #{line}"
+      when Regexp
+        assert_match expected, actual, "#{line_number}: #{line}"
+      end
     end
   end
 end

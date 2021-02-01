@@ -24,7 +24,7 @@ class Digits < Hash
         when /^[a-z]$/
           chars.add Regexp.new "\\#{type}"
         when /^[A-Z]+$/i
-          type.scan(/[A-Z][a-z]*/).each{|property| chars.add /\p{#{property}}/}
+          type.scan(/[A-Z][a-z]*/).each{|property| chars.add(/\p{#{property}}/)}
         when /^([+-])(\w+)/
           d = self[$2.to_sym]
           case $1

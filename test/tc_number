@@ -176,4 +176,12 @@ class TestNumber < Test::Unit::TestCase
     end
     assert_equal 'need counter String|Integer', error.message
   end
+
+  def test_version_six_changes
+    x = Number.new 'FFF', base: :hex
+    assert_equal 'FFF 16:P95', x.inspect
+    assert_equal 'j0 91:P95', x.to_base(91).inspect
+    assert_equal 'P! 91:Q91', x.to_base(:qgraph).inspect
+    assert_equal 'j0 91:P95', x.to_base(:qgraph, :P95).inspect
+  end
 end

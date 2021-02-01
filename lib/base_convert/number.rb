@@ -92,7 +92,7 @@ class Number
     @integer
   end
 
-  def to_base(base, digits=@digits, validate=@validate)
+  def to_base(base, digits=(base.is_a?Symbol)? DIGITS[base] : @digits, validate=@validate)
     Number.new @integer, base: base, digits: digits, validate: validate
   end
 

@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
 
   s.name     = 'base_convert'
-  s.version  = '6.0.210201'
+  s.version  = '6.0.221220'
 
   s.homepage = 'https://github.com/carlosjhr64/base_convert'
 
   s.author   = 'carlosjhr64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2021-02-01'
+  s.date     = '2022-12-20'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
@@ -37,6 +37,6 @@ lib/base_convert/from_to.rb
 lib/base_convert/number.rb
   )
 
-  s.requirements << 'ruby: ruby 3.0.0p0 (2020-12-25 revision 95aff21468) [x86_64-linux]'
+  s.requirements << 'ruby: ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [aarch64-linux]'
 
 end

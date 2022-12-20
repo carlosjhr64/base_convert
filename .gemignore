@@ -5,6 +5,8 @@
  (examples\/)|
  (features\/)|
  (History\.)|
+ (img\/)|
+ (sig\/)|
  (test\/)|
  (TODO\.)
 )

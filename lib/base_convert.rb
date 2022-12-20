@@ -1,5 +1,5 @@
 module BaseConvert
-  VERSION = '6.0.210201'
+  VERSION = '6.0.221220'
   require 'base_convert/base_convert'
   require 'base_convert/chars'
   require 'base_convert/digits'

@@ -1,6 +1,6 @@
 # BaseConvert
 
-* [VERSION 6.0.210201](https://github.com/carlosjhr64/base_convert/releases)
+* [VERSION 6.0.221220](https://github.com/carlosjhr64/base_convert/releases)
 * [github](https://www.github.com/carlosjhr64/base_convert)
 * [rubygems](https://rubygems.org/gems/base_convert)
 
@@ -234,7 +234,7 @@ c.to_i #=> 4095
 
 (The MIT License)
 
-Copyright (c) 2021 CarlosJHR64
+Copyright (c) 2022 CarlosJHR64
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

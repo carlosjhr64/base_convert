@@ -18,8 +18,6 @@ Converts positive integers to different bases:
 Binary, octal, hexadecimal, decimal, or any arbitrary base.
 "Out of the box" handling of up to base 95(:print: characters).
 Allows for arbitrary choice of alphabet(digits).
-
-See also rosettacode.org's [Non-decimal radices convert](http://rosettacode.org/wiki/Non-decimal_radices/Convert).
 DESCRIPTION
 
   s.summary = <<SUMMARY

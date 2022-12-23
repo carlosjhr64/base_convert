@@ -32,22 +32,22 @@ class TestBaseConvert < Test::Unit::TestCase
     assert_equal '...', BaseConvert.tos(4095, 16, '0123456789abcde.')
   end
 
-  def test_ascii_ordered
-    assert BaseConvert.ascii_ordered? '123'
-    assert BaseConvert.ascii_ordered? 'AZaz'
-    refute BaseConvert.ascii_ordered? '1203'
-    refute BaseConvert.ascii_ordered? 'azAZ'
+  def test_chars_ordered
+    assert BaseConvert.chars_ordered? '123'
+    assert BaseConvert.chars_ordered? 'AZaz'
+    refute BaseConvert.chars_ordered? '1203'
+    refute BaseConvert.chars_ordered? 'azAZ'
   end
 
   def test_base_convert_mixin
     a = A.new(123, '321', 10, '0123456789')
     assert_equal 321, a.toi
     assert_equal '123', a.tos
-    assert a.ascii_ordered?
+    assert a.chars_ordered?
 
     a = A.new(255, 'AA', 16, '0123456789ABCDEFzyx')
     assert_equal 170, a.toi
     assert_equal 'FF', a.tos
-    refute a.ascii_ordered? # ordered would be '0123456789ABCDEFxyz'
+    refute a.chars_ordered? # ordered would be '0123456789ABCDEFxyz'
   end
 end

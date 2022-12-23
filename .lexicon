@@ -1,4 +1,6 @@
 _
+_1
+_2
 add
 all
 alnum
@@ -6,7 +8,6 @@ alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers
 ambiguous
 any
 Array
-ascii_ordered
 attr_accessor
 attr_reader
 b
@@ -25,6 +26,7 @@ c
 chars
 Chars
 chars_in
+chars_ordered
 chr
 class
 convert
@@ -41,7 +43,7 @@ Digits
 DIGITS
 divmod
 each
-each_char
+each_cons
 empty
 Encoding
 exceeding
@@ -66,6 +68,7 @@ index
 INDEXa
 infer
 initialize
+inject
 inspect
 integer
 Integer

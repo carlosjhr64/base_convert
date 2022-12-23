@@ -2,12 +2,7 @@
 module BaseConvert
   def toi(string=to_s, base=@base, digits=@digits)
     return nil if string.empty?
-    integer = 0
-    string.each_char do |c|
-      index = digits.index(c)
-      integer = integer * base + index
-    end
-    integer
+    string.chars.inject(0){_1*base + digits.index(_2)}
   end
 
   def tos(integer=to_i, base=@base, digits=@digits)
@@ -21,8 +16,8 @@ module BaseConvert
     string
   end
 
-  def ascii_ordered?(digits=@digits)
-    (1..(digits.length-1)).all?{|i|digits[i-1]<digits[i]}
+  def chars_ordered?(digits=@digits)
+    digits.chars.each_cons(2).all?{_1<_2}
   end
 
   extend self

@@ -1,6 +1,6 @@
 # BaseConvert
 
-* [VERSION 6.0.221220](https://github.com/carlosjhr64/base_convert/releases)
+* [VERSION 7.0.221223](https://github.com/carlosjhr64/base_convert/releases)
 * [github](https://www.github.com/carlosjhr64/base_convert)
 * [rubygems](https://rubygems.org/gems/base_convert)
 
@@ -53,7 +53,7 @@ n.inspect #=> D/ 64:B64
 
 * `#toi(string=to_s String, base=@base Integer, digits=@digits String) #=> Integer`
 * `#tos(integer=to_i Integer, base=@base Integer, digits=@digits String) #=> String`
-* `#ascii_ordered?(digits=@digits String) #=> TrueClass|FalseClass`
+* `#chars_ordered?(digits=@digits String) #=> TrueClass|FalseClass`
 
 Exemplar:
 
@@ -73,9 +73,9 @@ obj.toi #=> 1
 obj.to_i = 3
 obj.tos #=> "$"
 
-obj.ascii_ordered? #=> false
+obj.chars_ordered? #=> false
 obj.digits = 'ABCDEFGHIJKLMNOP'
-obj.ascii_ordered? #=> true
+obj.chars_ordered? #=> true
 ```
 
 ### Hash DIGITS

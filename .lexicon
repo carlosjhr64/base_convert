@@ -10,6 +10,7 @@ any
 Array
 attr_accessor
 attr_reader
+autoload
 b
 B52
 b64
@@ -88,6 +89,7 @@ map
 match
 max
 memoize
+Methods
 missing
 n
 new
@@ -116,7 +118,6 @@ raise
 Regexp
 registry
 remove
-require
 Ruby31
 s
 scan

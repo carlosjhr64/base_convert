@@ -1,11 +1,10 @@
 module BaseConvert
   VERSION = '7.0.221223'
-  require 'base_convert/base_convert'
-  require 'base_convert/chars'
-  require 'base_convert/digits'
-  require 'base_convert/base'
-  require 'base_convert/configuration'
-  require 'base_convert/from_to'
-  require 'base_convert/number'
+  autoload :Methods,       'base_convert/methods.rb'
+  autoload :Chars,         'base_convert/chars.rb'
+  autoload :DIGITS,        'base_convert/digits.rb'
+  autoload :BASE,          'base_convert/base.rb'
+  autoload :FromTo,        'base_convert/from_to.rb'
+  autoload :Number,        'base_convert/number.rb'
 end
 #`ruby`

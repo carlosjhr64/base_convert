@@ -1,11 +1,6 @@
 #! ruby
 require 'test/unit'
-require 'base_convert/base_convert'
-require 'base_convert/chars'
-require 'base_convert/digits'
-require 'base_convert/base'
-require 'base_convert/configuration'
-require 'base_convert/number'
+require 'base_convert'
 
 class TestNumber < Test::Unit::TestCase
   include BaseConvert

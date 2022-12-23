@@ -1,5 +1,6 @@
 # http://rosettacode.org/wiki/Non-decimal_radices/Convert#Ruby
 module BaseConvert
+module Methods
   def toi(string=to_s, base=@base, digits=@digits)
     return nil if string.empty?
     string.chars.inject(0){_1*base + digits.index(_2)}
@@ -21,4 +22,5 @@ module BaseConvert
   end
 
   extend self
+end
 end

@@ -25,10 +25,10 @@ Allows for arbitrary choice of alphabet(digits).
 require 'base_convert'
 
 #toi string, base, digits => integer
-BaseConvert.toi 'FF', 16, '0123456789ABCDEF' #=> 255
+BaseConvert::Methods.toi 'FF', 16, '0123456789ABCDEF' #=> 255
 
 #tos integer, base, digits => string
-BaseConvert.tos 255, 16, '0123456789ABCDEF' #=> "FF"
+BaseConvert::Methods.tos 255, 16, '0123456789ABCDEF' #=> "FF"
 
 # FromTo
 c = BaseConvert::FromTo.new base: 16, digits: '0123456789ABCDEF', to_base: 7, to_digits: 'abcdefg'
@@ -59,7 +59,7 @@ Exemplar:
 
 ```ruby
 class MyClass
-  include BaseConvert
+  include BaseConvert::Methods
   attr_accessor :to_s, :to_i, :base, :digits
 end
 

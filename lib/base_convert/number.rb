@@ -1,6 +1,6 @@
 module BaseConvert
 class Number
-  include BaseConvert
+  include Methods
   DIGITS.memoize!
 
   def self.infer(string)

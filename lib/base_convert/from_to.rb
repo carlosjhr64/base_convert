@@ -1,6 +1,6 @@
 module BaseConvert
 class FromTo
-  include BaseConvert
+  include Methods
 
   def initialize(base: 10, to_base: base, digits: :P95, to_digits: digits)
     base      = BASE[base]

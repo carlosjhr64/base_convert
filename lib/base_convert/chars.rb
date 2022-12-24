@@ -1,43 +1,38 @@
 module BaseConvert
-  # Chars provides ways of populating an ordered set with characters in UTF-8.
+  # Chars provides ways of populating an ordered(as constructed) set
+  # with characters in UTF-8.
   class Chars
+    def initialize
+      @start,@stop,@a = 32,126,[]
+    end
+
     attr_accessor :start,:stop
-    def initialize(start=32, stop=126)
-      @start,@stop = start,stop
-      @a = []
-    end
+    def to_a = @a
+    def to_s = @a.join
 
-    def to_a
-      @a
-    end
-
-    def to_s
-      @a.join
-    end
-
+    # Chars can search a range in UTF-8 for character classes.
+    # Use Chars#set to set the start and stop of the range.
     # i<n>: @start=n.to_i
     # v<n>: @start=n.to_i(16)
     # j<n>: @stop=n.to_i
     # w<n>: @stop=n.to_i(16)
     def set(s)
+      unless /^([ij]\d+)|([vw]\h+)$/.match?(s)
+        raise 'expected /^([ij]\d+)|([vw]\h+)$/'
+      end
       t,n = s[0],s[1..-1]
       case t
       when 'i','v'
         @start = n.to_i((t=='v')? 16 : 10)
       when 'j','w'
         @stop = n.to_i((t=='w')? 16 : 10)
-      else
-        raise 'expected /^([ij]\d+)|([vw]\h+)$/'
       end
     end
 
     def chars_in(x)
       case x
       when Regexp
-        @start.upto(@stop).each do |l|
-          c = l.chr(Encoding::UTF_8)
-          yield c if x.match? c
-        end
+        (@start..@stop).each{x.match?(c=_1.chr(Encoding::UTF_8)) && yield(c)}
       when Symbol
         yield x[1..-1].to_i((x[0]=='u')? 16: 10).chr(Encoding::UTF_8)
       when String
@@ -49,21 +44,8 @@ module BaseConvert
       end
     end
 
-    def add(x)
-      chars_in(x) do |c|
-        @a.push(c) unless @a.include?(c)
-      end
-    end
-
-    def top(x)
-      chars_in(x) do |c|
-        @a.delete(c)
-        @a.push(c)
-      end
-    end
-
-    def remove(x)
-      chars_in(x){|c| @a.delete(c)}
-    end
+    def add(x)    = chars_in(x){@a.push _1 unless @a.include?_1}
+    def top(x)    = chars_in(x){@a.delete _1;@a.push _1}
+    def remove(x) = chars_in(x){@a.delete _1}
   end
 end

@@ -1,11 +1,9 @@
 module BaseConvert
   class Digits < Hash
+    # Set super's [] definition as get
     alias :get :[]
     def [](key)
-      if self.has_key?(key)
-        d = super(key)
-        return d.is_a?(Symbol)? self[d]: d
-      end
+      return (_=get key).is_a?(Symbol)?self[_]:_ if self.has_key? key
       case key
       when Symbol
         chars = Chars.new
@@ -15,29 +13,22 @@ module BaseConvert
             next
           end
           case type
-          when /^((u\h+)|(k\d+))+$/
-            type.scan(/[uk]\h+/).each{|s| chars.top s.to_sym}
-          when /^(([ij]\d+)|([vw]\h+))+$/
-            type.scan(/[ijvw]\h+/).each{|s| chars.set s}
-          when /^[a-z][a-z]+$/
+          when /^((u\h+)|(k\d+))+$/ # add single char by code
+            type.scan(/[uk]\h+/).each{chars.top _1.to_sym}
+          when /^(([ij]\d+)|([vw]\h+))+$/ # set start/stop range
+            type.scan(/[ijvw]\h+/).each{chars.set _1}
+          when /^[a-z][a-z]+$/ # add by POSIX bracket expression
             chars.add Regexp.new "[[:#{type}:]]"
-          when /^[a-z]$/
+          when /^[a-z]$/ # add by metacharacter
             chars.add Regexp.new "\\#{type}"
-          when /^[A-Z]+$/i
-            type.scan(/[A-Z][a-z]*/)
-              .each{|property| chars.add(/\p{#{property}}/)}
-          when /^([+-])(\w+)/
-            d = self[$2.to_sym]
-            case $1
-            when '+'
-              chars.top d
-            when '-'
-              chars.remove d
-            end
-          when /^(\p{L}+)(\d+)$/
+          when /^[A-Z]+$/i # add by property
+            type.scan(/[A-Z][a-z]*/).each{chars.add(/\p{#{_1}}/)}
+          when /^([+-])(\w+)$/ # top or remove chars of key given
+            (_=self[$2.to_sym]) and ($1=='+')? chars.top(_): chars.remove(_)
+          when /^(\p{L}+)(\d+)$/ # a registered set
             l,m = $1,$2.to_i-1
-            n = self.keys
-              .select{|_|_=~/^#{l}\d+$/}.map{|_|_.to_s.sub(l,'').to_i}.max
+            n = self.keys.select{_1=~/^#{l}\d+$/}
+              .map{_1.to_s.sub(l,'').to_i}.max
             raise "no #{l}<n> digits defined" if n.nil?
             raise "out of range of #{l}#{n}" unless m<n
             chars.add self[:"#{l}#{n}"][0..m]

@@ -8,58 +8,7 @@ class TestConfiguration < Test::Unit::TestCase
   def test_keys_completeness
     # Note that only configuration.rb is loaded and
     # DIGITS has not been memoized.
-    assert BASE.keys.all?{|k|k.is_a? Symbol}
-    assert BASE.values.all?{|v|v.is_a?(Integer) and v>1}
-
     assert DIGITS.keys.all?{|_|_.is_a? Symbol}
-    assert DIGITS.keys.all?{|k|BASE.has_key?(k) and BASE[k]>1}
-
-    DIGITS.keys.each do |k|
-      assert_equal BASE[k], DIGITS[k].length, k
-    end
-  end
-
-  def test_configuration_chars
-    chars = Chars.new
-    assert_equal 32, chars.start
-    assert_equal 126, chars.stop
-
-    chars.set 'v1a'
-    assert_equal 26, chars.start
-    chars.set 'wab'
-    assert_equal 171, chars.stop
-
-    chars.set 'i32'
-    assert_equal 32, chars.start
-    chars.set 'j126'
-    assert_equal 126, chars.stop
-
-    # Indirectly testing Chars#chars_in
-    assert_equal [], chars
-    chars.add /\d/
-    assert_equal ['0','1','2','3','4','5','6','7','8','9'], chars
-    chars.clear
-    chars.add :u61
-    chars.add :k98
-    assert_equal ['a','b'], chars
-    chars.clear
-    chars.add 'zyx'
-    assert_equal ['z','y','x'], chars
-    chars.clear
-    chars.add 33
-    assert_equal ['!'], chars
-    chars.clear
-
-    # Testing add,top,remove
-    chars.add 'x'
-    chars.add 'qp'
-    assert_equal ['x','q','p'], chars
-    chars.top 'xp'
-    assert_equal ['q','x','p'], chars
-    chars.remove 'pq'
-    assert_equal ['x'], chars
-    chars.remove /\p{L}/
-    assert chars.empty?
   end
 
   def test_configuration_digits
@@ -236,63 +185,7 @@ class TestConfiguration < Test::Unit::TestCase
     assert_equal DIGITS[:P95].index('a'),  INDEXa
   end
 
-  def test_configuration_base
-    assert_equal 64, BASE[:base64]
-    assert_equal 64, BASE[:b64]
-    assert_equal 69, BASE[:Wut69] # test inference
-
-    assert_equal 94, BASE[:graph]
-    assert_equal 94, BASE[:g]
-
-    assert_equal 91, DIGITS[:qgraph].length
-    assert_equal 91, BASE[:qgraph]
-    assert_equal 91, BASE[:q]
-
-    assert_equal 63, BASE[:word]
-    assert_equal 63, BASE[:w]
-
-    assert_equal 52, DIGITS[:letters].length
-    assert_equal 52, BASE[:letters]
-    assert_equal 52, BASE[:l]
-
-    assert_equal 47, BASE[:unambiguous]
-    assert_equal 47, BASE[:u]
-
-    assert_equal 16, BASE[:hexadecimal]
-    assert_equal 16, BASE[:hex]
-    assert_equal 16, BASE[:h]
-
-    assert_equal 10, BASE[:decimal]
-    assert_equal 10, BASE[:dec]
-    assert_equal 10, BASE[:d]
-
-    assert_equal  8, BASE[:octal]
-    assert_equal  8, BASE[:oct]
-    assert_equal  8, BASE[:o]
-
-    assert_equal  2, BASE[:binary]
-    assert_equal  2, BASE[:bin]
-    assert_equal  2, BASE[:b]
-
-    # :LN not in BASE or DIGITS, and thus
-    #  needs to be evaluated...
-    assert_equal 62, BASE[:LN]
-  end
-
   def test_configuration_raises
-    chars = Chars.new
-
-    error = assert_raises(RuntimeError) do
-      chars.set 'caca'
-    end
-    assert_equal 'expected /^([ij]\d+)|([vw]\h+)$/', error.message
-
-    error = assert_raises(RuntimeError) do
-      # Good idea!  But not implemented.
-      chars.chars_in(97..122) #  :(
-    end
-    assert_equal 'expected Regexp|Symbol|String|Integer, got Range', error.message
-
     error = assert_raises(RuntimeError) do
       DIGITS[:X25]
     end
@@ -321,15 +214,6 @@ class TestConfiguration < Test::Unit::TestCase
       DIGITS[64.0]
     end
     assert_equal 'digits must be String|Symbol|Integer', error.message
-
-    error = assert_raises(RuntimeError) do
-      BASE[:caca]
-    end
-    assert_equal 'unrecognized base key', error.message
-    error = assert_raises(RuntimeError) do
-      BASE[1]
-    end
-    assert_equal 'base must be greater than 1', error.message
 
     # This one is there to catch bugs or bad DIGITS data,
     # not expected to occur in normal use.

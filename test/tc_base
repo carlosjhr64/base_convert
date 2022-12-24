@@ -1,0 +1,75 @@
+#! ruby
+require 'test/unit'
+require 'base_convert'
+
+class TestConfiguration < Test::Unit::TestCase
+  include BaseConvert
+
+  def test_keys_completeness
+    # Note that only configuration.rb is loaded and
+    # DIGITS has not been memoized.
+    assert BASE.keys.all?{|k|k.is_a? Symbol}
+    assert BASE.values.all?{|v|v.is_a?(Integer) and v>1}
+
+    assert DIGITS.keys.all?{|_|_.is_a? Symbol}
+    assert DIGITS.keys.all?{|k|BASE.has_key?(k) and BASE[k]>1}
+
+    DIGITS.keys.each do |k|
+      assert_equal BASE[k], DIGITS[k].length, k
+    end
+  end
+
+  def test_configuration_base
+    assert_equal 64, BASE[:base64]
+    assert_equal 64, BASE[:b64]
+    assert_equal 69, BASE[:Wut69] # test inference
+
+    assert_equal 94, BASE[:graph]
+    assert_equal 94, BASE[:g]
+
+    assert_equal 91, DIGITS[:qgraph].length
+    assert_equal 91, BASE[:qgraph]
+    assert_equal 91, BASE[:q]
+
+    assert_equal 63, BASE[:word]
+    assert_equal 63, BASE[:w]
+
+    assert_equal 52, DIGITS[:letters].length
+    assert_equal 52, BASE[:letters]
+    assert_equal 52, BASE[:l]
+
+    assert_equal 47, BASE[:unambiguous]
+    assert_equal 47, BASE[:u]
+
+    assert_equal 16, BASE[:hexadecimal]
+    assert_equal 16, BASE[:hex]
+    assert_equal 16, BASE[:h]
+
+    assert_equal 10, BASE[:decimal]
+    assert_equal 10, BASE[:dec]
+    assert_equal 10, BASE[:d]
+
+    assert_equal  8, BASE[:octal]
+    assert_equal  8, BASE[:oct]
+    assert_equal  8, BASE[:o]
+
+    assert_equal  2, BASE[:binary]
+    assert_equal  2, BASE[:bin]
+    assert_equal  2, BASE[:b]
+
+    # :LN not in BASE or DIGITS, and thus
+    #  needs to be evaluated...
+    assert_equal 62, BASE[:LN]
+  end
+
+  def test_configuration_raises
+    error = assert_raises(RuntimeError) do
+      BASE[:caca]
+    end
+    assert_equal 'unrecognized base key', error.message
+    error = assert_raises(RuntimeError) do
+      BASE[1]
+    end
+    assert_equal 'base must be greater than 1', error.message
+  end
+end

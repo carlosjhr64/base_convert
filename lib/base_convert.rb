@@ -1,5 +1,5 @@
 module BaseConvert
-  VERSION = '7.0.221223'
+  VERSION = '7.0.221224'
   autoload :Methods,       'base_convert/methods.rb'
   autoload :Chars,         'base_convert/chars.rb'
   autoload :DIGITS,        'base_convert/digits.rb'

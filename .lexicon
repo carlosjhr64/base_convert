@@ -7,7 +7,6 @@ alnum
 alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers
 ambiguous
 any
-Array
 attr_accessor
 attr_reader
 autoload
@@ -134,6 +133,7 @@ String
 sub
 Symbol
 t
+to_a
 to_base
 to_digits
 to_i

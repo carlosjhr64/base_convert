@@ -24,7 +24,8 @@ module BaseConvert
           when /^[a-z]$/
             chars.add Regexp.new "\\#{type}"
           when /^[A-Z]+$/i
-            type.scan(/[A-Z][a-z]*/).each{|property| chars.add(/\p{#{property}}/)}
+            type.scan(/[A-Z][a-z]*/)
+              .each{|property| chars.add(/\p{#{property}}/)}
           when /^([+-])(\w+)/
             d = self[$2.to_sym]
             case $1
@@ -35,7 +36,8 @@ module BaseConvert
             end
           when /^(\p{L}+)(\d+)$/
             l,m = $1,$2.to_i-1
-            n = self.keys.select{|_|_=~/^#{l}\d+$/}.map{|_|_.to_s.sub(l,'').to_i}.max
+            n = self.keys
+              .select{|_|_=~/^#{l}\d+$/}.map{|_|_.to_s.sub(l,'').to_i}.max
             raise "no #{l}<n> digits defined" if n.nil?
             raise "out of range of #{l}#{n}" unless m<n
             chars.add self[:"#{l}#{n}"][0..m]
@@ -43,13 +45,15 @@ module BaseConvert
             raise "unrecognized digits key: #{type}"
           end
         end
-        return chars.uniq.join.freeze
+        return chars.to_s.freeze
       when String
         digits = nil # set as a side effect...
         unless registry.detect{|_|(digits=self[_]).start_with? key}
           # ...here -------------->^^^^^
           raise 'need at least 2 digits' unless key.length > 1
-          raise 'digits must not have duplicates' if key.length > key.chars.uniq.length
+          if key.length > key.chars.uniq.length
+            raise 'digits must not have duplicates'
+          end
           return key
         end
         return digits

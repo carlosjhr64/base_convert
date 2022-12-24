@@ -1,0 +1,90 @@
+#! ruby
+require 'test/unit'
+require 'base_convert/chars'
+
+class TestConfiguration < Test::Unit::TestCase
+  include BaseConvert
+
+  def test_configuration_chars
+    chars = Chars.new
+    assert_equal 32, chars.start
+    assert_equal 126, chars.stop
+
+    # Hexadecimal start and stop setting
+    chars.set 'v1a'
+    assert_equal 26, chars.start
+    chars.set 'wab'
+    assert_equal 171, chars.stop
+
+    # Decimal start and stop setting
+    chars.set 'i32'
+    assert_equal 32, chars.start
+    chars.set 'j126'
+    assert_equal 126, chars.stop
+
+    # Initially empty
+    assert_equal [], chars.to_a
+    assert_equal '', chars.to_s
+
+    # Add digits found between start and stop
+    chars.add /\d/
+    assert_equal ['0','1','2','3','4','5','6','7','8','9'], chars.to_a
+    assert_equal '0123456789', chars.to_s
+
+    # Remove digits
+    chars.remove /\d/
+    assert chars.to_a.empty?
+    assert chars.to_s.empty?
+
+    # Add char by code
+    chars.add :u61 # hexadecimal
+    chars.add :k98 # decimal
+    assert_equal 'ab', chars.to_s
+
+    # Remove word characters
+    chars.remove /\w/
+    assert chars.to_s.empty?
+
+    # Add characters explicitly
+    chars.add 'zyx'
+    assert_equal ['z','y','x'], chars.to_a
+
+    # Remove characters explicitly
+    chars.remove 'xyz'
+    assert chars.to_a.empty?
+
+    # Add character by it's integer code
+    chars.add 33
+    assert_equal ['!'], chars.to_a
+
+    # Remove character by it's integer code
+    chars.remove 33
+    assert_equal '', chars.to_s
+
+    # Testing add,top,remove
+    chars.add 'x'
+    chars.add 'qp'
+    assert_equal ['x','q','p'], chars.to_a
+    chars.top 'xp'
+    assert_equal ['q','x','p'], chars.to_a
+    chars.remove 'pq'
+    assert_equal ['x'], chars.to_a
+    chars.remove /\p{L}/
+    assert chars.to_a.empty?
+  end
+
+  def test_chars_raises
+    chars = Chars.new
+
+    error = assert_raises(RuntimeError) do
+      chars.set 'caca'
+    end
+    assert_equal 'expected /^([ij]\d+)|([vw]\h+)$/', error.message
+
+    error = assert_raises(RuntimeError) do
+      # Good idea!  But not implemented.
+      chars.chars_in(97..122) #  :(
+    end
+    assert_equal 'expected Regexp|Symbol|String|Integer, got Range', error.message
+  end
+end

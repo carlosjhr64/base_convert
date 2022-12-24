@@ -1,8 +1,18 @@
 module BaseConvert
-  class Chars < Array
+  # Chars provides ways of populating an ordered set with characters in UTF-8.
+  class Chars
     attr_accessor :start,:stop
     def initialize(start=32, stop=126)
       @start,@stop = start,stop
+      @a = []
+    end
+
+    def to_a
+      @a
+    end
+
+    def to_s
+      @a.join
     end
 
     # i<n>: @start=n.to_i
@@ -41,19 +51,19 @@ module BaseConvert
 
     def add(x)
       chars_in(x) do |c|
-        self.push(c) unless self.include?(c)
+        @a.push(c) unless @a.include?(c)
       end
     end
 
     def top(x)
       chars_in(x) do |c|
-        self.delete(c)
-        self.push(c)
+        @a.delete(c)
+        @a.push(c)
       end
     end
 
     def remove(x)
-      chars_in(x){|c| self.delete(c)}
+      chars_in(x){|c| @a.delete(c)}
     end
   end
 end

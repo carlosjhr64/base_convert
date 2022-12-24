@@ -1,6 +1,6 @@
 #! ruby
 require 'test/unit'
-require 'base_convert'
+require 'base_convert/methods'
 
 class A
   include BaseConvert::Methods

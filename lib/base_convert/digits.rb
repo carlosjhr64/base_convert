@@ -87,6 +87,7 @@ module BaseConvert
       end
     end
   end
+
   DIGITS = Digits.new
 
   # Naming these letter sequences is inpired by
@@ -106,7 +107,6 @@ module BaseConvert
   ### Recursive string constructors ###
   # 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?$&@*+-/<=>^~,.:;|#\\()[]{}%"'`_ 
   DIGITS[:P95] = :alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers
-  INDEXa = DIGITS[:P95].index('a')
   # 0123456789ABCDEF
   DIGITS[:hexadecimal] = DIGITS[:hex] = DIGITS[:h] = :P16
   # 0123456789

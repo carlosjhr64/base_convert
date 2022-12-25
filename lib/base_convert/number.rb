@@ -2,6 +2,7 @@ module BaseConvert
 class Number
   include Methods
   DIGITS.memoize!
+  INDEXa = DIGITS[:P95].index('a')
 
   def self.infer(string)
     p95 = DIGITS[:P95]

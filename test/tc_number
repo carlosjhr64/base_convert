@@ -5,6 +5,11 @@ require 'base_convert'
 class TestNumber < Test::Unit::TestCase
   include BaseConvert
 
+  def test_configuration_index_a
+    assert_equal 36, Number::INDEXa
+    assert_equal DIGITS[:P95].index('a'),  Number::INDEXa
+  end
+
   def test_number_works
     ##########################################
     assert_equal 123456789, '75bcd15'.to_i(16)

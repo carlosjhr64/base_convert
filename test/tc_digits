@@ -180,11 +180,6 @@ class TestConfiguration < Test::Unit::TestCase
     assert_equal d, DIGITS[:unambiguous]
   end
 
-  def test_configuration_index_a
-    assert_equal 36, INDEXa
-    assert_equal DIGITS[:P95].index('a'),  INDEXa
-  end
-
   def test_configuration_raises
     error = assert_raises(RuntimeError) do
       DIGITS[:X25]

@@ -57,33 +57,33 @@ module BaseConvert
 
     def registry(d=nil)
       # BaseConvert::Number memoizes and uses specifically :P95, :B64, and :U47;
-      # giving these precedence above the rest.  Defined in configuration.rb.
+      # giving these precedence above the rest.
       d ? @registry.detect{|_|self[_].start_with? d}: @registry
     end
 
     def label(d)
-      registry(d) or (d[0]+d[1]+d[-2]+d[-1]).to_sym
+      registry(d) or (d[0..1]+d[-2..-1]).to_sym
     end
 
     def memoize!(keys=@registry)
       [*keys].each do |k|
-        while s = get(k)
-          break if s.is_a? String # links to a constructed String
+        # follow Symbol links 'till nil|String
+        while s=get(k) and not s.is_a? String
           raise 'expected Symbol' unless s.is_a? Symbol
           k = s
         end
-        self[k]=self[k] if s.nil? # if not memoized, memoize!
+        self[k]=self[k] unless s # memoize if needed
       end
     end
 
     def forget!(keys=@registry)
       [*keys].each do |k|
-        while s = get(k)
-          break if s.is_a? String # links to a constructed String
+        # follow Symbol links 'till nil|String
+        while s = get(k) and not s.is_a? String
           raise 'expected Symbol' unless s.is_a? Symbol
           k = s
         end
-        self.delete(k) if s.is_a? String
+        self.delete(k) if s
       end
     end
   end

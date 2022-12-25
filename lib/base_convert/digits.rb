@@ -1,5 +1,9 @@
 module BaseConvert
   class Digits < Hash
+    def initialize
+      @registry = [:P95, :B64, :U47, :G94, :Q91, :W63]
+    end
+
     # Set super's [] definition as get
     alias :get :[]
     def [](key)
@@ -38,16 +42,12 @@ module BaseConvert
         end
         return chars.to_s.freeze
       when String
-        digits = nil # set as a side effect...
-        unless registry.detect{|_|(digits=self[_]).start_with? key}
-          # ...here -------------->^^^^^
-          raise 'need at least 2 digits' unless key.length > 1
-          if key.length > key.chars.uniq.length
-            raise 'digits must not have duplicates'
-          end
-          return key
+        _=@registry.lazy.map{self[_1]}.detect{_1.start_with? key} and return _
+        raise 'need at least 2 digits' unless key.length > 1
+        if key.length > key.chars.uniq.length
+          raise 'digits must not have duplicates'
         end
-        return digits
+        return key
       when Integer
         raise 'need digits to cover base' if key > 95
         return self[:P95] # Defined in configuration.rb
@@ -58,7 +58,6 @@ module BaseConvert
     def registry(d=nil)
       # BaseConvert::Number memoizes and uses specifically :P95, :B64, and :U47;
       # giving these precedence above the rest.  Defined in configuration.rb.
-      @registry ||= [:P95, :B64, :U47, :G94, :Q91, :W63]
       d ? @registry.detect{|_|self[_].start_with? d}: @registry
     end
 
@@ -66,7 +65,7 @@ module BaseConvert
       registry(d) or (d[0]+d[1]+d[-2]+d[-1]).to_sym
     end
 
-    def memoize!(keys=registry)
+    def memoize!(keys=@registry)
       [*keys].each do |k|
         while s = get(k)
           break if s.is_a? String # links to a constructed String
@@ -77,7 +76,7 @@ module BaseConvert
       end
     end
 
-    def forget!(keys=registry)
+    def forget!(keys=@registry)
       [*keys].each do |k|
         while s = get(k)
           break if s.is_a? String # links to a constructed String

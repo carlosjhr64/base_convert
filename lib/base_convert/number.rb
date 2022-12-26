@@ -48,21 +48,22 @@ class Number
     @digits = DIGITS[digits || base]
 
     # base
-    base = digits if base.nil? and digits.is_a? Symbol
+    base = digits  if base.nil? and digits.is_a? Symbol
     @base = BASE[base || @digits.length]
 
     # validate
     if @validate
       raise 'digits must cover base'  if @base > @digits.length
       unless string.nil? or string.empty?
-        indeces = string.chars.map{|_|@digits.index(_)}
-        if missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
+        indeces = string.chars.map{@digits.index _1}
+        if missing = indeces.any?{_1.nil?} or exceeding = indeces.any?{_1>=@base}
           if @base <= INDEXa and DIGITS[:P95].start_with?(@digits)
+            # User ignored case, so fix it...
             string = string.upcase
-            indeces = string.chars.map{|_|@digits.index(_)}
-            missing = indeces.any?{|_|_.nil?} or exceeding = indeces.any?{|_|_>=@base}
+            indeces = string.chars.map{@digits.index _1}
+            missing = indeces.any?{_1.nil?} or exceeding = indeces.any?{_1>=@base}
           end
-          raise 'digits must cover string' if missing
+          raise 'digits must cover string'  if missing
           raise 'digits in string must be under base'  if exceeding
         end
       end

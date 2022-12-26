@@ -5,11 +5,9 @@
 * [rubygems](https://rubygems.org/gems/base_convert)
 
 ## INSTALL:
-
 ```shell
 $ gem install base_convert
 ```
-
 ## DESCRIPTION:
 
 BaseConvert - Number base conversion.
@@ -20,7 +18,6 @@ Binary, octal, hexadecimal, decimal, or any arbitrary base.
 Allows for arbitrary choice of alphabet(digits).
 
 ## SYNOPSIS:
-
 ```ruby
 require 'base_convert'
 
@@ -31,32 +28,31 @@ BaseConvert::Methods.toi 'FF', 16, '0123456789ABCDEF' #=> 255
 BaseConvert::Methods.tos 255, 16, '0123456789ABCDEF' #=> "FF"
 
 # FromTo
-c = BaseConvert::FromTo.new base: 16, digits: '0123456789ABCDEF', to_base: 7, to_digits: 'abcdefg'
-c['FFF'] #=> "begea"
-c.inspect   #=> "16:P95,7:abfg"
+c = BaseConvert::FromTo.new base:   16, digits:    '0123456789ABCDEF',
+                            to_base: 7, to_digits: 'abcdefg'
+c['FFF']  #=> "begea"
+c.inspect #=> "16:P95,7:abfg"
 
 # Number
 n = BaseConvert::Number.new 'FF', base: 16, digits: '0123456789ABCDEF'
-n.to_i #=> 255
-n.to_s #=> "FF"
+n.to_i    #=> 255
+n.to_s    #=> "FF"
 n.inspect #=> FF 16:P95
 #
 n = n.to_base 64, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-n.to_s #=> "D/"
-n.to_i #=> 255
+n.to_s    #=> "D/"
+n.to_i    #=> 255
 n.inspect #=> D/ 64:B64
 ```
-
 ## BUT WAIT, THERE'S MORE:
 
-### module BaseConvert
+### module BaseConvert::Methods
 
 * `#toi(string=to_s String, base=@base Integer, digits=@digits String) #=> Integer`
 * `#tos(integer=to_i Integer, base=@base Integer, digits=@digits String) #=> String`
 * `#chars_ordered?(digits=@digits String) #=> TrueClass|FalseClass`
 
 Exemplar:
-
 ```ruby
 class MyClass
   include BaseConvert::Methods
@@ -77,8 +73,7 @@ obj.chars_ordered? #=> false
 obj.digits = 'ABCDEFGHIJKLMNOP'
 obj.chars_ordered? #=> true
 ```
-
-### Hash DIGITS
+### BaseConvert::DIGITS < Hash
 
 #### DIGITS methods
 
@@ -88,54 +83,51 @@ obj.chars_ordered? #=> true
 * `DIGITS.memoize!(key=registry Symbol|Array(Symbol))`
 * `DIGITS.forget!(key=registry Symbol|Array(Symbol))`
 
-
 Exemplar:
-
 ```ruby
 include BaseConvert
-DIGITS.get(:P95) #=> :alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers
+DIGITS.get(:P95)
+#=> :alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers
 DIGITS[:P95]
 #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?$&@*+-/<=>^~,.:;|#\\()[]{}%\"'`_ "
-DIGITS.registry #=> [:P95, :B64, :U47, :G94, :Q91, :W63]
-DIGITS.registry('347') #=> :U47
-DIGITS.registry('0') #=> :P95
-DIGITS.registry('AB') #=> :B64
-DIGITS.registry('Cukoe') #=> nil
-DIGITS.label('Cukoe') #=> :Cuoe
+DIGITS.registry              #=> [:P95, :B64, :U47, :G94, :Q91, :W63]
+DIGITS.registry('347')       #=> :U47
+DIGITS.registry('0')         #=> :P95
+DIGITS.registry('AB')        #=> :B64
+DIGITS.registry('Cukoe')     #=> nil
+DIGITS.label('Cukoe')        #=> :Cuoe
 DIGITS.label('AaBbCcXxYyZz') #=> :AaZz
-DIGITS[:N] #=> "0123456789"
-DIGITS.get(:N) #=> nil
+DIGITS[:N]                   #=> "0123456789"
+DIGITS.get(:N)               #=> nil
 DIGITS.memoize!(:N)
-DIGITS.get(:N) #=> "0123456789"
+DIGITS.get(:N)               #=> "0123456789"
 DIGITS.forget!(:N)
-DIGITS.get(:N) #=> nil
+DIGITS.get(:N)               #=> nil
 ```
-
-
 #### DIGITS constructions
 
 `BaseConvert::DIGITS` will take a `Symbol` representation of `Regexp` patterns.
 See [Ruby-Doc's Regexp](https://ruby-doc.org/core-2.7.0/Regexp.html) documentation
 for a full list of keys.  The following provides an exemplar survey:
-
 ```ruby
 # Character Classes
 # Selected from ASCII 32..126
 DIGITS[:w] #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 DIGITS[:d] #=> "0123456789"
 # Note: :h was overridden, see :xdigit.
-DIGITS[:h] #=> "0123456789ABCDEF"
+DIGITS[:h]     #=> "0123456789ABCDEF"
 DIGITS[:alpha] #=> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 DIGITS[:graph]
 #=> "!\"\#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-DIGITS[:lower] #=> "abcdefghijklmnopqrstuvwxyz"
-DIGITS[:punct] #=> "!\"\#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
-DIGITS[:upper] #=> "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+DIGITS[:lower]  #=> "abcdefghijklmnopqrstuvwxyz"
+DIGITS[:punct]  #=> "!\"\#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+DIGITS[:upper]  #=> "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 DIGITS[:xdigit] #=> "0123456789ABCDEFabcdef"
 
 # Character Properties
 # Selected from ASCII 32..126
-DIGITS[:Alnum] #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+DIGITS[:Alnum]
+#=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 DIGITS[:Any]
 #=> " !\"\#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
@@ -147,7 +139,7 @@ DIGITS[:S] #=> "$+<=>^`|~"
 
 # Ranged Selections
 # v<hex>w<hex>_<filter>
-DIGITS[:v1d7d8w1d7e1_Any] #=> "𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡"
+DIGITS[:v1d7d8w1d7e1_Any]   #=> "𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡"
 # i<dec>j<dec>_<filter>
 DIGITS[:i120488j120513_Any] #=> "𝚨𝚩𝚪𝚫𝚬𝚭𝚮𝚯𝚰𝚱𝚲𝚳𝚴𝚵𝚶𝚷𝚸𝚹𝚺𝚻𝚼𝚽𝚾𝚿𝛀𝛁"
 
@@ -158,19 +150,19 @@ DIGITS[:u61u62] #=> "ab"
 DIGITS[:k97k98] #=> "ab"
 
 # BaseConvert's Custom Sets
-DIGITS[:bangs] #=> "!?"
-DIGITS[:typers] #=> "$&@"
-DIGITS[:operators] #=> "*+-/<=>^~"
+DIGITS[:bangs]      #=> "!?"
+DIGITS[:typers]     #=> "$&@"
+DIGITS[:operators]  #=> "*+-/<=>^~"
 DIGITS[:separators] #=> ",.:;|"
-DIGITS[:scapes] #=> "#\\"
-DIGITS[:groupers] #=> "()[]{}"
-DIGITS[:quotes] #=> "\"'`"
-DIGITS[:quoters] #=> "%\"'`"
-DIGITS[:spacers] #=> "_ "
-DIGITS[:ambiguous] #=> "012568BDGIOQSZl"
+DIGITS[:scapes]     #=> "#\\"
+DIGITS[:groupers]   #=> "()[]{}"
+DIGITS[:quotes]     #=> "\"'`"
+DIGITS[:quoters]    #=> "%\"'`"
+DIGITS[:spacers]    #=> "_ "
+DIGITS[:ambiguous]  #=> "012568BDGIOQSZl"
 
 # Composition, add merge:
-DIGITS[:d_ambiguous] #=> "0123456789BDGIOQSZl"
+DIGITS[:d_ambiguous]   #=> "0123456789BDGIOQSZl"
 # Composition, add top:
 DIGITS[:'d+ambiguous'] #=> "3479012568BDGIOQSZl"
 # Composition, subtract:
@@ -181,11 +173,12 @@ DIGITS[:'d-ambiguous'] #=> "3479"
 DIGITS[:alnum_bangs_typers_operators_separators_scapes_groupers_quoters_spacers]
 #=> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?$&@*+-/<=>^~,.:;|#\\()[]{}%\"'`_ "
 # :B64 is:
-DIGITS[:LN_k43k47] #=> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+DIGITS[:LN_k43k47]
+#=> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 # :U47 is:
-DIGITS[:'alnum-ambiguous'] #=> "3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz"
+DIGITS[:'alnum-ambiguous']
+#=> "3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz"
 ```
-
 ### class FromTo
 
 * `new(base: 10 Integer|Symbol|String, to_base: base, digits: :P95 String|Symbol|Integer, to_digits: digits) #=> FromTo` 
@@ -193,16 +186,14 @@ DIGITS[:'alnum-ambiguous'] #=> "3479ACEFHJKLMNPRTUVWXYabcdefghijkmnopqrstuvwxyz"
 * `#convert(counter String|Integer) #=> String`
 
 Example:
-
 ```ruby
 h2b = BaseConvert::FromTo.new(base: 16, digits: :P95, to_base: 64, to_digits: :B64)
-h2b #=> 16:P95,64:B64
+h2b        #=> 16:P95,64:B64
 h2b['FFF'] #=> "//"
 b2h = BaseConvert::FromTo.new(base: 64, digits: :B64, to_base: 16, to_digits: :P95)
-b2h #=> 64:B64,16:P95
-b2h['//'] #=> "FFF"
+b2h        #=> 64:B64,16:P95
+b2h['//']  #=> "FFF"
 ```
-
 ### class Number
 
 * `new(counter= 0 Integer|String, base: nil Integer|Symbol|String, digits: nil String|Symbol|Integer, validate: true TrueClass|FalseClass) #=> Number`
@@ -215,19 +206,17 @@ b2h['//'] #=> "FFF"
 * `#to_digits(digits String|Symbol|Integer, base=@base Integer|Symbol|String, validate=@validate TrueClass|FalseClass) #=> Number`
 
 Example:
-
 ```ruby
 a = BaseConvert::Number.new('FFF', base: 16, digits: :P95)
-a #=> FFF 16:P95
+a      #=> FFF 16:P95
 a.to_i #=> 4095
 b = a.to_digits(:U47)
-b #=> RRR 16:U47
+b      #=> RRR 16:U47
 b.to_i #=> 4095
 c = b.to_base(64, :B64)
-c #=> // 64:B64
+c      #=> // 64:B64
 c.to_i #=> 4095
 ```
-
 ## LICENSE:
 
 (The MIT License)

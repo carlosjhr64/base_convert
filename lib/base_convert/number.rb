@@ -27,13 +27,7 @@ class Number
 
   attr_reader :base, :digits
   def initialize(counter=0, base: nil, digits: nil, validate: true)
-    # validate
-    case validate
-    when true, false
-      @validate = validate
-    else
-      raise 'validate must be either true or false'
-    end
+    @validate = !!validate # ensure boolean
 
     # counter
     string = nil

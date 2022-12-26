@@ -116,10 +116,26 @@ class TestNumber < Test::Unit::TestCase
     assert_equal 95, x.base
   end
 
-  def test_number_raises
-    error = assert_raises(RuntimeError){ Number.new 123, validate: :maybe}
-    assert_equal 'validate must be either true or false', error.message
+  # But why so pedantic? B/c Number#validate?
+  def test_number_boolean_validate
+    # default
+    n = Number.new 123
+    assert_equal true, n.validate?
+    # true
+    n = Number.new 123, validate: true
+    assert_equal true, n.validate?
+    # false
+    n = Number.new 123, validate: false
+    assert_equal false, n.validate?
+    # nil
+    n = Number.new 123, validate: nil
+    assert_equal false, n.validate?
+    # truthy
+    n = Number.new 123, validate: :wut
+    assert_equal true, n.validate?
+  end
 
+  def test_number_raises
     error = assert_raises(RuntimeError){ Number.new 'ā'}
     assert_equal 'need digits to cover string', error.message
 

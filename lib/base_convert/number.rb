@@ -80,15 +80,9 @@ class Number
     "#{to_s} #{@base}:#{d}"
   end
 
-  def validate?
-    @validate
-  end
-
+  def validate? = @validate
   alias to_s tos
-
-  def to_i
-    @integer
-  end
+  def to_i = @integer
 
   def to_base(base, digits=(base.is_a?Symbol)? DIGITS[base] : @digits, validate=@validate)
     Number.new @integer, base: base, digits: digits, validate: validate

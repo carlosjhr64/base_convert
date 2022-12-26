@@ -4,11 +4,11 @@ class Number
   DIGITS.memoize!
   INDEXa = DIGITS[:P95].index('a')
 
-  def self.infer(string)
+  def self.infer(string, error:'digits not all in P95')
     p95 = DIGITS[:P95]
     return 2, p95  if string.empty?
     chars = string.chars
-    raise 'need digits to cover string'  unless chars.all?{|_|p95.include?_}
+    raise error unless chars.all?{|_|p95.include?_}
     max = chars.map{|_|p95.index(_)}.max
     return 95, p95  if max == 94 # string has a space digit.
     return 2,  p95  if max < 2
@@ -40,7 +40,9 @@ class Number
     case counter
     when String
       string = counter
-      base, digits = Number.infer(counter)  if base.nil? and digits.nil?
+      if base.nil? and digits.nil?
+        base, digits = Number.infer(counter, error:'need digits to cover string')
+      end
     when Integer
       @integer = counter
       base, digits = 10, DIGITS[:P95]  if base.nil? and digits.nil?

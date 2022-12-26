@@ -46,6 +46,7 @@ each
 each_cons
 empty
 Encoding
+error
 exceeding
 extend
 forget

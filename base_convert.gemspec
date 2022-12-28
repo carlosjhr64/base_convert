@@ -31,6 +31,7 @@ lib/base_convert.rb
 lib/base_convert/base.rb
 lib/base_convert/chars.rb
 lib/base_convert/digits.rb
+lib/base_convert/entropia.rb
 lib/base_convert/from_to.rb
 lib/base_convert/methods.rb
 lib/base_convert/number.rb

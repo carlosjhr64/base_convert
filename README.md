@@ -217,6 +217,22 @@ c = b.to_base(64, :B64)
 c      #=> // 64:B64
 c.to_i #=> 4095
 ```
+### class Entropia
+A quick way to generate passwords.
+```ruby
+include BaseConvert
+e = Entropia.new
+e.inspect #~> ^.{39} 95:P95$
+e.to_s    #~> ^.{39}$
+e.length  #=> 39
+e.bits    #=> 256.224368724907
+require 'securerandom'
+e = Entropia.new base: 16, bits: 32, rng: SecureRandom
+e.inspect #~> ^\h{8} 16:P95$
+e.to_s    #~> ^\h{8}$
+e.length  #=> 8
+e.bits    #=> 32.0
+```
 ## LICENSE:
 
 (The MIT License)

@@ -40,6 +40,8 @@ Cuoe
 dec
 def
 divmod
+entropia
+Entropia
 FalseClass
 FF
 FFF
@@ -68,10 +70,13 @@ qgraph
 quoters
 rb
 Regexp
+rng
 rosettacode
 RRR
 rubygems
 scapes
+securerandom
+SecureRandom
 sublicense
 toi
 tos

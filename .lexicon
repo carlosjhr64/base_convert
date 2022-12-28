@@ -22,6 +22,9 @@ base64
 BaseConvert
 bin
 binary
+bits
+bits_length_entropy
+bits_request
 c
 chars
 Chars
@@ -42,10 +45,13 @@ digits
 Digits
 DIGITS
 divmod
+e
 each
 each_cons
 empty
 Encoding
+Entropia
+entropy
 error
 exceeding
 extend
@@ -85,9 +91,11 @@ lazy
 length
 letters
 LN_k43k47
+log
 m
 map
 match
+Math
 max
 memoize
 Methods
@@ -115,9 +123,12 @@ qgraph
 quoters
 quotes
 raise
+Random
+random_number
 Regexp
 registry
 remove
+rng
 Ruby31
 s
 scan
@@ -134,6 +145,7 @@ String
 sub
 Symbol
 t
+times
 to_a
 to_base
 to_digits

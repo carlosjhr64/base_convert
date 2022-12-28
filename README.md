@@ -218,6 +218,7 @@ c      #=> // 64:B64
 c.to_i #=> 4095
 ```
 ### class Entropia
+
 A quick way to generate passwords.
 ```ruby
 include BaseConvert

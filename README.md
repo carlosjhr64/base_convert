@@ -1,6 +1,6 @@
 # BaseConvert
 
-* [VERSION 7.0.221226](https://github.com/carlosjhr64/base_convert/releases)
+* [VERSION 7.1.221228](https://github.com/carlosjhr64/base_convert/releases)
 * [github](https://www.github.com/carlosjhr64/base_convert)
 * [rubygems](https://rubygems.org/gems/base_convert)
 

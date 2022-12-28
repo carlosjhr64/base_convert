@@ -35,7 +35,7 @@ class Number
     when String
       string = counter
       if base.nil? and digits.nil?
-        base, digits = Number.infer(counter, error:'need digits to cover string')
+        base,digits = Number.infer(counter, error:'need digits to cover string')
       end
     when Integer
       @integer = counter
@@ -56,12 +56,12 @@ class Number
       raise 'digits must cover base'  if @base > @digits.length
       unless string.nil? or string.empty?
         indeces = string.chars.map{@digits.index _1}
-        if missing = indeces.any?{_1.nil?} or exceeding = indeces.any?{_1>=@base}
+        if missing=indeces.any?{_1.nil?} or exceeding=indeces.any?{_1>=@base}
           if @base <= INDEXa and DIGITS[:P95].start_with?(@digits)
             # User ignored case, so fix it...
             string = string.upcase
             indeces = string.chars.map{@digits.index _1}
-            missing = indeces.any?{_1.nil?} or exceeding = indeces.any?{_1>=@base}
+            missing=indeces.any?{_1.nil?} or exceeding=indeces.any?{_1>=@base}
           end
           raise 'digits must cover string'  if missing
           raise 'digits in string must be under base'  if exceeding
@@ -84,7 +84,9 @@ class Number
   alias to_s tos
   def to_i = @integer
 
-  def to_base(base, digits=(base.is_a?Symbol)? DIGITS[base] : @digits, validate=@validate)
+  def to_base(base,
+              digits   = (base.is_a?Symbol)? DIGITS[base] : @digits,
+              validate = @validate)
     Number.new @integer, base: base, digits: digits, validate: validate
   end
 

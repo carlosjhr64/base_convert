@@ -15,7 +15,7 @@ class Entropia < Number
   def initialize(counter=nil, base: 95, digits: :P95, validate: true,
                  bits: 256, rng: Random)
     @bits,@length,@entropy = Entropia.bits_length_entropy(bits,base)
-    counter = rng.random_number(2**bits) unless counter
+    counter = rng.random_number(@entropy) unless counter
     super(counter, base:base, digits:digits, validate:validate)
   end
 

@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
 
   s.name     = 'base_convert'
-  s.version  = '7.1.221228'
+  s.version  = '7.1.221229'
 
   s.homepage = 'https://github.com/carlosjhr64/base_convert'
 
   s.author   = 'CarlosJHR64'
   s.email    = 'carlosjhr64@gmail.com'
 
-  s.date     = '2022-12-28'
+  s.date     = '2022-12-29'
   s.licenses = ['MIT']
 
   s.description = <<DESCRIPTION
